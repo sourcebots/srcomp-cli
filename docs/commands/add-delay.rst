@@ -4,7 +4,7 @@ add-delay
 Synopsis
 --------
 
-``srcomp srcomp add-delay [-h] <compstate> <how_long> [when]``
+``srcomp add-delay [-h] <compstate> <how_long> [when]``
 
 Description
 -----------
