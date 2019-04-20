@@ -24,7 +24,7 @@ def parse_duration(time_str):
             time_params[name] = int(param)
     return timedelta(**time_params)
 
-def parse_time(when_str):
+def parse_datetime(when_str):
     import timelib
     from dateutil.tz import tzlocal
 
@@ -35,6 +35,22 @@ def parse_time(when_str):
     # Assume that the user wants their current timezone.
     when = when.replace(tzinfo = tzlocal())
     return when
+
+def get_current_match_start(compstate_path):
+    from sr.comp.comp import SRComp
+    compstate = SRComp(compstate_path)
+    now = compstate.schedule.datetime_now
+    current_matches = tuple(compstate.schedule.matches_at(now))
+    if not current_matches:
+        raise Exception("Not currently in a match, specify a valid time instead")
+
+    return min(x.start_time for x in current_matches)
+
+def parse_time(compstate_path, when_str):
+    if when_str == "current match":
+        return get_current_match_start(compstate_path)
+    else:
+        return parse_datetime(when_str)
 
 def add_delay(schedule, delay_seconds, when):
     delays = schedule.get('delays')
@@ -57,7 +73,7 @@ def command(settings):
     how_long = parse_duration(settings.how_long)
     how_long_seconds = how_long.seconds
 
-    when = parse_time(settings.when)
+    when = parse_time(settings.compstate, settings.when)
     when = when.replace(microsecond = 0)
 
     add_delay(schedule, how_long_seconds, when)

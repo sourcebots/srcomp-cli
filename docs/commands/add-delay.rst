@@ -28,5 +28,8 @@ The time at which the delay applies can be specified as a human-readable string
 either of an absolute time, such as ``2019-04-06 12:00``, or as a relative time,
 such as ``now`` or ``now + 5 minutes``.
 
-.. note:: Times are always interpretted in the local system timezone, rather
-          than the compstate's configured timezone.
+Alternatively, you can specify ``current match`` in order to have the delay
+inserted at the start of the current match slot.
+
+.. note:: Parsed times are always interpretted in the local system timezone,
+          rather than the compstate's configured timezone.
