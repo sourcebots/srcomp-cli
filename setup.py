@@ -7,6 +7,7 @@ with open('README.rst') as f:
     long_description = f.read()
 
 install_requires = [
+    'python-dateutil >=2.2, <3',
     'paramiko >=1.10, <3',
     'sr.comp >=1.0, <2',
     'reportlab >=3.1.44, <3.5',
