@@ -15,7 +15,7 @@ install_requires = [
     'simplejson >=3.6, <4',
     'six >=1.9, <2',
     'timelib >=0.2.4, <0.3',
-    'Pillow >=2.7, <3',
+    'Pillow >=2.7, <7',
     'mido >=1.1, <2'
 ]
 
