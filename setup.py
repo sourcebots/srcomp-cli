@@ -12,7 +12,7 @@ install_requires = [
     'sr.comp >=1.0, <2',
     'reportlab >=3.1.44, <3.5',
     'requests >=2.5.1, <3',
-    'ruamel.yaml >=0.13.0, <0.14',
+    'ruamel.yaml >=0.13.0, <0.16',
     'simplejson >=3.6, <4',
     'six >=1.9, <2',
     'timelib >=0.2.4, <0.3',
@@ -25,7 +25,7 @@ if sys.version_info < (3, 4):
 
 setup(
     name='sr.comp.cli',
-    version='1.0.0',
+    version='1.0.1',
     packages=find_packages(exclude=('tests',)),
     namespace_packages=['sr', 'sr.comp'],
     description='CLI tools for srcomp repositories',
