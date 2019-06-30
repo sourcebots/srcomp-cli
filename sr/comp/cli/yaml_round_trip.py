@@ -12,7 +12,7 @@ def _load():
 def load(yaml_file):
     ryaml = _load()
     with open(yaml_file, 'r') as yf:
-        return ryaml.load(yf, ryaml.RoundTripLoader)
+        return ryaml.load(yf, ryaml.RoundTripLoader, version=(1, 1))
 
 def dump(yaml_file, data):
     ryaml = _load()
