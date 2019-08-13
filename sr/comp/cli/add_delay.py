@@ -25,10 +25,10 @@ def parse_duration(time_str):
     return timedelta(**time_params)
 
 def parse_datetime(when_str):
-    import timelib
+    from dateutil.parser import parse as parse_date
     from dateutil.tz import tzlocal
 
-    when = timelib.strtodatetime(when_str)
+    when = parse_date(when_str)
     # Timezone information gets ignored, and the resulting datetime is
     # timezone-unaware. However the compstate needs timezone data to be
     # present.
