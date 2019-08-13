@@ -107,15 +107,20 @@ class ScheduleGenerator(object):
         return periods
 
     @staticmethod
-    def _get_shepherds(raw_compstate, numbers=None):
+    def _get_shepherds(raw_compstate, numbers=None, combined=False):
+        def split(shepherds):
+            if combined:
+                return [shepherds]
+            return [(x,) for x in shepherds]
+
         comp_shepherds = raw_compstate.load_shepherds()
         if numbers is None:
-            return comp_shepherds
+            return split(comp_shepherds)
 
         shepherds = []
         for n in numbers:
             shepherds.append(comp_shepherds[n])
-        return shepherds
+        return split(shepherds)
 
     @staticmethod
     def _get_locations(raw_compstate, names=None):
@@ -226,14 +231,16 @@ class ScheduleGenerator(object):
                 self.start_page(title)
 
     def generate(self, competition, raw_compstate, period_numbers,
-                 shepherd_numbers, location_names, is_plain):
+                 shepherd_numbers, location_names, is_plain, combine_shepherds):
         periods = self._get_periods(competition, period_numbers)
-        shepherds = self._get_shepherds(raw_compstate, shepherd_numbers)
+        shepherd_groups = self._get_shepherds(raw_compstate, shepherd_numbers,
+                                              combine_shepherds)
         locations = self._get_locations(raw_compstate, location_names)
 
-        for period in periods:
-            self._generate(period, shepherds, locations,
-                           location_names is not None, is_plain)
+        for shepherds in shepherd_groups:
+            for period in periods:
+                self._generate(period, shepherds, locations,
+                               location_names is not None, is_plain)
 
     def write(self):
         self.canvas.save()
@@ -253,7 +260,9 @@ def command(settings):
                                   state=comp.state)
 
     generator.generate(comp, raw_comp, settings.periods, settings.shepherds,
-                       settings.locations, settings.plain)
+                       settings.locations, settings.plain,
+                       settings.shepherds_combined)
+
     generator.write()
 
 
@@ -269,6 +278,10 @@ def add_subparser(subparsers):
                         help='specify periods by number')
     parser.add_argument('-s', '--shepherds', type=int, nargs='+',
                         help='specify shepherds by number')
+    parser.add_argument('-c', '--shepherds-combined', action='store_true',
+                        default=False, help='combine the highlighting of '
+                        'shepherds onto a single sheet (default is to print a '
+                        'separate sheet for each shepherd)')
     parser.add_argument('-l', '--locations', nargs='+',
                         help='specify locations by name')
     parser.set_defaults(func=command)
