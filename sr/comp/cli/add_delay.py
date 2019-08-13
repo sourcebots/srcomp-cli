@@ -1,7 +1,7 @@
 
 time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?$'
 
-class BadDurationException(Exception):
+class BadDurationException(ValueError):
     def __init__(self, time_str):
         msg = "Unable to parse duration string '{0}'.".format(time_str)
         super(BadDurationException, self).__init__(msg)
