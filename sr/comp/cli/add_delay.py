@@ -1,7 +1,7 @@
 
 time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?$'
 
-class BadDurationException(Exception):
+class BadDurationException(ValueError):
     def __init__(self, time_str):
         msg = "Unable to parse duration string '{0}'.".format(time_str)
         super(BadDurationException, self).__init__(msg)
@@ -25,10 +25,45 @@ def parse_duration(time_str):
     return timedelta(**time_params)
 
 def parse_datetime(when_str):
-    import timelib
+    import re
+    from datetime import datetime
+    from dateutil.parser import parse as parse_date
     from dateutil.tz import tzlocal
 
-    when = timelib.strtodatetime(when_str)
+    def parse_now(match):
+        return datetime.now()
+
+    def parse_future(match):
+        offset = parse_duration(match.group(1))
+        return datetime.now() + offset
+
+    def parse_past(match):
+        offset = parse_duration(match.group(1))
+        return datetime.now() - offset
+
+    def parse_absolute(match):
+        return parse_date(match.group(0))
+
+    DATETIME_PATTERNS = [
+        (r'^([^ ]+)\s*ago$', parse_past),
+        (r'^in\s*([^ ]+)$', parse_future),
+        (r'^now$', parse_now),
+        (r'^.+$', parse_absolute),
+    ]
+
+    for pattern, parse_fn in DATETIME_PATTERNS:
+        match = re.match(pattern, when_str)
+        if match is None:
+            continue
+        try:
+            when = parse_fn(match)
+        except ValueError:
+            continue
+    else:
+        raise ValueError(
+            "Unable to parse date string: {0:r}".format(when_str),
+        )
+
     # Timezone information gets ignored, and the resulting datetime is
     # timezone-unaware. However the compstate needs timezone data to be
     # present.

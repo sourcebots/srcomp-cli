@@ -15,7 +15,6 @@ install_requires = [
     'ruamel.yaml >=0.13.0, <0.16',
     'simplejson >=3.6, <4',
     'six >=1.9, <2',
-    'timelib >=0.2.4, <0.3',
     'Pillow >=2.7, <7',
     'mido >=1.1, <2'
 ]
@@ -44,6 +43,7 @@ setup(
     tests_require=[
         'mock >=1.0.1',
         'nose >=1.3, <2',
+        'freezegun >=0.3, <0.4',
     ],
     test_suite='nose.collector'
 )
