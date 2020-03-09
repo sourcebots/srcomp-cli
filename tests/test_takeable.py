@@ -1,5 +1,3 @@
-from nose.tools import raises
-
 from sr.comp.cli.update_layout import Takeable
 
 

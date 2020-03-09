@@ -1,8 +1,6 @@
 import argparse
 from collections import defaultdict
 
-import yaml
-
 
 class ScheduleGenerator(object):
     def __init__(self, target, arenas, state):
