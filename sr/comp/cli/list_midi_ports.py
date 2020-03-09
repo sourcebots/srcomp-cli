@@ -1,13 +1,13 @@
-__description__ = 'List available MIDI output ports.'
+__description__ = "List available MIDI output ports."
 
 
 def command(args):
     import mido
 
     ports = mido.get_output_names()
-    print(len(ports), 'outputs:')
+    print(len(ports), "outputs:")
     for port in ports:
-        print('-', port)
+        print("-", port)
 
 
 def add_subparser(subparsers):

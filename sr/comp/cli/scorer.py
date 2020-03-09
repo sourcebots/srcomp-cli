@@ -25,7 +25,7 @@ def command(settings):
     app.config['COMPSTATE_LOCAL'] = not settings.push_changes
     def browse():
         time.sleep(1.5)
-        webbrowser.open("http://localhost:{}/".format(port))
+        webbrowser.open('http://localhost:{}/'.format(port))
     thread = threading.Thread(target=browse)
     thread.start()
     try:
@@ -39,7 +39,7 @@ def command(settings):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('score')
-    parser.add_argument('compstate', help='competition state repository')
+    parser.add_argument('compstate', help="competition state repository")
     parser.add_argument('-p', '--push-changes', action='store_true',
-                        help='send commits upstream to origin/master')
+                        help="send commits upstream to origin/master")
     parser.set_defaults(func=command)

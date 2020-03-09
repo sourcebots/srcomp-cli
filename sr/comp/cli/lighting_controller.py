@@ -5,7 +5,7 @@ import time
 from sr.comp.comp import SRComp
 
 
-__description__ = 'A way of controlling lights at the competition.'
+__description__ = "A way of controlling lights at the competition."
 
 
 class State(Enum):
@@ -106,7 +106,7 @@ class LightingController(object):
     def run(self):
         for prev_state, state, transition_date in self.state.transition():
             self.transition(prev_state, state, transition_date)
-            print(state, 'until', transition_date)
+            print(state, "until", transition_date)
 
 
 class MidiLightingController(LightingController):
@@ -163,10 +163,10 @@ def add_subparser(subparsers):
     parser = subparsers.add_parser('lighting-controller',
                                    help=__description__,
                                    description=__description__)
-    parser.add_argument('compstate', help='Competition state repository.')
+    parser.add_argument('compstate', help="Competition state repository.")
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('--midi', help='The MIDI port to use.')
-    group.add_argument('--dry-run', action='store_true', help='Dry run.')
+    group.add_argument('--midi', help="The MIDI port to use.")
+    group.add_argument('--dry-run', action='store_true', help="Dry run.")
 
     parser.set_defaults(func=command)

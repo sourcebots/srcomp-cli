@@ -33,11 +33,11 @@ def command(args):
 
 
 def add_subparser(subparsers):
-    help_msg = 'Add and deploy a delay to the competition'
+    help_msg = "Add and deploy a delay to the competition"
     parser = subparsers.add_parser('delay', help=help_msg, description=help_msg)
     parser.add_argument('--no-pull', action='store_true',
-                        help='skips updating to the latest revision')
+                        help="skips updating to the latest revision")
     deploy.add_options(parser)
-    parser.add_argument('compstate', help='competition state repository')
+    parser.add_argument('compstate', help="competition state repository")
     add_delay.add_arguments(parser)
     parser.set_defaults(func=command)

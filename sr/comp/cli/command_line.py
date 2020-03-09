@@ -30,8 +30,8 @@ def add_list_commands(subparsers):
         commands = subparsers.choices.keys()
         print(" ".join(commands))
 
-    help_text = 'Lists the available commands; useful for adding ' \
-                'auto-completion of command names'
+    help_text = "Lists the available commands; useful for adding " \
+                "auto-completion of command names"
 
     parser = subparsers.add_parser('list-commands', help=help_text)
     parser.set_defaults(func=command)
@@ -39,8 +39,8 @@ def add_list_commands(subparsers):
 
 def argument_parser():
     """A parser for CLI tool command line arguments, from argparse."""
-    parser = argparse.ArgumentParser(description='srcomp command-line interface')
-    subparsers = parser.add_subparsers(title='commands')
+    parser = argparse.ArgumentParser(description="srcomp command-line interface")
+    subparsers = parser.add_subparsers(title="commands")
     add_list_commands(subparsers)
 
     add_delay.add_subparser(subparsers)

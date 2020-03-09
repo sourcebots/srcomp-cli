@@ -56,7 +56,7 @@ class Scheduler(object):
         self._calculate_teams(teams)
         self._calculate_rounds()
         if len(self._base_matches) % self.round_length > 0:
-            self.lprint('Warning: matches for partial reschedule are not a multiple of the round-length')
+            self.lprint("Warning: matches for partial reschedule are not a multiple of the round-length")
         self.separation = separation
         self.max_matchups = max_matchups
         if enable_lcg:
@@ -171,9 +171,9 @@ class Scheduler(object):
                 if not acceptable:
                     continue
                 self._lcg_params = (a, c)
-                self.lprint('Found LCG settings: ({}, {})'.format(a, c))
+                self.lprint("Found LCG settings: ({}, {})".format(a, c))
                 return
-        self.lprint('No valid LCG parameters')
+        self.lprint("No valid LCG parameters")
         self._lcg_params = None
 
     def _lcg_permute(self, teams):
@@ -185,7 +185,7 @@ class Scheduler(object):
             return None
         permutation = [teams[(a*n + c) % m] for n in range(len(teams))]
         if set(permutation) != set(teams):
-            raise ValueError('permutation fault')
+            raise ValueError("permutation fault")
         return permutation
 
     def run(self):
@@ -197,7 +197,7 @@ class Scheduler(object):
         while (len(matches) < self.total_matches and
                len(matches) + self.round_length <= self.max_match_periods):
             this_round = len(matches) // self.round_length
-            self.lprint('Scheduling round {round} ({prev}/{tot} complete)'.format(
+            self.lprint("Scheduling round {round} ({prev}/{tot} complete)".format(
                             round=this_round,
                             prev=len(matches),
                             tot=self.total_matches))
@@ -207,12 +207,12 @@ class Scheduler(object):
                 matches_prime = matches + self._match_partition(lcg_round)
                 if self._validate(matches_prime, max_matchups, matchup_impatience.bump):
                     matches = matches_prime
-                    self.lprint('  completed via LCG permutation')
+                    self.lprint("  completed via LCG permutation")
                     continue
             for tick in range(10000):
                 if matchup_impatience.reached():
                     matchup_impatience.reset()
-                    self.lprint('  Easing off on matchup constraint.')
+                    self.lprint("  Easing off on matchup constraint.")
                     max_matchups += 1
                 self.random.shuffle(teams)
                 matches_prime = matches + self._match_partition(teams)
@@ -221,7 +221,7 @@ class Scheduler(object):
                     break
             else:
                 if len(matches) > len(self._base_matches):
-                    self.lprint('  backtracking')
+                    self.lprint("  backtracking")
                     matches = matches[:-self.round_length]
         return self._clean(matches)
 

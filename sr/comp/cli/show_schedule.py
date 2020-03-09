@@ -29,18 +29,18 @@ def command(settings):
         matches = matches[:int(settings.limit)]
 
     def teams_str(teams):
-        return ':'.join(tla.center(5) if tla else '  -  ' for tla in teams)
+        return ":".join(tla.center(5) if tla else "  -  " for tla in teams)
 
     def print_col(text, last=False):
         print(text, end='|')
 
-    empty_teams = teams_str(' ' * num_teams_per_arena)
+    empty_teams = teams_str(" " * num_teams_per_arena)
     teams_len = len(empty_teams)
 
-    print_col(' Num Time  ')
+    print_col(" Num Time  ")
     for a in comp.arenas.values():
         print_col(a.display_name.center(teams_len))
-    print_col('Display Name'.center(DISPLAY_NAME_WIDTH))
+    print_col("Display Name".center(DISPLAY_NAME_WIDTH))
     print()
 
     arena_ids = comp.arenas.keys()
@@ -57,18 +57,18 @@ def command(settings):
         print_col(m.display_name.center(DISPLAY_NAME_WIDTH))
 
         if m in current_matches:
-            print(' *')
+            print(" *")
         else:
             print()
 
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('show-schedule',
-                                   help='show the match schedule')
+                                   help="show the match schedule")
     parser.add_argument('compstate',
-                        help='competition state repo')
+                        help="competition state repo")
     parser.add_argument('--all', action='store_true',
-                        help='show all matches, not just the upcoming ones (ignores --limit)')
+                        help="show all matches, not just the upcoming ones (ignores --limit)")
     parser.add_argument('--limit', default=MAX_MATCHES,
-                        help='how many matches to show (default: {0})'.format(MAX_MATCHES))
+                        help="how many matches to show (default: {0})".format(MAX_MATCHES))
     parser.set_defaults(func=command)

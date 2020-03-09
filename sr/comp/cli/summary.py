@@ -42,5 +42,5 @@ def add_subparser(subparsers):
     help_msg = "Show summary data about a compstate"
 
     parser = subparsers.add_parser('summary', help=help_msg, description=help_msg)
-    parser.add_argument('compstate', help='competition state repository')
+    parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)

@@ -45,5 +45,5 @@ def add_subparser(subparsers):
         description=__description__,
     )
     parser.add_argument('compstate',
-                        help='competition state repo')
+                        help="competition state repo")
     parser.set_defaults(func=command)

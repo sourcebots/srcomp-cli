@@ -66,32 +66,32 @@ def command(args):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('schedule-league',
-                                   help='generate a schedule for a league')
+                                   help="generate a schedule for a league")
     parser.add_argument('compstate',
                         type=str,
-                        help='competition state git repository')
+                        help="competition state git repository")
     parser.add_argument('-s', '--spacing',
                         type=int,
                         default=2,
-                        help='number of matches between any two appearances by a team')
+                        help="number of matches between any two appearances by a team")
     parser.add_argument('-r', '--max-repeated-matchups',
                         type=int,
                         default=2,
-                        help='maximum times any team can face any given other team')
+                        help="maximum times any team can face any given other team")
     parser.add_argument('-a', '--appearances-per-round',
                         type=int,
                         default=1,
-                        help='number of times each team appears in each round')
+                        help="number of times each team appears in each round")
     parser.add_argument('--lcg',
                         action='store_true',
                         dest='lcg',
-                        help='enable LCG permutation')
+                        help="enable LCG permutation")
     parser.add_argument('--parallel',
                         type=int,
                         default=1,
-                        help='number of parallel threads')
+                        help="number of parallel threads")
     parser.add_argument('-f', '--reschedule-from',
                         type=int,
                         default=0,
-                        help='first match to reschedule from')
+                        help="first match to reschedule from")
     parser.set_defaults(func=command)

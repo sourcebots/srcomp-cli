@@ -326,10 +326,10 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """.strip()
 
     parser = subparsers.add_parser('import-schedule',
-                                   help='Import a league.yaml file from a schedule file',
+                                   help="Import a league.yaml file from a schedule file",
                                    description=description,
                                    formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-i', '--ignore-ids', help='comma separated list of ids to ignore')
-    parser.add_argument('compstate', help='competition state repository')
-    parser.add_argument('schedule', help='schedule to import')
+    parser.add_argument('-i', '--ignore-ids', help="comma separated list of ids to ignore")
+    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument('schedule', help="schedule to import")
     parser.set_defaults(func=command)

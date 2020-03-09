@@ -21,7 +21,7 @@ def ssh_connection(host):
 
 
 def format_fail(*args):
-    msg = ' '.join(map(str, args))
+    msg = " ".join(map(str, args))
     return BOLD + FAIL + msg + ENDC
 
 
@@ -88,7 +88,7 @@ def query_warn(msg):
 
 
 def ref_compstate(host):
-    url = "ssh://{0}@{1}/~/compstate.git".format(DEPLOY_USER, host)
+    url = 'ssh://{0}@{1}/~/compstate.git'.format(DEPLOY_USER, host)
     return url
 
 
@@ -106,7 +106,7 @@ def deploy_to(compstate, host, revision, verbose):
         # This also means we don't need to worry about whether or not the
         # revision exists in the target, since this push will simply no-op
         # if it's already present
-        revspec = "{0}:refs/heads/deploy-{0}".format(revision)
+        revspec = '{0}:refs/heads/deploy-{0}'.format(revision)
         with exit_on_exception(kind=RuntimeError):
             compstate.push(url, revspec,
                            err_msg="Failed to push to {0}.".format(host))
@@ -132,7 +132,7 @@ def get_current_state(host):
     import simplejson as json
     from six.moves.urllib.request import urlopen
 
-    url = "http://{0}/comp-api/state".format(host)
+    url = 'http://{0}/comp-api/state'.format(host)
     try:
         page = urlopen(url, timeout=API_TIMEOUT_SECONDS)
         raw_state = json.load(page)
@@ -259,13 +259,13 @@ def command(args):
 def add_options(parser):
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument('--skip-host-check', action='store_true',
-                        help='skips checking the current state of the hosts')
+                        help="skips checking the current state of the hosts")
 
 
 def add_subparser(subparsers):
-    help_msg = 'Deploy a given competition state to all known hosts'
+    help_msg = "Deploy a given competition state to all known hosts"
     parser = subparsers.add_parser('deploy', help=help_msg,
                                    description=help_msg)
     add_options(parser)
-    parser.add_argument('compstate', help='competition state repository')
+    parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)

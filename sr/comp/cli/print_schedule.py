@@ -17,7 +17,7 @@ class ScheduleGenerator(object):
         self.arenas = arenas
         self.columns = 2 + 4*len(arenas)
 
-    def start_page(self, title='Match Schedule'):
+    def start_page(self, title="Match Schedule"):
         self.row_height = 800
         if self.page_number != 0:
             self.canvas.showPage()
@@ -33,7 +33,7 @@ class ScheduleGenerator(object):
         self.canvas.drawCentredString(self.width * 0.5, 820, text)
 
     def draw_footer(self):
-        self.canvas.setFont("Helvetica", 8)
+        self.canvas.setFont('Helvetica', 8)
         self.canvas.drawCentredString(self.width*0.5, 10,
                 "Page {} • Generated from state {}".format(self.page_number,
                                                            self.state[:7]))
@@ -52,10 +52,10 @@ class ScheduleGenerator(object):
             self.canvas.line(x, 30, x, 810)
 
     def draw_column_headings(self):
-        headings = [('Number', 'white', True), ('Time', 'white', True)]
+        headings = [("Number", 'white', True), ("Time", 'white', True)]
         for arena in self.arenas.values():
-            headings += [('{}'.format(arena.display_name), 'white', True),
-                         '', '', '']
+            headings += [("{}".format(arena.display_name), 'white', True),
+                         "", "", ""]
         self.add_line(headings)
 
     def add_line(self, line):
@@ -143,13 +143,13 @@ class ScheduleGenerator(object):
         title = str(period)
 
         if shepherds:
-            title += ' • Shepherd {}'.format(
-                ', '.join(shepherd.get('name', '#{}'.format(i + 1))
+            title += " • Shepherd {}".format(
+                ", ".join(shepherd.get('name', "#{}".format(i + 1))
                           for i, shepherd in enumerate(shepherds)))
 
         if include_locations and locations:
-            title += ' • {}'.format(
-                ', '.join(l['display_name'] for l in locations))
+            title += " • {}".format(
+                ", ".join(l['display_name'] for l in locations))
 
         return title
 
@@ -267,20 +267,20 @@ def command(settings):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('print-schedule',
-                                   help='print a shepherding sheet')
-    parser.add_argument('compstate', help='competition state repository')
-    parser.add_argument('-o', '--output', help='output file',
+                                   help="print a shepherding sheet")
+    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument('-o', '--output', help="output file",
                         type=argparse.FileType('wb'), required=True)
     parser.add_argument('--plain', action='store_true',
-                        help='output the schedule without any colouring or emboldening')
+                        help="output the schedule without any colouring or emboldening")
     parser.add_argument('-p', '--periods', type=int, nargs='+',
-                        help='specify periods by number')
+                        help="specify periods by number")
     parser.add_argument('-s', '--shepherds', type=int, nargs='+',
-                        help='specify shepherds by number')
+                        help="specify shepherds by number")
     parser.add_argument('-c', '--shepherds-combined', action='store_true',
-                        default=False, help='combine the highlighting of '
-                        'shepherds onto a single sheet (default is to print a '
-                        'separate sheet for each shepherd)')
+                        default=False, help="combine the highlighting of "
+                        "shepherds onto a single sheet (default is to print a "
+                        "separate sheet for each shepherd)")
     parser.add_argument('-l', '--locations', nargs='+',
-                        help='specify locations by name')
+                        help="specify locations by name")
     parser.set_defaults(func=command)

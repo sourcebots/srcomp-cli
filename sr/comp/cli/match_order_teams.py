@@ -34,5 +34,5 @@ def add_subparser(subparsers):
     parser = subparsers.add_parser('match-order-teams',
                                    help=help_msg,
                                    description=description)
-    parser.add_argument('compstate', help='competition state repository')
+    parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)

@@ -58,6 +58,6 @@ def command(settings):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('update-layout', help=__doc__)
-    parser.add_argument('compstate', help='competition state repository')
-    parser.add_argument('teams_list', help='file containing the list of teams')
+    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument('teams_list', help="file containing the list of teams")
     parser.set_defaults(func=command)

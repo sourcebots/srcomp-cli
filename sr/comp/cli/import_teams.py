@@ -60,8 +60,8 @@ def command(settings):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('import-teams',
-                                   help='import a teams.yaml from an SR server')
-    parser.add_argument('compstate', help='competition state repository')
-    parser.add_argument('-s', '--server', help='srweb instance',
+                                   help="import a teams.yaml from an SR server")
+    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument('-s', '--server', help="srweb instance",
                         default='https://www.studentrobotics.org')
     parser.set_defaults(func=command)

@@ -126,9 +126,9 @@ def command(settings):
 
 def add_arguments(parser):
     parser.add_argument('how_long',
-                        help='How long to delay the competition for. ' \
-                             'Specify either as a number of seconds or '\
-                             'as a string of the form 1m30s.')
+                        help="How long to delay the competition for. " \
+                             "Specify either as a number of seconds or "\
+                             "as a string of the form 1m30s.")
     parser.add_argument('when',
                         nargs='?',
                         default='now',
@@ -140,7 +140,7 @@ def add_arguments(parser):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('add-delay',
-                                   help='Add a delay the competition state')
-    parser.add_argument('compstate', help='competition state repository')
+                                   help="Add a delay the competition state")
+    parser.add_argument('compstate', help="competition state repository")
     add_arguments(parser)
     parser.set_defaults(func=command)

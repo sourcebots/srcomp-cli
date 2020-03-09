@@ -37,7 +37,7 @@ def command(settings):
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('awards',
-                                   help='show who has been given awards')
+                                   help="show who has been given awards")
     parser.add_argument('compstate',
-                        help='competition state repo')
+                        help="competition state repo")
     parser.set_defaults(func=command)

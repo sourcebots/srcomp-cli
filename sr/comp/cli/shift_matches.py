@@ -27,15 +27,15 @@ def command(args):
         yaml.dump(schedule, f, default_flow_style=False)
     with (args.compstate / '.update-pls').open('w'):
         pass
-    print('Shifted matches by {}'.format(dt))
+    print("Shifted matches by {}".format(dt))
 
 
 def add_subparser(subparsers):
     from pathlib import Path
 
-    parser = subparsers.add_parser('shift-matches', help='Shift matches up')
+    parser = subparsers.add_parser('shift-matches', help="Shift matches up")
     parser.add_argument('compstate', type=Path,
-                        help='competition state repository')
+                        help="competition state repository")
     parser.add_argument('focus', choices=('league', 'knockout'),
-                        help='match period to focus')
+                        help="match period to focus")
     parser.set_defaults(func=command)
