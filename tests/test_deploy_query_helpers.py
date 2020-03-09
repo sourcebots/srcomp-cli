@@ -38,19 +38,19 @@ def test_query_nope_then_a(mock_get_input):
 @mock.patch(input_name, lambda x: 'y')
 def test_query_bool_True_y():
     res = query_bool('Question?', True)
-    assert res == True
+    assert res is True
 
 
 @mock.patch(input_name, lambda x: 'n')
 def test_query_bool_True_n():
     res = query_bool('Question?', True)
-    assert res == False
+    assert res is False
 
 
 @mock.patch(input_name, lambda x: 'other')
 def test_query_bool_True_other():
     res = query_bool('Question?', True)
-    assert res == True
+    assert res is True
 
 
 # Test `query_bool` false results
@@ -59,19 +59,19 @@ def test_query_bool_True_other():
 @mock.patch(input_name, lambda x: 'y')
 def test_query_bool_False_y():
     res = query_bool('Question?', False)
-    assert res == True
+    assert res is True
 
 
 @mock.patch(input_name, lambda x: 'n')
 def test_query_bool_False_n():
     res = query_bool('Question?', False)
-    assert res == False
+    assert res is False
 
 
 @mock.patch(input_name, lambda x: 'other')
 def test_query_bool_False_other():
     res = query_bool('Question?', False)
-    assert res == False
+    assert res is False
 
 
 # Test `query_bool` without default
@@ -80,13 +80,13 @@ def test_query_bool_False_other():
 @mock.patch(input_name, lambda x: 'y')
 def test_query_bool_no_default_y():
     res = query_bool('Question?')
-    assert res == True
+    assert res is True
 
 
 @mock.patch(input_name, lambda x: 'n')
 def test_query_bool_no_default_n():
     res = query_bool('Question?')
-    assert res == False
+    assert res is False
 
 
 @mock.patch(input_name)
@@ -95,6 +95,6 @@ def test_query_bool_no_default_other_then_y(mock_get_input):
     mock_get_input.side_effect = lambda x: values.pop(0)
 
     res = query_bool('Question?')
-    assert res == True
+    assert res is True
 
     assert mock_get_input.call_count == 2
