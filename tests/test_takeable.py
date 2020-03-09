@@ -30,7 +30,7 @@ def test_take_2_str():
 
     assert not t.has_more
 
-def test_take_0_str():
+def test_take_0_list():
     t = Takeable(list('abcd'))
 
     assert [] == t.take(0)
