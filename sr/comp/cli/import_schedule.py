@@ -174,6 +174,7 @@ def build_matches(id_team_map, schedule, arena_ids):
 
 def are_better_matches(best, new):
     from collections import Counter
+
     def get_empty_places_map(bad_matches):
         empty_places_map = Counter()
         for bad_match in bad_matches:

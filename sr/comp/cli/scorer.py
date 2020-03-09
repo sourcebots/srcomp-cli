@@ -19,15 +19,19 @@ def command(settings):
     except ImportError:
         print("sr.comp.scorer not installed.")
         exit(1)
+
     port = find_unused_port()
     app = sr.comp.scorer.app
     app.config['COMPSTATE'] = settings.compstate
     app.config['COMPSTATE_LOCAL'] = not settings.push_changes
+
     def browse():
         time.sleep(1.5)
         webbrowser.open('http://localhost:{}/'.format(port))
+
     thread = threading.Thread(target=browse)
     thread.start()
+
     try:
         app.run(
             host='::1',
