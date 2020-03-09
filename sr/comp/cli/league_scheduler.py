@@ -59,7 +59,10 @@ class Scheduler(object):
         self._calculate_teams(teams)
         self._calculate_rounds()
         if len(self._base_matches) % self.round_length > 0:
-            self.lprint("Warning: matches for partial reschedule are not a multiple of the round-length")
+            self.lprint(
+                "Warning: matches for partial reschedule are not a multiple of "
+                "the round-length",
+            )
         self.separation = separation
         self.max_matchups = max_matchups
         if enable_lcg:
@@ -128,7 +131,11 @@ class Scheduler(object):
             )
             if multi_per_match_mode:
                 # Test constraint (4)
-                if len(entrants) != len([entrant for entrant in match if not is_pseudo(entrant)]):
+                if len(entrants) != len([
+                    entrant
+                    for entrant in match
+                    if not is_pseudo(entrant)
+                ]):
                     return False
             # Test constraint (1)
             previous_matches = schedule[match_id - self.separation:match_id]
