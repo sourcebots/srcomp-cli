@@ -15,7 +15,7 @@ class ScheduleGenerator(object):
         self.margin = 50
         self.page_number = 0
         self.arenas = arenas
-        self.columns = 2 + 4*len(arenas)
+        self.columns = 2 + 4 * len(arenas)
 
     def start_page(self, title="Match Schedule"):
         self.row_height = 800
@@ -88,7 +88,7 @@ class ScheduleGenerator(object):
             else:
                 self.canvas.setFont('Helvetica', 10)
 
-            centre_x = self.margin + i * (self.width - 2*self.margin) / (self.columns - 1)
+            centre_x = self.margin + i * (self.width - 2 * self.margin) / (self.columns - 1)
             centre_y = self.row_height
 
             if background is not None:
@@ -105,7 +105,7 @@ class ScheduleGenerator(object):
 
             self.canvas.drawCentredString(centre_x, centre_y, text)
         self.canvas.line(
-            self.margin*0.5,
+            self.margin * 0.5,
             self.row_height - 3.5,
             self.width - (self.margin * 0.5),
             self.row_height - 3.5,

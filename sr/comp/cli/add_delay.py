@@ -17,7 +17,7 @@ def parse_duration(time_str):
             raise BadDurationException(time_str)
         else:
             s = int(time_str)
-            return timedelta(seconds = s)
+            return timedelta(seconds=s)
     parts = parts.groupdict()
     time_params = {}
     for (name, param) in parts.items():
@@ -70,7 +70,7 @@ def parse_datetime(when_str):
     # timezone-unaware. However the compstate needs timezone data to be
     # present.
     # Assume that the user wants their current timezone.
-    when = when.replace(tzinfo = tzlocal())
+    when = when.replace(tzinfo=tzlocal())
     return when
 
 
@@ -115,7 +115,7 @@ def command(settings):
     how_long_seconds = how_long.seconds
 
     when = parse_time(settings.compstate, settings.when)
-    when = when.replace(microsecond = 0)
+    when = when.replace(microsecond=0)
 
     add_delay(schedule, how_long_seconds, when)
 

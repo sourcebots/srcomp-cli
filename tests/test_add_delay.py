@@ -25,11 +25,11 @@ def test_valid_inputs():
         td = parse_duration(time_str)
         assert expected == td
 
-    yield check, "1m", timedelta(minutes = 1)
-    yield check, "1s", timedelta(seconds = 1)
-    yield check, "42", timedelta(seconds = 42)
-    yield check, "42s", timedelta(seconds = 42)
-    yield check, "1hr", timedelta(hours = 1)
+    yield check, "1m", timedelta(minutes=1)
+    yield check, "1s", timedelta(seconds=1)
+    yield check, "42", timedelta(seconds=42)
+    yield check, "42s", timedelta(seconds=42)
+    yield check, "1hr", timedelta(hours=1)
 
 
 def test_bad_dates():

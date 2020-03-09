@@ -69,7 +69,7 @@ def query(question, options, default=None):
             return default
 
 
-def query_bool(question, default_val = None):
+def query_bool(question, default_val=None):
     options = ('y', 'n')
     if default_val is True:
         default = 'y'

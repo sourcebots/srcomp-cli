@@ -22,8 +22,8 @@ class PatienceCounter(object):
 
 def prime_factors(n):
     d = 2
-    while d*d <= n:
-        while n%d == 0:
+    while d * d <= n:
+        while n % d == 0:
             yield d
             n //= d
         d += 1
@@ -131,7 +131,7 @@ class Scheduler(object):
                 if len(entrants) != len([entrant for entrant in match if not is_pseudo(entrant)]):
                     return False
             # Test constraint (1)
-            previous_matches = schedule[match_id-self.separation:match_id]
+            previous_matches = schedule[match_id - self.separation:match_id]
             for previous_match in previous_matches:
                 for previous_entrant in previous_match:
                     if is_pseudo(previous_entrant):
@@ -140,7 +140,7 @@ class Scheduler(object):
                         return False
             # Update constraint (2)
             for arena_id in range(len(self.arenas)):
-                game = match[arena_id*self.num_corners:(arena_id+1)*self.num_corners]
+                game = match[arena_id * self.num_corners:(arena_id + 1) * self.num_corners]
                 for a, b in product(game, repeat=2):
                     if a >= b:
                         continue
@@ -176,13 +176,13 @@ class Scheduler(object):
                     continue
                 epm = self.entrants_per_match_period
                 acceptable = True
-                for sm in range(1, self.separation+1):
+                for sm in range(1, self.separation + 1):
                     overlap = 1 + self.separation - sm
                     dst_a = 0
                     dst_b = epm * overlap
-                    src_a = (self.round_length-sm)*epm
-                    src_b = (1+self.round_length-sm)*epm
-                    src = set((a*x + c) % m for x in range(src_a, src_b))
+                    src_a = (self.round_length - sm) * epm
+                    src_b = (1 + self.round_length - sm) * epm
+                    src = set((a * x + c) % m for x in range(src_a, src_b))
                     dst = set(range(dst_a, dst_b))
                     if not src.isdisjoint(dst):
                         acceptable = False
@@ -201,7 +201,7 @@ class Scheduler(object):
         m = len(teams)
         if m != len(self._teams):
             return None
-        permutation = [teams[(a*n + c) % m] for n in range(len(teams))]
+        permutation = [teams[(a * n + c) % m] for n in range(len(teams))]
         if set(permutation) != set(teams):
             raise ValueError("permutation fault")
         return permutation
@@ -249,14 +249,14 @@ class Scheduler(object):
     def _match_partition(self, teams):
         entries = []
         for n in range(0, len(teams), self.entrants_per_match_period):
-            entries.append(teams[n:n+self.entrants_per_match_period])
+            entries.append(teams[n:n + self.entrants_per_match_period])
         return entries
 
     def _clean(self, matches):
         def get_match(match_id, match):
             data = {}
             for arena_id, arena in enumerate(self.arenas):
-                entrants = match[arena_id*self.num_corners:(arena_id+1)*self.num_corners]
+                entrants = match[arena_id * self.num_corners:(arena_id + 1) * self.num_corners]
                 # Shuffle entrants to get statistically sensible zone distribution
                 if match_id >= len(self._base_matches): # don't shuffle provided matches!
                     self.random.shuffle(entrants)

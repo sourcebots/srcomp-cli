@@ -108,7 +108,7 @@ def get_id_subsets(ids, limit):
 
     elif extra == 2:
         for idx1 in range(len(ids)):
-            for idx2 in range(idx1+1, len(ids)):
+            for idx2 in range(idx1 + 1, len(ids)):
                 ids_clone = ids[:]
                 ids_clone.pop(idx2)
                 ids_clone.pop(idx1)
@@ -116,8 +116,8 @@ def get_id_subsets(ids, limit):
 
     elif extra == 3:
         for idx1 in range(len(ids)):
-            for idx2 in range(idx1+1, len(ids)):
-                for idx3 in range(idx2+1, len(ids)):
+            for idx2 in range(idx1 + 1, len(ids)):
+                for idx3 in range(idx2 + 1, len(ids)):
                     ids_clone = ids[:]
                     ids_clone.pop(idx3)
                     ids_clone.pop(idx2)
@@ -182,7 +182,7 @@ def are_better_matches(best, new):
         return empty_places_map
 
     best_map = get_empty_places_map(best)
-    new_map  = get_empty_places_map(new)
+    new_map = get_empty_places_map(new)
 
     possible_empty_places = set(list(best_map.keys()) + list(new_map.keys()))
 

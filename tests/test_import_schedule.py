@@ -63,7 +63,7 @@ def test_build_schedule():
     matches, bad = build_schedule(lines, '', teams, ['A'])
 
     expected_matches = {
-        0: {'A':  [None, 'ABC', 'DEF', 'GHI']},
+        0: {'A': [None, 'ABC', 'DEF', 'GHI']},
         1: {'A': ['ABC', 'DEF', 'GHI', None]},
     }
 
@@ -79,7 +79,7 @@ def test_build_schedule_appaerance_order():
     matches, bad = build_schedule(lines, '', teams, ['A'])
 
     expected_matches = {
-        0: {'A':  [None, 'ABC', 'DEF', 'GHI']},
+        0: {'A': [None, 'ABC', 'DEF', 'GHI']},
         1: {'A': ['ABC', None, 'GHI', 'DEF']},
     }
 
