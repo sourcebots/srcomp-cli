@@ -258,7 +258,7 @@ class Scheduler(object):
             for arena_id, arena in enumerate(self.arenas):
                 entrants = match[arena_id * self.num_corners:(arena_id + 1) * self.num_corners]
                 # Shuffle entrants to get statistically sensible zone distribution
-                if match_id >= len(self._base_matches): # don't shuffle provided matches!
+                if match_id >= len(self._base_matches):  # don't shuffle provided matches!
                     self.random.shuffle(entrants)
                 entrants = [
                     None if self._is_pseudo(entrant) else entrant
