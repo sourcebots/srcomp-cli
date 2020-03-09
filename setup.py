@@ -41,12 +41,16 @@ setup(
         'freezegun >=0.3, <0.4',
     ],
     classifiers=[
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3 :: Only',
+        'Topic :: Utilities',
     ],
     test_suite='nose.collector'
 )
