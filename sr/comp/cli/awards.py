@@ -8,8 +8,8 @@ def command(settings):
 
     def format_team(tla):
         team = comp.teams[tla]
-        return u'{} ({}{})'.format(tla, team.name,
-                                   ' [rookie]' if team.rookie else '')
+        return '{} ({}{})'.format(tla, team.name,
+                                  ' [rookie]' if team.rookie else '')
 
     award_order = (
         Award.image,
