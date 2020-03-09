@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 __description__ = "Summaries the teams scoring the most match points"
 
 def command(settings):

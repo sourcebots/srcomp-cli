@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 __description__ = 'List available MIDI output ports.'
 
 

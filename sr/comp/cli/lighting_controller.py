@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 from datetime import timedelta
 from enum import Enum
 import time

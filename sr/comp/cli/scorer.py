@@ -1,4 +1,3 @@
-
 def find_unused_port():
     import socket
 
@@ -42,4 +41,3 @@ def add_subparser(subparsers):
     parser.add_argument('-p', '--push-changes', action='store_true',
                         help='send commits upstream to origin/master')
     parser.set_defaults(func=command)
-

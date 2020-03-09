@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 MAX_MATCHES = 15
 DISPLAY_NAME_WIDTH = 18
 

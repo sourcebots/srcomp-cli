@@ -1,4 +1,3 @@
-
 def command(settings):
     from sr.comp.comp import SRComp
     from sr.comp.validation import validate

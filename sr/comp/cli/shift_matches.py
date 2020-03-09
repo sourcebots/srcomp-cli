@@ -1,4 +1,3 @@
-
 def command(args):
     from datetime import datetime, timedelta
 

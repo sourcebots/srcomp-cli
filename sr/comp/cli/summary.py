@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 def first(iterable):
     return next(i for i in iterable)
 

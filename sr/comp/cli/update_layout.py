@@ -1,11 +1,10 @@
-
 """Update the layout based on a list of teams.
 The user is responsible for ensuring that the ordering and groupings are
 correct in the layout _before_ running this. Groups of teams in the
 original are simply replaced with equivalently sized groups.
 Any excess teams in the list are added to the final group."""
 
-from __future__ import print_function
+
 
 class Takeable(object):
     def __init__(self, source):

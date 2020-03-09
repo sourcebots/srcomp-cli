@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 _ryaml = None
 def _load():
     global _ryaml

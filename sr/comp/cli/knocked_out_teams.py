@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 def round_name(rounds_left):
     if rounds_left == 0:
         return "Finals"

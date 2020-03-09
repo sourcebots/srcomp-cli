@@ -1,4 +1,3 @@
-
 def format_team(entry):
     if 'team_name' in entry:
         name = entry['team_name']

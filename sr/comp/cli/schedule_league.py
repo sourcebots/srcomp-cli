@@ -1,5 +1,3 @@
-from __future__ import print_function, division
-
 def max_possible_match_periods(sched_db):
     from datetime import timedelta
 
