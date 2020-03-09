@@ -10,13 +10,6 @@ OKBLUE = '\033[94m'
 ENDC = '\033[0m'
 
 
-# Cope with Python 3 renaming raw_input
-try:
-    input = raw_input
-except NameError:
-    pass
-
-
 def ssh_connection(host):
     from paramiko import AutoAddPolicy, SSHClient
 
