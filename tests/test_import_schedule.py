@@ -7,7 +7,8 @@ def test_num_ids_equasl_num_teams():
 
     expected = [ids]
 
-    assert maps == expected, "Only one possible combination when same number of ids as teams"
+    assert maps == expected, \
+        "Only one possible combination when same number of ids as teams"
 
 
 def test_one_spare_id():
@@ -42,7 +43,8 @@ def test_two_spare_ids():
 
     expected_omitted = set(["0,1", "0,2", "0,3", "1,2", "1,3", "2,3"])
 
-    assert len(subsets) == len(expected_omitted), "Should have as many maps as valid permutations"
+    assert len(subsets) == len(expected_omitted), \
+        "Should have as many maps as valid permutations"
 
     # Don't actually care what the mappings are, only that all are explored
     ids_omitted = []
@@ -53,7 +55,8 @@ def test_two_spare_ids():
         assert len(omitted) == 2, "Omitted wrong number of ids"
         ids_omitted.append(",".join(map(str, sorted(omitted))))
 
-    assert set(ids_omitted) == expected_omitted, "Should have omitted each id pair once"
+    assert set(ids_omitted) == expected_omitted, \
+        "Should have omitted each id pair once"
 
 
 def test_build_schedule():
