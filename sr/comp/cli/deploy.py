@@ -1,6 +1,5 @@
 from contextlib import contextmanager
 
-
 API_TIMEOUT_SECONDS = 3
 SSH_TIMEOUT_SECONDS = 2
 DEPLOY_USER = 'srcomp'

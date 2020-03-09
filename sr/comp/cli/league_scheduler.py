@@ -1,8 +1,9 @@
 import random
 import sys
 from collections import Counter
-from itertools import product
 from fractions import gcd
+from itertools import product
+
 
 class PatienceCounter(object):
     def __init__(self, threshold):

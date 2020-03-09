@@ -1,8 +1,13 @@
-from nose.tools import raises
 from datetime import datetime, timedelta
-from freezegun import freeze_time
 
-from sr.comp.cli.add_delay import parse_duration, parse_datetime, BadDurationException
+from freezegun import freeze_time
+from nose.tools import raises
+
+from sr.comp.cli.add_delay import (
+    BadDurationException,
+    parse_datetime,
+    parse_duration,
+)
 
 
 def test_bad_inputs():

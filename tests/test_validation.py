@@ -1,5 +1,5 @@
-import subprocess
 import os.path
+import subprocess
 
 
 def test_dummy_is_valid():

@@ -3,26 +3,28 @@
 import argparse
 import sys
 
-from . import add_delay
-from . import awards
-from . import delay
-from . import deploy
-from . import import_schedule
-from . import import_teams
-from . import knocked_out_teams
-from . import lighting_controller
-from . import list_midi_ports
-from . import match_order_teams
-from . import print_schedule
-from . import schedule_league
-from . import scorer
-from . import shift_matches
-from . import show_schedule
-from . import summary
-from . import top_match_points
-from . import update_layout
-from . import validate
-from . import yaml_round_trip
+from . import (
+    add_delay,
+    awards,
+    delay,
+    deploy,
+    import_schedule,
+    import_teams,
+    knocked_out_teams,
+    lighting_controller,
+    list_midi_ports,
+    match_order_teams,
+    print_schedule,
+    schedule_league,
+    scorer,
+    shift_matches,
+    show_schedule,
+    summary,
+    top_match_points,
+    update_layout,
+    validate,
+    yaml_round_trip,
+)
 
 
 def add_list_commands(subparsers):

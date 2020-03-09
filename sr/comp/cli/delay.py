@@ -1,5 +1,4 @@
-from sr.comp.cli import add_delay
-from sr.comp.cli import deploy
+from sr.comp.cli import add_delay, deploy
 
 
 def command(args):

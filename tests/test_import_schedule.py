@@ -1,4 +1,4 @@
-from sr.comp.cli.import_schedule import get_id_subsets, build_schedule
+from sr.comp.cli.import_schedule import build_schedule, get_id_subsets
 
 
 def test_num_ids_equasl_num_teams():

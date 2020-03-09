@@ -1,9 +1,8 @@
+import time
 from datetime import timedelta
 from enum import Enum
-import time
 
 from sr.comp.comp import SRComp
-
 
 __description__ = "A way of controlling lights at the competition."
 
