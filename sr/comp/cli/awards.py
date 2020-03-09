@@ -8,8 +8,11 @@ def command(settings):
 
     def format_team(tla):
         team = comp.teams[tla]
-        return '{} ({}{})'.format(tla, team.name,
-                                  ' [rookie]' if team.rookie else '')
+        return '{} ({}{})'.format(
+            tla,
+            team.name,
+            ' [rookie]' if team.rookie else '',
+        )
 
     award_order = (
         Award.image,
@@ -42,8 +45,9 @@ def command(settings):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('awards',
-                                   help="show who has been given awards")
-    parser.add_argument('compstate',
-                        help="competition state repo")
+    parser = subparsers.add_parser(
+        'awards',
+        help="show who has been given awards",
+    )
+    parser.add_argument('compstate', help="competition state repo")
     parser.set_defaults(func=command)

@@ -23,8 +23,11 @@ def command(settings):
     if not settings.all:
         time = now - timedelta(minutes=10)
 
-        matches = [slot for slot in matches
-                        if first(slot.values()).start_time >= time]
+        matches = [
+            slot
+            for slot in matches
+            if first(slot.values()).start_time >= time
+        ]
 
         matches = matches[:int(settings.limit)]
 
@@ -63,12 +66,20 @@ def command(settings):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('show-schedule',
-                                   help="show the match schedule")
-    parser.add_argument('compstate',
-                        help="competition state repo")
-    parser.add_argument('--all', action='store_true',
-                        help="show all matches, not just the upcoming ones (ignores --limit)")
-    parser.add_argument('--limit', default=MAX_MATCHES,
-                        help="how many matches to show (default: {0})".format(MAX_MATCHES))
+    parser = subparsers.add_parser(
+        'show-schedule',
+        help="show the match schedule",
+    )
+    parser.add_argument(
+        'compstate',
+        help="competition state repo",
+    )
+    parser.add_argument(
+        '--all', action='store_true',
+        help="show all matches, not just the upcoming ones (ignores --limit)",
+    )
+    parser.add_argument(
+        '--limit', default=MAX_MATCHES,
+        help="how many matches to show (default: {0})".format(MAX_MATCHES),
+    )
     parser.set_defaults(func=command)

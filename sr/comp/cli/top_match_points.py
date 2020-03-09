@@ -33,9 +33,10 @@ def command(settings):
                 points,
             ))
             for tla, matches in team_info.items():
-                print("- {0} in match(es): {1}".format(tla, ", ".join(
-                    "{0}{1}".format(*x) for x in matches
-                )))
+                print("- {0} in match(es): {1}".format(
+                    tla,
+                    ", ".join("{0}{1}".format(*x) for x in matches),
+                ))
 
 
 def add_subparser(subparsers):
@@ -44,6 +45,8 @@ def add_subparser(subparsers):
         help=__description__,
         description=__description__,
     )
-    parser.add_argument('compstate',
-                        help="competition state repo")
+    parser.add_argument(
+        'compstate',
+        help="competition state repo",
+    )
     parser.set_defaults(func=command)

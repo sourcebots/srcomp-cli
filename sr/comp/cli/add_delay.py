@@ -98,7 +98,7 @@ def add_delay(schedule, delay_seconds, when):
         delays = schedule['delays'] = []
     new_delay = {
         'delay': delay_seconds,
-        'time': when
+        'time': when,
     }
     delays.append(new_delay)
 
@@ -145,8 +145,10 @@ def add_arguments(parser):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('add-delay',
-                                   help="Add a delay the competition state")
+    parser = subparsers.add_parser(
+        'add-delay',
+        help="Add a delay the competition state",
+    )
     parser.add_argument('compstate', help="competition state repository")
     add_arguments(parser)
     parser.set_defaults(func=command)

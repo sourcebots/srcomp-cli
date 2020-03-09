@@ -10,8 +10,10 @@ def command(args):
     old_start = schedule['match_periods'][args.focus][0]['start_time']
     new_start = datetime.now(old_start.tzinfo)
     # round to 1-2 minutes ahead
-    new_start -= timedelta(seconds=new_start.second,
-                           microseconds=new_start.microsecond)
+    new_start -= timedelta(
+        seconds=new_start.second,
+        microseconds=new_start.microsecond,
+    )
     new_start += timedelta(minutes=2)
 
     dt = new_start - old_start
@@ -34,8 +36,14 @@ def add_subparser(subparsers):
     from pathlib import Path
 
     parser = subparsers.add_parser('shift-matches', help="Shift matches up")
-    parser.add_argument('compstate', type=Path,
-                        help="competition state repository")
-    parser.add_argument('focus', choices=('league', 'knockout'),
-                        help="match period to focus")
+    parser.add_argument(
+        'compstate',
+        type=Path,
+        help="competition state repository",
+    )
+    parser.add_argument(
+        'focus',
+        choices=('league', 'knockout'),
+        help="match period to focus",
+    )
     parser.set_defaults(func=command)

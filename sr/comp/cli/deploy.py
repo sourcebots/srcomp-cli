@@ -108,8 +108,11 @@ def deploy_to(compstate, host, revision, verbose):
         # if it's already present
         revspec = '{0}:refs/heads/deploy-{0}'.format(revision)
         with exit_on_exception(kind=RuntimeError):
-            compstate.push(url, revspec,
-                           err_msg="Failed to push to {0}.".format(host))
+            compstate.push(
+                url,
+                revspec,
+                err_msg="Failed to push to {0}.".format(host),
+            )
 
         cmd = "./update '{0}'".format(revision)
         _, stdout, stderr = client.exec_command(cmd)
@@ -154,8 +157,10 @@ def check_host_state(compstate, host, revision, verbose):
     SKIP = True
     UPDATE = False
     if verbose:
-        print("Checking host state for {0} (timeout {1} seconds)."
-              .format(host, API_TIMEOUT_SECONDS))
+        print("Checking host state for {0} (timeout {1} seconds).".format(
+            host,
+            API_TIMEOUT_SECONDS,
+        ))
     state = get_current_state(host)
     if not state:
         tpl = "Failed to get state for {0}, cannot advise about history." \
@@ -166,8 +171,10 @@ def check_host_state(compstate, host, revision, verbose):
             return SKIP
 
     if state == revision:
-        print("Host {0} already has requested revision ({1})"
-              .format(host, revision[:8]))
+        print("Host {0} already has requested revision ({1})".format(
+            host,
+            revision[:8],
+        ))
         return SKIP
 
     # Ideal case:
@@ -207,8 +214,10 @@ def check_host_state(compstate, host, revision, verbose):
 
 def require_no_changes(compstate):
     if compstate.has_changes:
-        print_fail("Cannot deploy state with local changes.",
-                   "Commit or remove them and re-run.")
+        print_fail(
+            "Cannot deploy state with local changes.",
+            "Commit or remove them and re-run.",
+        )
         compstate.show_changes()
         exit(1)
 
@@ -228,8 +237,7 @@ def run_deployments(args, compstate, hosts):
     revision = compstate.rev_parse('HEAD')
     for host in hosts:
         if not args.skip_host_check:
-            skip_host = check_host_state(compstate, host, revision,
-                                         args.verbose)
+            skip_host = check_host_state(compstate, host, revision, args.verbose)
             if skip_host:
                 print(BOLD + "Skipping {0}.".format(host) + ENDC)
                 continue
@@ -237,8 +245,10 @@ def run_deployments(args, compstate, hosts):
         retcode = deploy_to(compstate, host, revision, args.verbose)
         if retcode != 0:
             # TODO: work out if it makes sense to try to rollback here?
-            print_fail("Failed to deploy to '{0}' (exit status: {1})."
-                       .format(host, retcode))
+            print_fail("Failed to deploy to '{0}' (exit status: {1}).".format(
+                host,
+                retcode,
+            ))
             exit(retcode)
 
     print(BOLD + OKBLUE + "Done" + ENDC)
@@ -258,14 +268,20 @@ def command(args):
 
 def add_options(parser):
     parser.add_argument('--verbose', action='store_true')
-    parser.add_argument('--skip-host-check', action='store_true',
-                        help="skips checking the current state of the hosts")
+    parser.add_argument(
+        '--skip-host-check',
+        action='store_true',
+        help="skips checking the current state of the hosts",
+    )
 
 
 def add_subparser(subparsers):
     help_msg = "Deploy a given competition state to all known hosts"
-    parser = subparsers.add_parser('deploy', help=help_msg,
-                                   description=help_msg)
+    parser = subparsers.add_parser(
+        'deploy',
+        help=help_msg,
+        description=help_msg,
+    )
     add_options(parser)
     parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)

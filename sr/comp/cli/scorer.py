@@ -29,10 +29,12 @@ def command(settings):
     thread = threading.Thread(target=browse)
     thread.start()
     try:
-        app.run(host='::1',
-                port=port,
-                debug=False,
-                passthrough_errors=True)
+        app.run(
+            host='::1',
+            port=port,
+            debug=False,
+            passthrough_errors=True,
+        )
     except KeyboardInterrupt:
         pass
 
@@ -40,6 +42,10 @@ def command(settings):
 def add_subparser(subparsers):
     parser = subparsers.add_parser('score')
     parser.add_argument('compstate', help="competition state repository")
-    parser.add_argument('-p', '--push-changes', action='store_true',
-                        help="send commits upstream to origin/master")
+    parser.add_argument(
+        '-p',
+        '--push-changes',
+        action='store_true',
+        help="send commits upstream to origin/master",
+    )
     parser.set_defaults(func=command)

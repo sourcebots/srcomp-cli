@@ -31,17 +31,19 @@ def prime_factors(n):
 
 
 class Scheduler(object):
-    def __init__(self,
-                 teams,
-                 max_match_periods,
-                 arenas=('main',),
-                 num_corners=4,
-                 random=random,
-                 appearances_per_round=1,
-                 separation=2,
-                 max_matchups=2,
-                 enable_lcg=True,
-                 base_matches=()):
+    def __init__(
+        self,
+        teams,
+        max_match_periods,
+        arenas=('main',),
+        num_corners=4,
+        random=random,
+        appearances_per_round=1,
+        separation=2,
+        max_matchups=2,
+        enable_lcg=True,
+        base_matches=(),
+    ):
         self.tag = ''
         self.num_corners = num_corners
         self.random = random
@@ -79,8 +81,10 @@ class Scheduler(object):
     def _calculate_teams(self, base_teams):
         teams = list(base_teams) * self.appearances_per_round
         # account for overflow
-        overflow = (self.entrants_per_match_period -
-                     (len(teams) % self.entrants_per_match_period))
+        overflow = (
+            self.entrants_per_match_period -
+            (len(teams) % self.entrants_per_match_period)
+        )
         if overflow < self.entrants_per_match_period:
             for n in range(overflow):
                 teams.append('~{}'.format(n))
@@ -91,12 +95,19 @@ class Scheduler(object):
         return self.num_rounds * self.round_length
 
     def _calculate_rounds(self):
-        self.num_rounds = int(self.max_match_periods * self.entrants_per_match_period
-                                // len(self._teams))
+        self.num_rounds = int(
+            self.max_match_periods *
+            self.entrants_per_match_period //
+            len(self._teams),
+        )
         self.round_length = len(self._teams) // self.entrants_per_match_period
 
-    def _validate(self, schedule,
-                  matchup_max=None, matchup_impatience_bump=lambda: None):
+    def _validate(
+        self,
+        schedule,
+        matchup_max=None,
+        matchup_impatience_bump=lambda: None,
+    ):
         is_pseudo = self._is_pseudo
         if matchup_max is None:
             matchup_max = self.max_matchups
@@ -109,8 +120,11 @@ class Scheduler(object):
         #  (4) make sure that a team doesn't appear in a match twice
         matchups = Counter()
         for match_id, match in enumerate(schedule):
-            entrants = set(entrant for entrant in match
-                            if not is_pseudo(entrant))
+            entrants = set(
+                entrant
+                for entrant in match
+                if not is_pseudo(entrant)
+            )
             if multi_per_match_mode:
                 # Test constraint (4)
                 if len(entrants) != len([entrant for entrant in match if not is_pseudo(entrant)]):
@@ -131,8 +145,11 @@ class Scheduler(object):
                         continue
                     a_pseudo, b_pseudo = is_pseudo(a), is_pseudo(b)
                     # Check constraint (3) while we're here
-                    if (a_pseudo and b_pseudo and
-                            not all(is_pseudo(x) for x in game)):
+                    if (
+                        a_pseudo and
+                        b_pseudo and
+                        not all(is_pseudo(x) for x in game)
+                    ):
                         return False
                     elif not a_pseudo and not b_pseudo:
                         matchups.update([(a, b)])
@@ -194,13 +211,16 @@ class Scheduler(object):
         matches = list(self._base_matches)
         teams = list(self._teams)
         self.random.shuffle(teams)
-        while (len(matches) < self.total_matches and
-               len(matches) + self.round_length <= self.max_match_periods):
+        while (
+            len(matches) < self.total_matches and
+            len(matches) + self.round_length <= self.max_match_periods
+        ):
             this_round = len(matches) // self.round_length
             self.lprint("Scheduling round {round} ({prev}/{tot} complete)".format(
-                            round=this_round,
-                            prev=len(matches),
-                            tot=self.total_matches))
+                round=this_round,
+                prev=len(matches),
+                tot=self.total_matches,
+            ))
             # Attempt the LCG
             lcg_round = self._lcg_permute(teams)
             if lcg_round is not None:
@@ -239,8 +259,10 @@ class Scheduler(object):
                 # Shuffle entrants to get statistically sensible zone distribution
                 if match_id >= len(self._base_matches): # don't shuffle provided matches!
                     self.random.shuffle(entrants)
-                entrants = [None if self._is_pseudo(entrant) else entrant
-                             for entrant in entrants]
+                entrants = [
+                    None if self._is_pseudo(entrant) else entrant
+                    for entrant in entrants
+                ]
                 data[arena] = entrants
             return data
         return {match_id: get_match(match_id, match) for match_id, match in enumerate(matches)}

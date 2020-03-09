@@ -30,7 +30,9 @@ def command(settings):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('round-trip',
-                                   help="Round-trip a yaml file using compstate loading")
+    parser = subparsers.add_parser(
+        'round-trip',
+        help="Round-trip a yaml file using compstate loading",
+    )
     parser.add_argument('file_path', help="target file to round trip")
     parser.set_defaults(func=command)

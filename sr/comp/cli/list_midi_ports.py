@@ -11,6 +11,8 @@ def command(args):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('list-midi-ports', help=__description__,
-                                   description=__description__)
+    parser = subparsers.add_parser(
+        'list-midi-ports', help=__description__,
+        description=__description__,
+    )
     parser.set_defaults(func=command)

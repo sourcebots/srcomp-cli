@@ -34,9 +34,14 @@ class ScheduleGenerator(object):
 
     def draw_footer(self):
         self.canvas.setFont('Helvetica', 8)
-        self.canvas.drawCentredString(self.width*0.5, 10,
-                "Page {} • Generated from state {}".format(self.page_number,
-                                                           self.state[:7]))
+        self.canvas.drawCentredString(
+            self.width * 0.5,
+            10,
+            "Page {} • Generated from state {}".format(
+                self.page_number,
+                self.state[:7],
+            ),
+        )
 
     def draw_vertical_bars(self):
         if len(self.arenas) == 1:
@@ -54,8 +59,12 @@ class ScheduleGenerator(object):
     def draw_column_headings(self):
         headings = [("Number", 'white', True), ("Time", 'white', True)]
         for arena in self.arenas.values():
-            headings += [("{}".format(arena.display_name), 'white', True),
-                         "", "", ""]
+            headings += [
+                ("{}".format(arena.display_name), 'white', True),
+                "",
+                "",
+                "",
+            ]
         self.add_line(headings)
 
     def add_line(self, line):
@@ -84,13 +93,23 @@ class ScheduleGenerator(object):
 
             if background is not None:
                 self.canvas.setFillColor(background)
-                self.canvas.rect(centre_x - 20, centre_y - 4, 40, 14,
-                                 stroke=False, fill=True)
+                self.canvas.rect(
+                    centre_x - 20,
+                    centre_y - 4,
+                    40,
+                    14,
+                    stroke=False,
+                    fill=True,
+                )
                 self.canvas.setFillColor('black')
 
             self.canvas.drawCentredString(centre_x, centre_y, text)
-        self.canvas.line(self.margin*0.5, self.row_height - 3.5,
-                         self.width-(self.margin*0.5), self.row_height - 3.5)
+        self.canvas.line(
+            self.margin*0.5,
+            self.row_height - 3.5,
+            self.width - (self.margin * 0.5),
+            self.row_height - 3.5,
+        )
         self.row_height -= 14
 
     @staticmethod
@@ -144,12 +163,16 @@ class ScheduleGenerator(object):
 
         if shepherds:
             title += " • Shepherd {}".format(
-                ", ".join(shepherd.get('name', "#{}".format(i + 1))
-                          for i, shepherd in enumerate(shepherds)))
+                ", ".join(
+                    shepherd.get('name', "#{}".format(i + 1))
+                    for i, shepherd in enumerate(shepherds)
+                ),
+            )
 
         if include_locations and locations:
             title += " • {}".format(
-                ", ".join(l['display_name'] for l in locations))
+                ", ".join(l['display_name'] for l in locations),
+            )
 
         return title
 
@@ -165,8 +188,7 @@ class ScheduleGenerator(object):
                     return True
         return False
 
-    def _generate(self, period, shepherds, locations,
-                  include_locations_in_title, is_plain):
+    def _generate(self, period, shepherds, locations, include_locations_in_title, is_plain):
         def find_shepherd_number(team):
             if shepherds is None:
                 return None
@@ -199,8 +221,12 @@ class ScheduleGenerator(object):
             cell = (team, colour, bold)
             return cell
 
-        title = self._get_page_title(period, shepherds, locations,
-                                     include_locations_in_title)
+        title = self._get_page_title(
+            period,
+            shepherds,
+            locations,
+            include_locations_in_title,
+        )
         self.start_page(title)
 
         n = 0
@@ -229,17 +255,29 @@ class ScheduleGenerator(object):
             if n % 65 == 65:
                 self.start_page(title)
 
-    def generate(self, competition, raw_compstate, period_numbers,
-                 shepherd_numbers, location_names, is_plain, combine_shepherds):
+    def generate(
+        self,
+        competition,
+        raw_compstate,
+        period_numbers,
+        shepherd_numbers,
+        location_names,
+        is_plain,
+        combine_shepherds,
+    ):
         periods = self._get_periods(competition, period_numbers)
-        shepherd_groups = self._get_shepherds(raw_compstate, shepherd_numbers,
-                                              combine_shepherds)
+        shepherd_groups = self._get_shepherds(
+            raw_compstate, shepherd_numbers,
+            combine_shepherds,
+        )
         locations = self._get_locations(raw_compstate, location_names)
 
         for shepherds in shepherd_groups:
             for period in periods:
-                self._generate(period, shepherds, locations,
-                               location_names is not None, is_plain)
+                self._generate(
+                    period, shepherds, locations,
+                    location_names is not None, is_plain,
+                )
 
     def write(self):
         self.canvas.save()
@@ -252,35 +290,76 @@ def command(settings):
     from sr.comp.raw_compstate import RawCompstate
 
     comp = SRComp(os.path.realpath(settings.compstate))
-    raw_comp = RawCompstate(os.path.realpath(settings.compstate),
-                            local_only=True)
+    raw_comp = RawCompstate(
+        os.path.realpath(settings.compstate),
+        local_only=True,
+    )
 
-    generator = ScheduleGenerator(settings.output, arenas=comp.arenas,
-                                  state=comp.state)
+    generator = ScheduleGenerator(
+        settings.output,
+        arenas=comp.arenas,
+        state=comp.state,
+    )
 
-    generator.generate(comp, raw_comp, settings.periods, settings.shepherds,
-                       settings.locations, settings.plain,
-                       settings.shepherds_combined)
+    generator.generate(
+        comp,
+        raw_comp,
+        settings.periods,
+        settings.shepherds,
+        settings.locations,
+        settings.plain,
+        settings.shepherds_combined,
+    )
 
     generator.write()
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('print-schedule',
-                                   help="print a shepherding sheet")
+    parser = subparsers.add_parser(
+        'print-schedule',
+        help="print a shepherding sheet",
+    )
     parser.add_argument('compstate', help="competition state repository")
-    parser.add_argument('-o', '--output', help="output file",
-                        type=argparse.FileType('wb'), required=True)
-    parser.add_argument('--plain', action='store_true',
-                        help="output the schedule without any colouring or emboldening")
-    parser.add_argument('-p', '--periods', type=int, nargs='+',
-                        help="specify periods by number")
-    parser.add_argument('-s', '--shepherds', type=int, nargs='+',
-                        help="specify shepherds by number")
-    parser.add_argument('-c', '--shepherds-combined', action='store_true',
-                        default=False, help="combine the highlighting of "
-                        "shepherds onto a single sheet (default is to print a "
-                        "separate sheet for each shepherd)")
-    parser.add_argument('-l', '--locations', nargs='+',
-                        help="specify locations by name")
+    parser.add_argument(
+        '-o',
+        '--output',
+        help="output file",
+        type=argparse.FileType('wb'),
+        required=True,
+    )
+    parser.add_argument(
+        '--plain',
+        action='store_true',
+        help="output the schedule without any colouring or emboldening",
+    )
+    parser.add_argument(
+        '-p',
+        '--periods',
+        type=int,
+        nargs='+',
+        help="specify periods by number",
+    )
+    parser.add_argument(
+        '-s',
+        '--shepherds',
+        type=int,
+        nargs='+',
+        help="specify shepherds by number",
+    )
+    parser.add_argument(
+        '-c',
+        '--shepherds-combined',
+        action='store_true',
+        default=False,
+        help=(
+            "combine the highlighting of shepherds onto a single sheet (default "
+            "is to print a separate sheet for each shepherd)"
+        ),
+    )
+    parser.add_argument(
+        '-l',
+        '--locations',
+        nargs='+',
+        help="specify locations by name",
+    )
     parser.set_defaults(func=command)

@@ -29,11 +29,11 @@ setup(
     python_requires='>=3.5',
     entry_points={
         'console_scripts': [
-            'srcomp = sr.comp.cli.command_line:main'
-        ]
+            'srcomp = sr.comp.cli.command_line:main',
+        ],
     },
     setup_requires=[
-        'Sphinx >=1.3, <2'
+        'Sphinx >=1.3, <2',
     ],
     tests_require=[
         'nose >=1.3, <2',
@@ -51,5 +51,5 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Utilities',
     ],
-    test_suite='nose.collector'
+    test_suite='nose.collector',
 )

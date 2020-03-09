@@ -5,8 +5,10 @@ def format_team(entry):
         name = entry['college']['name']
     rookie = entry['college']['rookie']
     name = name.encode('utf-8')
-    return {'name': name.strip(),
-            'rookie': rookie}
+    return {
+        'name': name.strip(),
+        'rookie': rookie,
+    }
 
 
 def download_team_images(server, team_data, compstate):
@@ -50,18 +52,26 @@ def command(settings):
 
     # write out teams.yaml file
     with open(teams_yaml, 'w') as f:
-        yaml.dump({'teams': {str(tla): format_team(team)
-                               for tla, team in team_data.items()}},
-                  f, default_flow_style=False)
+        teams = {
+            str(tla): format_team(team)
+            for tla, team in team_data.items()
+        }
+        yaml.dump({'teams': teams}, f, default_flow_style=False)
 
     # download and save team images
     download_team_images(server_url, team_data, settings.compstate)
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('import-teams',
-                                   help="import a teams.yaml from an SR server")
+    parser = subparsers.add_parser(
+        'import-teams',
+        help="import a teams.yaml from an SR server",
+    )
     parser.add_argument('compstate', help="competition state repository")
-    parser.add_argument('-s', '--server', help="srweb instance",
-                        default='https://www.studentrobotics.org')
+    parser.add_argument(
+        '-s',
+        '--server',
+        help="srweb instance",
+        default='https://www.studentrobotics.org',
+    )
     parser.set_defaults(func=command)

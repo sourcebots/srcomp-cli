@@ -160,9 +160,11 @@ def command(args):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('lighting-controller',
-                                   help=__description__,
-                                   description=__description__)
+    parser = subparsers.add_parser(
+        'lighting-controller',
+        help=__description__,
+        description=__description__,
+    )
     parser.add_argument('compstate', help="Competition state repository.")
 
     group = parser.add_mutually_exclusive_group(required=True)

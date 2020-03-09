@@ -31,7 +31,9 @@ def command(settings):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('knocked-out-teams',
-                                   help="show the teams knocked out of each knockout round")
+    parser = subparsers.add_parser(
+        'knocked-out-teams',
+        help="show the teams knocked out of each knockout round",
+    )
     parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)

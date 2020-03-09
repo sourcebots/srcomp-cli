@@ -246,8 +246,9 @@ def order_teams(compstate_path, team_ids):
     all_teams = set(team_ids)
     extra = layout_teams - all_teams
     if extra:
-        print("WARNING: Extra teams in layout will be ignoreed: {0}."
-                    .format(", ".join(extra)))
+        print("WARNING: Extra teams in layout will be ignoreed: {0}.".format(
+            ", ".join(extra),
+        ))
         for tla in extra:
             ordered_teams.remove(tla)
 
@@ -290,8 +291,10 @@ def command(args):
     # Semi-randomise
     team_ids = order_teams(args.compstate, team_ids)
 
-    matches, bad_matches = build_schedule(schedule_lines, args.ignore_ids,
-                                          team_ids, arena_ids)
+    matches, bad_matches = build_schedule(
+        schedule_lines, args.ignore_ids,
+        team_ids, arena_ids,
+    )
 
     # Print any warnings about the matches
     for bad_match in bad_matches:
@@ -325,11 +328,17 @@ Example schedules for 48, 52 or 56 teams are available  at:
 https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """.strip()
 
-    parser = subparsers.add_parser('import-schedule',
-                                   help="Import a league.yaml file from a schedule file",
-                                   description=description,
-                                   formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('-i', '--ignore-ids', help="comma separated list of ids to ignore")
+    parser = subparsers.add_parser(
+        'import-schedule',
+        help="Import a league.yaml file from a schedule file",
+        description=description,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        '-i',
+        '--ignore-ids',
+        help="comma separated list of ids to ignore",
+    )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument('schedule', help="schedule to import")
     parser.set_defaults(func=command)
