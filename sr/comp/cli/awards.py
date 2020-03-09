@@ -11,10 +11,16 @@ def command(settings):
         return u'{} ({}{})'.format(tla, team.name,
                                    ' [rookie]' if team.rookie else '')
 
-    award_order = (Award.image, Award.web, Award.committee,
-                   Award.rookie, Award.movement,
-                   Award.third, Award.second, Award.first
-                   )
+    award_order = (
+        Award.image,
+        Award.web,
+        Award.committee,
+        Award.rookie,
+        Award.movement,
+        Award.third,
+        Award.second,
+        Award.first,
+    )
 
     missing = set(Award) - set(award_order)
     assert not missing, "Awards missed!: {0}".format(", ".join(map(str, missing)))
