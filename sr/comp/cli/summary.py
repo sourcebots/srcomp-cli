@@ -14,28 +14,40 @@ def command(args):
 
     comp = SRComp(args.compstate)
 
-    print("Number of arenas:", len(comp.arenas), \
-            "({0})".format(", ".join(comp.arenas.keys())))
+    print("Number of arenas: {} ({})".format(
+        len(comp.arenas),
+        ", ".join(comp.arenas.keys()),
+    ))
 
-    print("Number of teams:", len(comp.teams),
-            "({0} rookies)".format(sum(1 for t in comp.teams.values() if t.rookie)))
+    print("Number of teams: {} ({} rookies)".format(
+        len(comp.teams),
+        sum(1 for t in comp.teams.values() if t.rookie),
+    ))
 
-    slots_by_type = Counter(first(slot.values()).type.value \
-                                for slot in comp.schedule.matches)
+    slots_by_type = Counter(
+        first(slot.values()).type.value
+        for slot in comp.schedule.matches
+    )
     slots_by_type_str = counter_to_string(slots_by_type)
 
     assert sum(slots_by_type.values()) == len(comp.schedule.matches)
 
-    print("Number of match slots:", len(comp.schedule.matches),
-            "({0})".format(slots_by_type_str))
+    print("Number of match slots: {} ({})".format(
+        len(comp.schedule.matches),
+        slots_by_type_str,
+    ))
 
-    games_by_type = Counter(game.type.value \
-                                for slot in comp.schedule.matches \
-                                for game in slot.values())
+    games_by_type = Counter(
+        game.type.value
+        for slot in comp.schedule.matches
+        for game in slot.values()
+    )
     games_by_type_str = counter_to_string(games_by_type)
 
-    print("Number of games:", sum(games_by_type.values()),
-            "({0})".format(games_by_type_str))
+    print("Number of games: : {} ({})".format(
+        sum(games_by_type.values()),
+        games_by_type_str,
+    ))
 
 
 def add_subparser(subparsers):

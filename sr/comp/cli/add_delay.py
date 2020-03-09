@@ -125,17 +125,23 @@ def command(settings):
 
 
 def add_arguments(parser):
-    parser.add_argument('how_long',
-                        help="How long to delay the competition for. " \
-                             "Specify either as a number of seconds or "\
-                             "as a string of the form 1m30s.")
-    parser.add_argument('when',
-                        nargs='?',
-                        default='now',
-                        help="When the delay should occur. This can be " \
-                             "anything which PHP's strtotime would be "
-                             "able to parse. Assumes all times are in "
-                             "the current timezone, regardless of input.")
+    parser.add_argument(
+        'how_long',
+        help=(
+            "How long to delay the competition for. Specify either as a number "
+            "of seconds or as a string of the form 1m30s."
+        ),
+    )
+    parser.add_argument(
+        'when',
+        nargs='?',
+        default='now',
+        help=(
+            "When the delay should occur. This can be anything which PHP's "
+            "strtotime would be able to parse. Assumes all times are in the "
+            "current timezone, regardless of input."
+        ),
+    )
 
 
 def add_subparser(subparsers):
