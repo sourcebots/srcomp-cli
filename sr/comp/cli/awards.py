@@ -34,6 +34,7 @@ def command(settings):
                 print("  ", format_team(recipient))
         print()
 
+
 def add_subparser(subparsers):
     parser = subparsers.add_parser('awards',
                                    help='show who has been given awards')

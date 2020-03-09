@@ -8,6 +8,7 @@ def max_possible_match_periods(sched_db):
                              timedelta())
     return int(total_league_time.total_seconds() // match_period_length)
 
+
 def command(args):
     from multiprocessing import Pool
     import os.path

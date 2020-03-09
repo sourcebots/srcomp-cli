@@ -4,6 +4,7 @@ from freezegun import freeze_time
 
 from sr.comp.cli.add_delay import parse_duration, parse_datetime, BadDurationException
 
+
 def test_bad_inputs():
     @raises(BadDurationException)
     def check(ts):

@@ -3,6 +3,7 @@ import mock
 
 from sr.comp.cli.yaml_round_trip import command
 
+
 def get_info(file_path):
     mod = os.stat(file_path).st_mtime
 
@@ -10,6 +11,7 @@ def get_info(file_path):
         content = f.read()
 
     return mod, content
+
 
 def test_dummy_schedule():
     # Assumes that the dummy schedule is already properly formatted

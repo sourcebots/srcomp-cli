@@ -1,9 +1,11 @@
 def first(iterable):
     return next(i for i in iterable)
 
+
 def counter_to_string(cntr):
     string = ", ".join("{1} {0}".format(*item) for item in cntr.items())
     return string
+
 
 def command(args):
     from collections import Counter
@@ -34,6 +36,7 @@ def command(args):
 
     print("Number of games:", sum(games_by_type.values()),
             "({0})".format(games_by_type_str))
+
 
 def add_subparser(subparsers):
     help_msg = "Show summary data about a compstate"

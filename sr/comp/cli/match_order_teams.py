@@ -25,6 +25,7 @@ def command(args):
         else:
             return
 
+
 def add_subparser(subparsers):
     help_msg = "Shows a list of teams, ordered by their first matches."
     description = help_msg + " Output is markdown, and can be converted " \

@@ -2,6 +2,7 @@ import argparse
 
 TEAMS_PER_GAME = 4
 
+
 def tidy(lines):
     "Strip comments and trailing whitespace"
     schedule = []
@@ -17,6 +18,7 @@ def tidy(lines):
 
     return schedule
 
+
 def chunks_of_size(list_, size):
     list_ = list_[:]
     assert len(list_) % size == 0
@@ -26,11 +28,13 @@ def chunks_of_size(list_, size):
             chunk.append(list_.pop(0))
         yield chunk
 
+
 def league_yaml_path(compstate_path):
     import os.path
 
     league_yaml = os.path.join(compstate_path, 'league.yaml')
     return league_yaml
+
 
 def dump_league_yaml(matches, file_path):
     import yaml
@@ -38,6 +42,7 @@ def dump_league_yaml(matches, file_path):
     with open(file_path, 'w') as lfp:
         empty = dict(matches=matches)
         yaml.dump(empty, lfp)
+
 
 def load_teams_areans(compstate_path):
     import os.path
@@ -56,6 +61,7 @@ def load_teams_areans(compstate_path):
     arena_ids = list(sorted(comp.arenas.keys()))
 
     return team_ids, arena_ids
+
 
 def load_ids_schedule(schedule_lines):
     """
@@ -79,9 +85,11 @@ def load_ids_schedule(schedule_lines):
 
     return ids, schedule
 
+
 def ignore_ids(ids, ids_to_remove):
     for i in ids_to_remove:
         ids.remove(i)
+
 
 def get_id_subsets(ids, limit):
     num_ids = len(ids)
@@ -120,6 +128,7 @@ def get_id_subsets(ids, limit):
         # TODO: consider generalising the above or adding more handling
         raise Exception("Too many empty slots to compensate for ({0}).".format(extra))
 
+
 def build_id_team_maps(ids, team_ids):
     # If there are more ids than team_ids we want to ensure that we minimize
     # the number of matches which have empty places and also the number of
@@ -133,6 +142,7 @@ def build_id_team_maps(ids, team_ids):
 
     for id_subset in get_id_subsets(ids, len(team_ids)):
         yield dict(zip(id_subset, team_ids))
+
 
 def build_matches(id_team_map, schedule, arena_ids):
     from collections import namedtuple
@@ -160,6 +170,7 @@ def build_matches(id_team_map, schedule, arena_ids):
                 bad_matches.append(BadMatch(arena, match_num, num_teams))
 
     return matches, bad_matches
+
 
 def are_better_matches(best, new):
     from collections import Counter
@@ -290,6 +301,7 @@ def command(args):
     # Save the matches to the file
     league_yaml = league_yaml_path(args.compstate)
     dump_league_yaml(matches, league_yaml)
+
 
 def add_subparser(subparsers):
     description = """

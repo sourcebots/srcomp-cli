@@ -8,6 +8,7 @@ def find_unused_port():
     sock.close()
     return port
 
+
 def command(settings):
     import webbrowser
     import threading
@@ -34,6 +35,7 @@ def command(settings):
                 passthrough_errors=True)
     except KeyboardInterrupt:
         pass
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('score')

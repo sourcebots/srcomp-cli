@@ -1,4 +1,6 @@
 _ryaml = None
+
+
 def _load():
     global _ryaml
     if _ryaml is None:
@@ -7,10 +9,12 @@ def _load():
         add_time_constructor(_ryaml.RoundTripLoader)
     return _ryaml
 
+
 def load(yaml_file):
     ryaml = _load()
     with open(yaml_file, 'r') as yf:
         return ryaml.load(yf, ryaml.RoundTripLoader, version=(1, 1))
+
 
 def dump(yaml_file, data):
     ryaml = _load()
@@ -19,9 +23,11 @@ def dump(yaml_file, data):
     with open(yaml_file, 'w') as yf:
         print(yaml, file=yf)
 
+
 def command(settings):
     fp = settings.file_path
     dump(fp, load(fp))
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('round-trip',

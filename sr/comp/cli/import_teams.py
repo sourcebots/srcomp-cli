@@ -57,6 +57,7 @@ def command(settings):
     # download and save team images
     download_team_images(server_url, team_data, settings.compstate)
 
+
 def add_subparser(subparsers):
     parser = subparsers.add_parser('import-teams',
                                    help='import a teams.yaml from an SR server')

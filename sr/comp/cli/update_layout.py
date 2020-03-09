@@ -5,7 +5,6 @@ original are simply replaced with equivalently sized groups.
 Any excess teams in the list are added to the final group."""
 
 
-
 class Takeable(object):
     def __init__(self, source):
         self._source = source
@@ -55,6 +54,7 @@ def command(settings):
     rtyaml.dump(layout_yaml, layout)
 
     print("Layout updated. You should consider re-importing the schedule now.")
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('update-layout', help=__doc__)

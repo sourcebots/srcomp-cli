@@ -1,10 +1,11 @@
-
 time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?$'
+
 
 class BadDurationException(ValueError):
     def __init__(self, time_str):
         msg = "Unable to parse duration string '{0}'.".format(time_str)
         super(BadDurationException, self).__init__(msg)
+
 
 def parse_duration(time_str):
     from datetime import timedelta
@@ -23,6 +24,7 @@ def parse_duration(time_str):
         if param:
             time_params[name] = int(param)
     return timedelta(**time_params)
+
 
 def parse_datetime(when_str):
     import re
@@ -71,6 +73,7 @@ def parse_datetime(when_str):
     when = when.replace(tzinfo = tzlocal())
     return when
 
+
 def get_current_match_start(compstate_path):
     from sr.comp.comp import SRComp
     compstate = SRComp(compstate_path)
@@ -81,11 +84,13 @@ def get_current_match_start(compstate_path):
 
     return min(x.start_time for x in current_matches)
 
+
 def parse_time(compstate_path, when_str):
     if when_str == "current match":
         return get_current_match_start(compstate_path)
     else:
         return parse_datetime(when_str)
+
 
 def add_delay(schedule, delay_seconds, when):
     delays = schedule.get('delays')
@@ -96,6 +101,7 @@ def add_delay(schedule, delay_seconds, when):
         'time': when
     }
     delays.append(new_delay)
+
 
 def command(settings):
     import os.path
@@ -117,6 +123,7 @@ def command(settings):
 
     return how_long, when
 
+
 def add_arguments(parser):
     parser.add_argument('how_long',
                         help='How long to delay the competition for. ' \
@@ -129,6 +136,7 @@ def add_arguments(parser):
                              "anything which PHP's strtotime would be "
                              "able to parse. Assumes all times are in "
                              "the current timezone, regardless of input.")
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('add-delay',

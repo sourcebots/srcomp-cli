@@ -1,8 +1,10 @@
 MAX_MATCHES = 15
 DISPLAY_NAME_WIDTH = 18
 
+
 def first(iterable):
     return next(i for i in iterable)
+
 
 def command(settings):
     import os.path
@@ -58,6 +60,7 @@ def command(settings):
             print(' *')
         else:
             print()
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('show-schedule',

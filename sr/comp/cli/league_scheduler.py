@@ -18,6 +18,7 @@ class PatienceCounter(object):
     def reached(self):
         return self.level >= self.threshold
 
+
 def prime_factors(n):
     d = 2
     while d*d <= n:
@@ -27,6 +28,7 @@ def prime_factors(n):
         d += 1
     if n > 1:
         yield n
+
 
 class Scheduler(object):
     def __init__(self,

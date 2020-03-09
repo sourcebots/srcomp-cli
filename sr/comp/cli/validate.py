@@ -11,6 +11,7 @@ def command(settings):
 
     exit(error_count)
 
+
 def add_subparser(subparsers):
     parser = subparsers.add_parser('validate',
                                    help='validate the state of a compstate repository')

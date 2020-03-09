@@ -7,6 +7,7 @@ def round_name(rounds_left):
         return "Quarter Finals"
     return ""
 
+
 def command(settings):
     from sr.comp.comp import SRComp
     import os.path
@@ -27,6 +28,7 @@ def command(settings):
             print(tla, comp.teams[tla].name)
         teams_last_round = teams_this_round
         print()
+
 
 def add_subparser(subparsers):
     parser = subparsers.add_parser('knocked-out-teams',

@@ -9,6 +9,7 @@ def test_num_ids_equasl_num_teams():
 
     assert maps == expected, "Only one possible combination when same number of ids as teams"
 
+
 def test_one_spare_id():
     ids = list(range(3))
     num_teams = 2
@@ -29,6 +30,7 @@ def test_one_spare_id():
         ids_omitted.append(omitted.pop())
 
     assert set(ids_omitted) == ids_set, "Should have omitted each id once"
+
 
 def test_two_spare_ids():
     ids = list(range(4))
@@ -53,6 +55,7 @@ def test_two_spare_ids():
 
     assert set(ids_omitted) == expected_omitted, "Should have omitted each id pair once"
 
+
 def test_build_schedule():
     lines = ['0|1|2|3', '1|2|3|4']
     teams = ['ABC', 'DEF', 'GHI']
@@ -67,6 +70,7 @@ def test_build_schedule():
     assert expected_matches == matches, "Wrong matches"
 
     assert bad == [], "Should not be any 'bad' matches"
+
 
 def test_build_schedule_appaerance_order():
     lines = ['3|1|0|4', '1|2|4|0']
