@@ -118,7 +118,7 @@ class MidiLightingController(LightingController):
     }
 
     def __init__(self, comp, midi):
-        super(MidiLightingController, self).__init__(comp)
+        super().__init__(comp)
 
         self.midi = midi
         self.cur_playback = None
