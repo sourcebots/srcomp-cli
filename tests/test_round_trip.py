@@ -1,5 +1,5 @@
 import os
-import mock
+from unittest import mock
 
 from sr.comp.cli.yaml_round_trip import command
 

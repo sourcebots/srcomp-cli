@@ -36,7 +36,6 @@ setup(
         'Sphinx >=1.3, <2'
     ],
     tests_require=[
-        'mock >=1.0.1',
         'nose >=1.3, <2',
         'freezegun >=0.3, <0.4',
     ],

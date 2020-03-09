@@ -1,5 +1,5 @@
-import mock
 import sys
+from unittest import mock
 
 from sr.comp.cli.deploy import query, query_bool
 
