@@ -57,8 +57,8 @@ def load_teams_areans(compstate_path):
         dump_league_yaml({}, league_yaml)
 
     comp = SRComp(compstate_path)
-    team_ids = list(sorted(comp.teams.keys()))
-    arena_ids = list(sorted(comp.arenas.keys()))
+    team_ids = sorted(comp.teams.keys())
+    arena_ids = sorted(comp.arenas.keys())
 
     return team_ids, arena_ids
 
@@ -71,7 +71,7 @@ def load_ids_schedule(schedule_lines):
     lists of ids in each line.
     """
 
-    ids = list()
+    ids = []
     schedule = []
     for match in schedule_lines:
         match_ids = match.split('|')
