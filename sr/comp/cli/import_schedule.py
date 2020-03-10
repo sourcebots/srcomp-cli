@@ -40,7 +40,7 @@ def dump_league_yaml(matches, file_path):
     import yaml
 
     with open(file_path, 'w') as lfp:
-        empty = dict(matches=matches)
+        empty = {'matches': matches}
         yaml.dump(empty, lfp)
 
 
