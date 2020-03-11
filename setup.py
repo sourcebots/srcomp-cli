@@ -6,7 +6,7 @@ with open('README.rst') as f:
 
 setup(
     name='sr.comp.cli',
-    version='1.0.1',
+    version='1.1.0',
     packages=find_packages(exclude=('tests',)),
     namespace_packages=['sr', 'sr.comp'],
     description='CLI tools for srcomp repositories',
@@ -16,7 +16,7 @@ setup(
     install_requires=[
         'python-dateutil >=2.2, <3',
         'paramiko >=1.10, <3',
-        'sr.comp >=1.0, <2',
+        'sr.comp >=1.2, <2',
         'reportlab >=3.1.44, <3.5',
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.13.0, <0.16',
