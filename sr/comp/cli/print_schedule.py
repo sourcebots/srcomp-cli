@@ -2,7 +2,7 @@ import argparse
 from collections import defaultdict
 
 
-class ScheduleGenerator(object):
+class ScheduleGenerator:
     def __init__(self, target, arenas, state):
         from reportlab.pdfgen import canvas
 

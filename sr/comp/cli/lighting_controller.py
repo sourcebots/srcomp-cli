@@ -14,7 +14,7 @@ class State(Enum):
     pre_match = 3
 
 
-class CompetitionStateMachine(object):
+class CompetitionStateMachine:
     def __init__(self, comp):
         self.comp = comp
 
@@ -94,7 +94,7 @@ class CompetitionStateMachine(object):
             prev_state = state
 
 
-class LightingController(object):
+class LightingController:
     def __init__(self, comp):
         self.comp = comp
         self.state = CompetitionStateMachine(comp)

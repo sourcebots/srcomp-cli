@@ -5,7 +5,7 @@ original are simply replaced with equivalently sized groups.
 Any excess teams in the list are added to the final group."""
 
 
-class Takeable(object):
+class Takeable:
     def __init__(self, source):
         self._source = source
         self._idx = 0

@@ -5,7 +5,7 @@ from fractions import gcd
 from itertools import product
 
 
-class PatienceCounter(object):
+class PatienceCounter:
     def __init__(self, threshold):
         self.threshold = threshold
         self.level = 0
@@ -31,7 +31,7 @@ def prime_factors(n):
         yield n
 
 
-class Scheduler(object):
+class Scheduler:
     def __init__(
         self,
         teams,
