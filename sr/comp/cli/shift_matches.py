@@ -1,9 +1,7 @@
 def command(args):
     from datetime import datetime, timedelta
 
-    import yaml
-
-    from sr.comp.yaml_loader import load as load_yaml
+    from .yaml_round_trip import load as load_yaml, dump as dump_yaml
 
     schedule = load_yaml(str(args.compstate / 'schedule.yaml'))
 
@@ -25,8 +23,8 @@ def command(args):
             if 'max_end_time' in entry:
                 entry['max_end_time'] += dt
 
-    with (args.compstate / 'schedule.yaml').open('w') as f:
-        yaml.dump(schedule, f, default_flow_style=False)
+    dump_yaml(str(args.compstate / 'schedule.yaml'), schedule)
+
     with (args.compstate / '.update-pls').open('w'):
         pass
     print("Shifted matches by {}".format(dt))
