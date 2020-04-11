@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from dateutil.tz import tzlocal
 from freezegun import freeze_time
 from nose.tools import raises
 
@@ -47,13 +48,12 @@ def test_bad_dates():
 
 
 def test_valid_dates():
-    @raises(ValueError)
     @freeze_time('2015-01-01 14:00')
     def check(datetime, expected):
         assert expected == parse_datetime(datetime)
 
-    yield check, "now", datetime(2015, 1, 1, 14, 0)
-    yield check, "16:00", datetime(2015, 1, 1, 16, 0)
-    yield check, "2019-04-13 12:20", datetime(2019, 4, 13, 12, 20)
-    yield check, "5m ago", datetime(2015, 1, 1, 13, 55)
-    yield check, "in 5m", datetime(2015, 1, 14, 5)
+    yield check, "now", datetime(2015, 1, 1, 14, 0, tzinfo=tzlocal())
+    yield check, "16:00", datetime(2015, 1, 1, 16, 0, tzinfo=tzlocal())
+    yield check, "2019-04-13 12:20", datetime(2019, 4, 13, 12, 20, tzinfo=tzlocal())
+    yield check, "5m ago", datetime(2015, 1, 1, 13, 55, tzinfo=tzlocal())
+    yield check, "in 5m", datetime(2015, 1, 1, 14, 5, tzinfo=tzlocal())
