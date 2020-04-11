@@ -59,6 +59,7 @@ def parse_datetime(when_str):
             continue
         try:
             when = parse_fn(match)
+            break
         except ValueError:
             continue
     else:
