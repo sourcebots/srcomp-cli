@@ -1,101 +1,95 @@
+import unittest
+
 from sr.comp.cli.update_layout import Takeable
 
 
-def test_take_0_str():
-    t = Takeable('abcd')
+class TakeableTests(unittest.TestCase):
+    def test_take_0_str(self):
+        t = Takeable('abcd')
 
-    assert '' == t.take(0)
-    assert 'a' == t.take(1)
+        self.assertEqual('', t.take(0))
+        self.assertEqual('a', t.take(1))
 
+    def test_take_1_str(self):
+        t = Takeable('abcd')
 
-def test_take_1_str():
-    t = Takeable('abcd')
+        self.assertTrue(t.has_more)
 
-    assert t.has_more
+        self.assertEqual('a', t.take(1))
+        self.assertEqual('b', t.take(1))
+        self.assertEqual('c', t.take(1))
+        self.assertEqual('d', t.take(1))
 
-    assert 'a' == t.take(1)
-    assert 'b' == t.take(1)
-    assert 'c' == t.take(1)
-    assert 'd' == t.take(1)
+        self.assertFalse(t.has_more)
 
-    assert not t.has_more
+    def test_take_2_str(self):
+        t = Takeable('abcd')
 
+        self.assertTrue(t.has_more)
 
-def test_take_2_str():
-    t = Takeable('abcd')
+        self.assertEqual('ab', t.take(2))
+        self.assertEqual('cd', t.take(2))
 
-    assert t.has_more
+        self.assertFalse(t.has_more)
 
-    assert 'ab' == t.take(2)
-    assert 'cd' == t.take(2)
+    def test_take_0_list(self):
+        t = Takeable(list('abcd'))
 
-    assert not t.has_more
+        self.assertEqual([], t.take(0))
+        self.assertEqual(['a'], t.take(1))
 
+    def test_take_1_list(self):
+        t = Takeable(list('abcd'))
 
-def test_take_0_list():
-    t = Takeable(list('abcd'))
+        self.assertTrue(t.has_more)
 
-    assert [] == t.take(0)
-    assert ['a'] == t.take(1)
+        self.assertEqual(['a'], t.take(1))
+        self.assertEqual(['b'], t.take(1))
+        self.assertEqual(['c'], t.take(1))
+        self.assertEqual(['d'], t.take(1))
 
+        self.assertFalse(t.has_more)
 
-def test_take_1_list():
-    t = Takeable(list('abcd'))
+    def test_take_2_list(self):
+        t = Takeable(list('abcd'))
 
-    assert t.has_more
+        self.assertTrue(t.has_more)
 
-    assert ['a'] == t.take(1)
-    assert ['b'] == t.take(1)
-    assert ['c'] == t.take(1)
-    assert ['d'] == t.take(1)
+        self.assertEqual(['a', 'b'], t.take(2))
+        self.assertEqual(['c', 'd'], t.take(2))
 
-    assert not t.has_more
+        self.assertFalse(t.has_more)
 
+    def test_take_too_many(self):
+        t = Takeable('abcd')
 
-def test_take_2_list():
-    t = Takeable(list('abcd'))
+        self.assertTrue(t.has_more)
 
-    assert t.has_more
+        self.assertEqual('abc', t.take(3))
+        self.assertEqual('d', t.take(3))
+        self.assertEqual('', t.take(2))
 
-    assert ['a', 'b'] == t.take(2)
-    assert ['c', 'd'] == t.take(2)
+        self.assertFalse(t.has_more)
 
-    assert not t.has_more
+    def test_remainder(self):
+        t = Takeable('abcd')
 
+        self.assertEqual('ab', t.take(2))
 
-def test_take_too_many():
-    t = Takeable('abcd')
+        self.assertEqual('cd', t.remainder)
 
-    assert t.has_more
+        self.assertEqual('cd', t.take(2))
 
-    assert 'abc' == t.take(3)
-    assert 'd' == t.take(3)
-    assert '' == t.take(2)
+    def test_remainder_when_no_more(self):
+        t = Takeable('abcd')
 
-    assert not t.has_more
+        self.assertEqual('abcd', t.take(4))
 
+        self.assertEqual('', t.remainder)
 
-def test_remainder():
-    t = Takeable('abcd')
+    def test_remainder_when_beyond_end(self):
+        t = Takeable('abcd')
 
-    assert 'ab' == t.take(2)
+        self.assertEqual('abcd', t.take(5))
 
-    assert 'cd' == t.remainder
-
-    assert 'cd' == t.take(2)
-
-
-def test_remainder_when_no_more():
-    t = Takeable('abcd')
-
-    assert 'abcd' == t.take(4)
-
-    assert '' == t.remainder
-
-
-def test_remainder_when_beyond_end():
-    t = Takeable('abcd')
-
-    assert 'abcd' == t.take(5)
-
-    assert '' == t.remainder
+        self.assertEqual('', t.remainder)

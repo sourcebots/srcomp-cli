@@ -1,91 +1,107 @@
+import unittest
+
 from sr.comp.cli.import_schedule import build_schedule, get_id_subsets
 
 
-def test_num_ids_equasl_num_teams():
-    ids = list(range(4))
-    maps = list(get_id_subsets(ids, 4))
+class ImportScheduleTests(unittest.TestCase):
+    def test_num_ids_equasl_num_teams(self):
+        ids = list(range(4))
+        maps = list(get_id_subsets(ids, 4))
 
-    expected = [ids]
+        expected = [ids]
 
-    assert maps == expected, \
-        "Only one possible combination when same number of ids as teams"
+        self.assertEqual(
+            expected,
+            maps,
+            "Only one possible combination when same number of ids as teams",
+        )
 
+    def test_one_spare_id(self):
+        ids = list(range(3))
+        num_teams = 2
 
-def test_one_spare_id():
-    ids = list(range(3))
-    num_teams = 2
+        ids_set = set(ids)
 
-    ids_set = set(ids)
+        subsets = list(get_id_subsets(ids, num_teams))
 
-    subsets = list(get_id_subsets(ids, num_teams))
+        self.assertEqual(
+            3,
+            len(subsets),
+            "Should have as many maps as valid permutations",
+        )
 
-    assert len(subsets) == 3, "Should have as many maps as valid permutations"
+        # Don't actually care what the mappings are, only that all are explored
+        ids_omitted = []
+        for subset in subsets:
+            ids_used = set(subset)
+            omitted = ids_set - ids_used
 
-    # Don't actually care what the mappings are, only that all are explored
-    ids_omitted = []
-    for subset in subsets:
-        ids_used = set(subset)
-        omitted = ids_set - ids_used
+            self.assertEqual(1, len(omitted), "Omitted wrong number of ids")
+            ids_omitted.append(omitted.pop())
 
-        assert len(omitted) == 1, "Omitted wrong number of ids"
-        ids_omitted.append(omitted.pop())
+        self.assertEqual(
+            set(ids_omitted),
+            ids_set,
+            "Should have omitted each id once",
+        )
 
-    assert set(ids_omitted) == ids_set, "Should have omitted each id once"
+    def test_two_spare_ids(self):
+        ids = list(range(4))
+        num_teams = 2
 
+        ids_set = set(ids)
 
-def test_two_spare_ids():
-    ids = list(range(4))
-    num_teams = 2
+        subsets = list(get_id_subsets(ids, num_teams))
 
-    ids_set = set(ids)
+        expected_omitted = set(["0,1", "0,2", "0,3", "1,2", "1,3", "2,3"])
 
-    subsets = list(get_id_subsets(ids, num_teams))
+        self.assertEqual(
+            len(expected_omitted),
+            len(subsets),
+            "Should have as many maps as valid permutations",
+        )
 
-    expected_omitted = set(["0,1", "0,2", "0,3", "1,2", "1,3", "2,3"])
+        # Don't actually care what the mappings are, only that all are explored
+        ids_omitted = []
+        for subset in subsets:
+            ids_used = set(subset)
+            omitted = ids_set - ids_used
 
-    assert len(subsets) == len(expected_omitted), \
-        "Should have as many maps as valid permutations"
+            self.assertEqual(2, len(omitted), "Omitted wrong number of ids")
+            ids_omitted.append(",".join(map(str, sorted(omitted))))
 
-    # Don't actually care what the mappings are, only that all are explored
-    ids_omitted = []
-    for subset in subsets:
-        ids_used = set(subset)
-        omitted = ids_set - ids_used
+        self.assertEqual(
+            expected_omitted,
+            set(ids_omitted),
+            "Should have omitted each id pair once",
+        )
 
-        assert len(omitted) == 2, "Omitted wrong number of ids"
-        ids_omitted.append(",".join(map(str, sorted(omitted))))
+    def test_build_schedule(self):
+        lines = ['0|1|2|3', '1|2|3|4']
+        teams = ['ABC', 'DEF', 'GHI']
 
-    assert set(ids_omitted) == expected_omitted, \
-        "Should have omitted each id pair once"
+        matches, bad = build_schedule(lines, '', teams, ['A'])
 
+        expected_matches = {
+            0: {'A': [None, 'ABC', 'DEF', 'GHI']},
+            1: {'A': ['ABC', 'DEF', 'GHI', None]},
+        }
 
-def test_build_schedule():
-    lines = ['0|1|2|3', '1|2|3|4']
-    teams = ['ABC', 'DEF', 'GHI']
+        self.assertEqual(expected_matches, matches, "Wrong matches")
 
-    matches, bad = build_schedule(lines, '', teams, ['A'])
+        self.assertEqual([], bad, "Should not be any 'bad' matches")
 
-    expected_matches = {
-        0: {'A': [None, 'ABC', 'DEF', 'GHI']},
-        1: {'A': ['ABC', 'DEF', 'GHI', None]},
-    }
+    def test_build_schedule_appaerance_order(self):
+        lines = ['3|1|0|4', '1|2|4|0']
+        teams = ['ABC', 'DEF', 'GHI']
 
-    assert expected_matches == matches, "Wrong matches"
+        matches, bad = build_schedule(lines, '', teams, ['A'])
 
-    assert bad == [], "Should not be any 'bad' matches"
+        expected_matches = {
+            0: {'A': [None, 'ABC', 'DEF', 'GHI']},
+            1: {'A': ['ABC', None, 'GHI', 'DEF']},
+        }
 
+        self.assertEqual(expected_matches, matches, "Wrong matches")
 
-def test_build_schedule_appaerance_order():
-    lines = ['3|1|0|4', '1|2|4|0']
-    teams = ['ABC', 'DEF', 'GHI']
-
-    matches, bad = build_schedule(lines, '', teams, ['A'])
-
-    expected_matches = {
-        0: {'A': [None, 'ABC', 'DEF', 'GHI']},
-        1: {'A': ['ABC', None, 'GHI', 'DEF']},
-    }
-
-    assert expected_matches == matches, "Wrong matches"
-
-    assert bad == [], "Should not be any 'bad' matches"
+        self.assertEqual([], bad, "Should not be any 'bad' matches")

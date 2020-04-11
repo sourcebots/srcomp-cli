@@ -35,7 +35,6 @@ setup(
         'Sphinx >=1.3, <2',
     ],
     tests_require=[
-        'nose >=1.3, <2',
         'freezegun >=0.3, <0.4',
     ],
     classifiers=[
@@ -50,5 +49,5 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Utilities',
     ],
-    test_suite='nose.collector',
+    test_suite='tests',
 )

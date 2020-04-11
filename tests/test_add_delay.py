@@ -1,8 +1,8 @@
+import unittest
 from datetime import datetime, timedelta
 
 from dateutil.tz import tzlocal
 from freezegun import freeze_time
-from nose.tools import raises
 
 from sr.comp.cli.add_delay import (
     BadDurationException,
@@ -11,49 +11,61 @@ from sr.comp.cli.add_delay import (
 )
 
 
-def test_bad_inputs():
-    @raises(BadDurationException)
-    def check(ts):
-        parse_duration(ts)
+class ParseDurationTests(unittest.TestCase):
+    def test_bad_inputs(self):
+        data = [
+            "nope",
+            "now",
+            "5dd",
+        ]
 
-    yield check, "nope"
-    yield check, "now"
-    yield check, "5dd"
+        for time_str in data:
+            with self.subTest(time_str=time_str):
+                with self.assertRaises(BadDurationException):
+                    parse_duration(time_str)
 
+    def test_valid_inputs(self):
+        data = [
+            ("1m", timedelta(minutes=1)),
+            ("1s", timedelta(seconds=1)),
+            ("42", timedelta(seconds=42)),
+            ("42s", timedelta(seconds=42)),
+            ("1hr", timedelta(hours=1)),
+        ]
 
-def test_valid_inputs():
-    def check(time_str, expected):
-        td = parse_duration(time_str)
-        assert expected == td
-
-    yield check, "1m", timedelta(minutes=1)
-    yield check, "1s", timedelta(seconds=1)
-    yield check, "42", timedelta(seconds=42)
-    yield check, "42s", timedelta(seconds=42)
-    yield check, "1hr", timedelta(hours=1)
-
-
-def test_bad_dates():
-    @raises(ValueError)
-    def check(datetime):
-        parse_datetime(datetime)
-
-    yield check, "fail"
-    yield check, "five of the clock"
-    yield check, "135135"
-    yield check, ""
-    yield check, "5 minutes ago"
-    yield check, "14:45 ago"
-    yield check, "in 14:45"
+        for time_str, expected in data:
+            with self.subTest(time_str=time_str):
+                td = parse_duration(time_str)
+                self.assertEqual(expected, td)
 
 
-def test_valid_dates():
+class ParseDatetimeTests(unittest.TestCase):
+    def test_bad_dates(self):
+        data = [
+            "fail",
+            "five of the clock",
+            "135135",
+            "",
+            "5 minutes ago",
+            "14:45 ago",
+            "in 14:45",
+        ]
+
+        for when in data:
+            with self.subTest(when=when):
+                with self.assertRaises(ValueError):
+                    parse_datetime(when)
+
     @freeze_time('2015-01-01 14:00')
-    def check(datetime, expected):
-        assert expected == parse_datetime(datetime)
+    def test_valid_dates(self):
+        data = [
+            ("now", datetime(2015, 1, 1, 14, 0, tzinfo=tzlocal())),
+            ("16:00", datetime(2015, 1, 1, 16, 0, tzinfo=tzlocal())),
+            ("2019-04-13 12:20", datetime(2019, 4, 13, 12, 20, tzinfo=tzlocal())),
+            ("5m ago", datetime(2015, 1, 1, 13, 55, tzinfo=tzlocal())),
+            ("in 5m", datetime(2015, 1, 1, 14, 5, tzinfo=tzlocal())),
+        ]
 
-    yield check, "now", datetime(2015, 1, 1, 14, 0, tzinfo=tzlocal())
-    yield check, "16:00", datetime(2015, 1, 1, 16, 0, tzinfo=tzlocal())
-    yield check, "2019-04-13 12:20", datetime(2019, 4, 13, 12, 20, tzinfo=tzlocal())
-    yield check, "5m ago", datetime(2015, 1, 1, 13, 55, tzinfo=tzlocal())
-    yield check, "in 5m", datetime(2015, 1, 1, 14, 5, tzinfo=tzlocal())
+        for when, expected in data:
+            with self.subTest(when=when):
+                self.assertEqual(expected, parse_datetime(when))

@@ -1,14 +1,17 @@
 import os.path
 import subprocess
+import unittest
 
 
-def test_dummy_is_valid():
-    test_dir = os.path.dirname(os.path.abspath(__file__))
-    dummy_compstate = os.path.join(test_dir, 'dummy')
-    try:
-        subprocess.check_output(
+class ValidationTests(unittest.TestCase):
+    def test_dummy_is_valid(self):
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        dummy_compstate = os.path.join(test_dir, 'dummy')
+
+        result = subprocess.run(
             ['srcomp', 'validate', dummy_compstate],
+            stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
         )
-    except subprocess.CalledProcessError as cpe:
-        assert cpe.returncode == 0, cpe.output
+
+        self.assertEqual(0, result.returncode, result.stdout)
