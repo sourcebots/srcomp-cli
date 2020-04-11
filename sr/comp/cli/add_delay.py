@@ -63,7 +63,7 @@ def parse_datetime(when_str):
             continue
     else:
         raise ValueError(
-            "Unable to parse date string: {0:r}".format(when_str),
+            "Unable to parse date string: {0!r}".format(when_str),
         )
 
     # Timezone information gets ignored, and the resulting datetime is
