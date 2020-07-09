@@ -11,7 +11,7 @@ matrix:
 before_install:
   - pip install -U pip setuptools
   - pip install git+https://github.com/PeterJCLaw/srcomp.git
-install: python setup.py install
+install: pip install .
 script:
   - ./run-tests
   # Deliberately after running the real tests so that we can't accidentally
