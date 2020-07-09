@@ -132,7 +132,7 @@ def get_deployments(compstate):
 
 def get_current_state(host):
     import simplejson as json
-    from six.moves.urllib.request import urlopen
+    from urllib.request import urlopen
 
     url = 'http://{0}/comp-api/state'.format(host)
     try:

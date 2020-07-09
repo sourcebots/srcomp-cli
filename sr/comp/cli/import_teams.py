@@ -12,10 +12,10 @@ def format_team(entry):
 
 
 def download_team_images(server, team_data, compstate):
+    import io
     import os
     from PIL import Image
-    from six import BytesIO
-    from six.moves.urllib.parse import urljoin
+    from urllib.parse import urljoin
     import requests
 
     team_images_dir = os.path.join(compstate, 'teams', 'images')
@@ -31,7 +31,7 @@ def download_team_images(server, team_data, compstate):
             continue
 
         req = requests.get(urljoin(server, image_url))
-        image = Image.open(BytesIO(req.content))
+        image = Image.open(io.BytesIO(req.content))
         image.thumbnail((512, 512), Image.LANCZOS)
         image.save(os.path.join(team_images_dir, '{}.png'.format(tla)))
 
@@ -39,7 +39,7 @@ def download_team_images(server, team_data, compstate):
 def command(settings):
     import os.path
     import requests
-    from six.moves.urllib.parse import urljoin
+    from urllib.parse import urljoin
     import yaml
 
     teams_yaml = os.path.join(settings.compstate, 'teams.yaml')
