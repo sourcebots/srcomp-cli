@@ -169,7 +169,7 @@ class ScheduleGenerator:
 
         if include_locations and locations:
             title += " • {}".format(
-                ", ".join(l['display_name'] for l in locations),
+                ", ".join(x['display_name'] for x in locations),
             )
 
         return title

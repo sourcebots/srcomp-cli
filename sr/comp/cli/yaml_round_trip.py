@@ -19,7 +19,7 @@ def load(yaml_file):
 def dump(yaml_file, data):
     ryaml = _load()
     yaml = ryaml.dump(data, Dumper=ryaml.RoundTripDumper)
-    yaml = "\n".join(l.rstrip() for l in yaml.splitlines())
+    yaml = "\n".join(x.rstrip() for x in yaml.splitlines())
     with open(yaml_file, 'w') as yf:
         print(yaml, file=yf)
 
