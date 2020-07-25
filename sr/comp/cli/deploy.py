@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from typing import Any, Iterator, Type, Sequence, Optional
 
 API_TIMEOUT_SECONDS = 3
 SSH_TIMEOUT_SECONDS = 2
@@ -19,13 +20,16 @@ def ssh_connection(host):
     return client
 
 
-def format_fail(*args):
+def format_fail(*args: object) -> str:
     msg = " ".join(map(str, args))
     return BOLD + FAIL + msg + ENDC
 
 
 @contextmanager
-def exit_on_exception(msg='{0}', kind=Exception):
+def exit_on_exception(
+    msg: str = '{0}',
+    kind: Type[Exception] = Exception,
+) -> Iterator[None]:
     try:
         yield
     except kind as e:
@@ -33,7 +37,7 @@ def exit_on_exception(msg='{0}', kind=Exception):
         exit(1)
 
 
-def print_fail(*args, **kargs):
+def print_fail(*args: object, **kargs: Any) -> None:
     print(format_fail(*args), **kargs)
 
 
@@ -42,12 +46,16 @@ def print_buffer(buf):
     print(prefix + prefix.join(buf.readlines()).strip())
 
 
-def get_input(prompt):
+def get_input(prompt: str) -> str:
     # Wrapper to simplify mocking
     return input(prompt)
 
 
-def query(question, options, default=None):
+def query(
+    question: str,
+    options: Sequence[str],
+    default: Optional[str] = None,
+) -> str:
     if default:
         assert default in options
 
@@ -69,10 +77,10 @@ def query(question, options, default=None):
             return default
 
 
-def query_bool(question, default_val=None):
+def query_bool(question: str, default_val: Optional[bool] = None) -> bool:
     options = ('y', 'n')
     if default_val is True:
-        default = 'y'
+        default = 'y'  # type: Optional[str]
     elif default_val is False:
         default = 'n'
     else:
@@ -80,13 +88,13 @@ def query_bool(question, default_val=None):
     return query(question, options, default) == 'y'
 
 
-def query_warn(msg):
+def query_warn(msg: object) -> None:
     query_msg = "Warning: {0}. Continue?".format(msg)
     if not query_bool(query_msg, False):
         exit(1)
 
 
-def ref_compstate(host):
+def ref_compstate(host: str) -> str:
     url = 'ssh://{0}@{1}/~/compstate.git'.format(DEPLOY_USER, host)
     return url
 
