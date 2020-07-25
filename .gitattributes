@@ -1,0 +1,5 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Make all shell files use *nix line endings, always.
+bash-completion text eol=lf
