@@ -9,7 +9,6 @@ from . import (
     delay,
     deploy,
     import_schedule,
-    import_teams,
     knocked_out_teams,
     lighting_controller,
     list_midi_ports,
@@ -50,7 +49,6 @@ def argument_parser():
     delay.add_subparser(subparsers)
     deploy.add_subparser(subparsers)
     import_schedule.add_subparser(subparsers)
-    import_teams.add_subparser(subparsers)
     knocked_out_teams.add_subparser(subparsers)
     list_midi_ports.add_subparser(subparsers)
     lighting_controller.add_subparser(subparsers)

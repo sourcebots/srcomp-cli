@@ -21,7 +21,6 @@ setup(
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.13.0, <0.16',
         'simplejson >=3.6, <4',
-        'Pillow >=2.7, <7',
         'mido >=1.1, <2',
     ],
     python_requires='>=3.5',
