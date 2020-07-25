@@ -31,7 +31,7 @@ setup(
         ],
     },
     setup_requires=[
-        'Sphinx >=1.3, <2',
+        'Sphinx >=3.0.2, <4',
     ],
     tests_require=[
         'freezegun >=0.3, <0.4',
