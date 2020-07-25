@@ -10,7 +10,7 @@ ENDC = '\033[0m'
 
 
 def ssh_connection(host):
-    from paramiko import AutoAddPolicy, SSHClient
+    from paramiko import AutoAddPolicy, SSHClient  # type: ignore[import]
 
     client = SSHClient()
     client.load_system_host_keys()

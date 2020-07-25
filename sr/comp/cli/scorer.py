@@ -15,7 +15,7 @@ def command(settings):
     import time
 
     try:
-        import sr.comp.scorer
+        import sr.comp.scorer  # type: ignore[import]
     except ImportError:
         print("sr.comp.scorer not installed.")
         exit(1)

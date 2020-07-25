@@ -123,7 +123,7 @@ class MidiLightingController(LightingController):
         self.cur_playback = None
 
     def note_on(self, note, velocity):
-        import mido
+        import mido  # type: ignore[import]
         msg = mido.Message('note_on', note=note, velocity=velocity)
         self.midi.send(msg)
 

@@ -2,7 +2,7 @@ __description__ = "List available MIDI output ports."
 
 
 def command(args):
-    import mido
+    import mido  # type: ignore[import]
 
     ports = mido.get_output_names()
     print(len(ports), "outputs:")
