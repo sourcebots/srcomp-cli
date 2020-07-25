@@ -3,3 +3,4 @@
 
 # Make all shell files use *nix line endings, always.
 bash-completion text eol=lf
+script/linting/lint text eol=lf
