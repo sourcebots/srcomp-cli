@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Any, Iterator, Type, Sequence, Optional
+from typing import Any, Iterator, Optional, Sequence, Type
 
 API_TIMEOUT_SECONDS = 3
 SSH_TIMEOUT_SECONDS = 2
