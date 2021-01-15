@@ -1,8 +1,16 @@
+import contextlib
+import io
 import unittest
 from pathlib import Path
 from unittest import mock
 
-from sr.comp.cli.for_each_match import command
+from sr.comp.cli.for_each_match import (
+    command,
+    PlaceholderExpander,
+    replace_placeholders,
+)
+
+from .factories import build_match
 
 
 class ForEachMatchTests(unittest.TestCase):
@@ -31,3 +39,35 @@ class ForEachMatchTests(unittest.TestCase):
             mock.call(['spam', 'league:A', '3|MAI2 HSO KDE CCR']),
             mock.call(['spam', 'league:B', '3|SCC LSS HZW MAI']),
         ])
+
+    def test_validate_placeholders(self):
+        with contextlib.redirect_stderr(io.StringIO()) as stderr:
+            PlaceholderExpander.validate('fine')
+            self.assertEqual("", stderr.getvalue())
+
+        with contextlib.redirect_stderr(io.StringIO()) as stderr:
+            PlaceholderExpander.validate('$unknown')
+            self.assertEqual(
+                "Warning: unrecognised value '$unknown'.\n",
+                stderr.getvalue(),
+            )
+
+        with contextlib.redirect_stderr(io.StringIO()) as stderr:
+            PlaceholderExpander.validate('$TLAS')
+            self.assertEqual("", stderr.getvalue())
+
+    def test_replace_placeholders(self):
+        match = build_match(num=42, teams=['ABC', None])
+
+        command = replace_placeholders(match, [
+            'spam',
+            '{NUMBER}:{ARENA}',
+            '{TLAS}',
+            '$TLAS',
+            '$TLAS|',
+        ])
+
+        self.assertEqual(
+            ['spam', '42:main', 'ABC -', 'ABC', '-', '$TLAS|'],
+            command,
+        )

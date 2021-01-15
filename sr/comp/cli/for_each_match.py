@@ -16,38 +16,58 @@ using '-' to represent an empty zone.
 """
 
 import argparse
+import sys
 from typing import Callable, Dict, List, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sr.comp.match_period import Match
 
 
-def get_tlas(match: 'Match') -> str:
-    return ' '.join(
+def get_tlas(match: 'Match') -> List[str]:
+    return [
         x if x is not None else '-'
         for x in match.teams
-    )
+    ]
 
 
 PLACEHOLDERS = {
-    'ARENA': lambda x: x.arena,
-    'NUMBER': lambda x: str(x.num),
+    'ARENA': lambda x: [x.arena],
+    'NUMBER': lambda x: [str(x.num)],
     'TLAS': get_tlas,
-    'TYPE': lambda x: str(x.type.value),
-}  # type: Dict[str, Callable[[Match], str]]
+    'TYPE': lambda x: [str(x.type.value)],
+}  # type: Dict[str, Callable[[Match], List[str]]]
 
 
 class PlaceholderExpander:
     def __init__(self, match: 'Match') -> None:
         self.match = match
 
+    @staticmethod
+    def validate(value: str) -> None:
+        if value.startswith('$') and value[1:] not in PLACEHOLDERS:
+            print("Warning: unrecognised value {!r}.".format(value), file=sys.stderr)
+
     def __getitem__(self, key: str) -> str:
-        return PLACEHOLDERS[key](self.match)
+        return ' '.join(PLACEHOLDERS[key](self.match))
+
+    def expand(self, value: str) -> List[str]:
+        if value.startswith('$'):
+            key = value[1:]
+            fn = PLACEHOLDERS.get(key)
+            if fn:
+                return fn(self.match)
+
+        return [value.format_map(self)]
 
 
 def replace_placeholders(match: 'Match', command: List[str]) -> List[str]:
+    import itertools
+
     expander = PlaceholderExpander(match)
-    return [x.format_map(expander) for x in command]
+    return list(itertools.chain.from_iterable(
+        expander.expand(x)
+        for x in command
+    ))
 
 
 def command(args):
@@ -63,6 +83,9 @@ def command(args):
                 args.arena,
                 ", ".join(compstate.arenas.keys()),
             ))
+
+    for part in args.command:
+        PlaceholderExpander.validate(part)
 
     try:
         for match_number in sorted(args.matches):
@@ -97,8 +120,14 @@ def add_options(parser):
     parser.add_argument(
         'command',
         nargs='+',
-        help="Command to run. Supports the following placeholders: {}".format(
-            ", ".join(PLACEHOLDERS.keys()),
+        help=(
+            "Command to run. Supports the following placeholders: {}. "
+            "Placeholders spelled like {{THIS}} will be replaced as strings "
+            "anywhere within the command arguments. Placeholders which are an "
+            "argument on their own and spelled exactly as $THIS will expand to "
+            "one or more replacement arguments when the command is run.".format(
+                ", ".join(PLACEHOLDERS.keys()),
+            )
         ),
     )
 
