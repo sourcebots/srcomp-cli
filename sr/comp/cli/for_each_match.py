@@ -44,14 +44,14 @@ class PlaceholderExpander:
 
     @staticmethod
     def validate(value: str) -> None:
-        if value.startswith('$') and value[1:] not in PLACEHOLDERS:
+        if value.startswith('@') and value[1:] not in PLACEHOLDERS:
             print("Warning: unrecognised value {!r}.".format(value), file=sys.stderr)
 
     def __getitem__(self, key: str) -> str:
         return ' '.join(PLACEHOLDERS[key](self.match))
 
     def expand(self, value: str) -> List[str]:
-        if value.startswith('$'):
+        if value.startswith('@'):
             key = value[1:]
             fn = PLACEHOLDERS.get(key)
             if fn:
@@ -124,7 +124,7 @@ def add_options(parser):
             "Command to run. Supports the following placeholders: {}. "
             "Placeholders spelled like {{THIS}} will be replaced as strings "
             "anywhere within the command arguments. Placeholders which are an "
-            "argument on their own and spelled exactly as $THIS will expand to "
+            "argument on their own and spelled exactly as @THIS will expand to "
             "one or more replacement arguments when the command is run.".format(
                 ", ".join(PLACEHOLDERS.keys()),
             )

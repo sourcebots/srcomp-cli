@@ -46,14 +46,14 @@ class ForEachMatchTests(unittest.TestCase):
             self.assertEqual("", stderr.getvalue())
 
         with contextlib.redirect_stderr(io.StringIO()) as stderr:
-            PlaceholderExpander.validate('$unknown')
+            PlaceholderExpander.validate('@unknown')
             self.assertEqual(
-                "Warning: unrecognised value '$unknown'.\n",
+                "Warning: unrecognised value '@unknown'.\n",
                 stderr.getvalue(),
             )
 
         with contextlib.redirect_stderr(io.StringIO()) as stderr:
-            PlaceholderExpander.validate('$TLAS')
+            PlaceholderExpander.validate('@TLAS')
             self.assertEqual("", stderr.getvalue())
 
     def test_replace_placeholders(self):
@@ -63,11 +63,11 @@ class ForEachMatchTests(unittest.TestCase):
             'spam',
             '{NUMBER}:{ARENA}',
             '{TLAS}',
-            '$TLAS',
-            '$TLAS|',
+            '@TLAS',
+            '@TLAS|',
         ])
 
         self.assertEqual(
-            ['spam', '42:main', 'ABC -', 'ABC', '-', '$TLAS|'],
+            ['spam', '42:main', 'ABC -', 'ABC', '-', '@TLAS|'],
             command,
         )
