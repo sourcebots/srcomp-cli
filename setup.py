@@ -32,9 +32,6 @@ setup(
     setup_requires=[
         'Sphinx >=3.0.2, <4',
     ],
-    tests_require=[
-        'freezegun >=0.3, <0.4',
-    ],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
@@ -47,5 +44,4 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Utilities',
     ],
-    test_suite='tests',
 )

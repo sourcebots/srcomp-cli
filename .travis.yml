@@ -13,6 +13,7 @@ before_install:
   - pip install git+https://github.com/PeterJCLaw/srcomp.git
 install: pip install .
 script:
+  - pip install -r script/testing/requirements.txt
   - ./run-tests
   # Deliberately after running the real tests so that we can't accidentally
   # depend on it
