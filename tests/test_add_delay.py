@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 
 from dateutil.tz import tzlocal
-from freezegun import freeze_time  # type: ignore[import]
+from freezegun import freeze_time
 
 from sr.comp.cli.add_delay import (
     BadDurationException,
