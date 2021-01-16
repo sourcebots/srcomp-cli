@@ -6,7 +6,7 @@ with open('README.rst') as f:
 
 setup(
     name='sr.comp.cli',
-    version='1.1.0',
+    version='1.2.0',
     packages=find_namespace_packages(exclude=('tests',)),
     namespace_packages=['sr', 'sr.comp'],
     description="CLI tools for srcomp repositories",
@@ -23,7 +23,7 @@ setup(
         'simplejson >=3.6, <4',
         'mido >=1.1, <2',
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.7',
     entry_points={
         'console_scripts': [
             'srcomp = sr.comp.cli.command_line:main',
@@ -37,7 +37,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
