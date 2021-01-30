@@ -17,7 +17,7 @@ setup(
         'python-dateutil >=2.2, <3',
         'paramiko >=1.10, <3',
         'sr.comp >=1.2, <2',
-        'reportlab >=3.1.44, <3.5',
+        'reportlab >=3.1.44, <3.6',
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.13.0, <0.16',
         'simplejson >=3.6, <4',
