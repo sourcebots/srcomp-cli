@@ -44,7 +44,7 @@ def command(args):
     )
     games_by_type_str = counter_to_string(games_by_type)
 
-    print("Number of games: : {} ({})".format(
+    print("Number of games: {} ({})".format(
         sum(games_by_type.values()),
         games_by_type_str,
     ))
