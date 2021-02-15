@@ -1,10 +1,10 @@
-valiate
-=======
+validate
+========
 
 Synopsis
 --------
 
-``srcomp valiate [-h] [-l|--lax] <compstate>``
+``srcomp validate [-h] [-l|--lax] <compstate>``
 
 Description
 -----------
