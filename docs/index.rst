@@ -7,7 +7,7 @@ and for working with compstate repositories.
 Installation
 ------------
 
-You can install SRComp CLI using `pip`:
+You can install SRComp CLI using ``pip``:
 
 .. code:: shell
 
