@@ -1,9 +1,10 @@
-SR Comp CLI
-===========
+SRComp CLI
+==========
 
 |Build Status| |Docs Status|
 
-A set of command line tools for accessing SR compstate repositories.
+A set of command-line tools for operating SRComp at a competition and for
+working with compstate repositories.
 
 Usage
 -----
