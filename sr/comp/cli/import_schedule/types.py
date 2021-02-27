@@ -28,6 +28,8 @@ class Configuration(NamedTuple):
 
     teams_per_game: int
 
+    first_match_number: MatchNumber
+
     @property
     def num_arenas(self) -> int:
         return len(self.arena_ids)

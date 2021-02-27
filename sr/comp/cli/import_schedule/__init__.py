@@ -21,14 +21,24 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 
 import argparse
 from pathlib import Path
+from typing import Dict, Iterable
 
 from sr.comp.cli.import_schedule import loading, teams_mapping
-from sr.comp.cli.import_schedule.types import Configuration
+from sr.comp.cli.import_schedule.types import Configuration, RawMatch
+from sr.comp.types import MatchNumber
+
+
+def get_first_match_number(existing_match_numbers: Iterable[MatchNumber]) -> MatchNumber:
+    if not existing_match_numbers:
+        return MatchNumber(0)
+
+    return MatchNumber(max(existing_match_numbers) + 1)
 
 
 def get_configuration(
     compensate_path: Path,
     team_order_strategy: teams_mapping.Strategy,
+    existing_match_numbers: Iterable[MatchNumber],
 ) -> Configuration:
     # Grab the teams and arenas
     try:
@@ -50,6 +60,7 @@ def get_configuration(
         arena_ids,
         team_ids,
         teams_per_game,
+        get_first_match_number(existing_match_numbers),
     )
 
 
@@ -59,9 +70,15 @@ def command(args: argparse.Namespace) -> None:
     with open(args.schedule, 'r') as sfp:
         schedule_lines = loading.tidy(sfp.readlines())
 
+    league_yaml = loading.league_yaml_path(args.compstate)
+    existing_matches: Dict[MatchNumber, RawMatch] = {}
+    if args.extend:
+        existing_matches = loading.load_league_yaml(league_yaml)
+
     config = get_configuration(
         args.compstate,
         args.team_order_strategy,
+        existing_matches.keys(),
     )
 
     matches, bad_matches = core.build_schedule(
@@ -78,8 +95,7 @@ def command(args: argparse.Namespace) -> None:
         )
 
     # Save the matches to the file
-    league_yaml = loading.league_yaml_path(args.compstate)
-    loading.dump_league_yaml(matches, league_yaml)
+    loading.dump_league_yaml({**existing_matches, **matches}, league_yaml)
 
 
 def add_subparser(subparsers: argparse._SubParsersAction) -> None:

@@ -82,7 +82,7 @@ class ImportScheduleTests(unittest.TestCase):
         teams = ['ABC', 'DEF', 'GHI']
 
         matches, bad = build_schedule(
-            Configuration(['A'], teams, teams_per_game=4),
+            Configuration(['A'], teams, teams_per_game=4, first_match_number=0),
             lines,
             ids_to_ignore=[],
         )
@@ -96,12 +96,31 @@ class ImportScheduleTests(unittest.TestCase):
 
         self.assertEqual([], bad, "Should not be any 'bad' matches")
 
+    def test_extend_schedule(self):
+        lines = ['0|1|2|3', '1|2|3|4']
+        teams = ['ABC', 'DEF', 'GHI']
+
+        matches, bad = build_schedule(
+            Configuration(['A'], teams, teams_per_game=4, first_match_number=4),
+            lines,
+            ids_to_ignore=[],
+        )
+
+        expected_matches = {
+            4: {'A': [None, 'ABC', 'DEF', 'GHI']},
+            5: {'A': ['ABC', 'DEF', 'GHI', None]},
+        }
+
+        self.assertEqual(expected_matches, matches, "Wrong matches")
+
+        self.assertEqual([], bad, "Should not be any 'bad' matches")
+
     def test_build_schedule_appaerance_order(self):
         lines = ['3|1|0|4', '1|2|4|0']
         teams = ['ABC', 'DEF', 'GHI']
 
         matches, bad = build_schedule(
-            Configuration(['A'], teams, teams_per_game=4),
+            Configuration(['A'], teams, teams_per_game=4, first_match_number=0),
             lines,
             ids_to_ignore=[],
         )

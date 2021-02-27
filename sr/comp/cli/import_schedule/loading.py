@@ -41,6 +41,15 @@ def dump_league_yaml(
         yaml.dump(empty, lfp)
 
 
+def load_league_yaml(league_yaml: Path) -> Dict[MatchNumber, RawMatch]:
+    import yaml
+
+    with open(league_yaml, 'r') as lfp:
+        data = yaml.load(lfp)
+        matches: Dict[MatchNumber, RawMatch] = data['matches']
+        return matches
+
+
 def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName], int]:
     from sr.comp import arenas, teams
 

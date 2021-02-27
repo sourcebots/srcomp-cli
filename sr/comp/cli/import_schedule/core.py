@@ -97,13 +97,14 @@ def build_matches(
     schedule: List[List[ID]],
     arena_ids: Collection[ArenaName],
     teams_per_game: int,
+    first_match_number: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
 ]:
     matches = {}
     bad_matches = []
-    for match_num, match_ids in enumerate(schedule):
+    for match_num, match_ids in enumerate(schedule, start=first_match_number):
         match_teams = [id_team_map.get(id_) for id_ in match_ids]
         games = chunks_of_size(match_teams, teams_per_game)
 
@@ -161,6 +162,7 @@ def get_best_fit(
             schedule,
             config.arena_ids,
             config.teams_per_game,
+            config.first_match_number,
         )
 
         if len(bad_matches) == 0:
