@@ -6,6 +6,7 @@ from typing import (
     List,
     Mapping,
     Optional,
+    Sequence,
     Tuple,
     TypeVar,
 )
@@ -13,7 +14,7 @@ from typing import (
 from sr.comp.types import ArenaName, MatchNumber, TLA
 
 from . import loading
-from .types import BadMatch, ID, RawMatch
+from .types import BadMatch, Configuration, ID, RawMatch
 
 T = TypeVar('T')
 
@@ -76,7 +77,7 @@ def get_id_subsets(ids: Collection[T], limit: int) -> Iterator[Collection[T]]:
         raise Exception("Too many empty slots to compensate for ({0}).".format(extra))
 
 
-def build_id_team_maps(ids: List[ID], team_ids: List[TLA]) -> Iterator[Dict[ID, TLA]]:
+def build_id_team_maps(ids: List[ID], team_ids: Sequence[TLA]) -> Iterator[Dict[ID, TLA]]:
     # If there are more ids than team_ids we want to ensure that we minimize
     # the number of matches which have empty places and also the number of
     # empty places in any given match.
@@ -94,7 +95,7 @@ def build_id_team_maps(ids: List[ID], team_ids: List[TLA]) -> Iterator[Dict[ID, 
 def build_matches(
     id_team_map: Dict[ID, TLA],
     schedule: List[List[ID]],
-    arena_ids: List[ArenaName],
+    arena_ids: Collection[ArenaName],
     teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
@@ -143,11 +144,9 @@ def are_better_matches(
 
 
 def get_best_fit(
+    config: Configuration,
     ids: List[ID],
-    team_ids: List[TLA],
     schedule: List[List[ID]],
-    arena_ids: List[ArenaName],
-    teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
@@ -156,19 +155,19 @@ def get_best_fit(
         Dict[MatchNumber, RawMatch],
         List[BadMatch],
     ]] = None
-    for id_team_map in build_id_team_maps(ids, team_ids):
+    for id_team_map in build_id_team_maps(ids, config.team_ids):
         matches, bad_matches = build_matches(
             id_team_map,
             schedule,
-            arena_ids,
-            teams_per_game,
+            config.arena_ids,
+            config.teams_per_game,
         )
 
         if len(bad_matches) == 0:
             # Nothing bad about these, ship them
             return matches, bad_matches
 
-        if best is None or are_better_matches(best[1], bad_matches, teams_per_game):
+        if best is None or are_better_matches(best[1], bad_matches, config.teams_per_game):
             best = (matches, bad_matches)
 
     assert best is not None
@@ -177,11 +176,9 @@ def get_best_fit(
 
 
 def build_schedule(
+    config: Configuration,
     schedule_lines: List[str],
     ids_to_ignore: List[ID],
-    team_ids: List[TLA],
-    arena_ids: List[ArenaName],
-    teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
@@ -189,8 +186,8 @@ def build_schedule(
     # Collect up the ids used
     ids, schedule = loading.load_ids_schedule(
         schedule_lines,
-        num_arenas=len(arena_ids),
-        teams_per_game=teams_per_game,
+        num_arenas=config.num_arenas,
+        teams_per_game=config.teams_per_game,
     )
 
     # Ignore any ids we've been told to
@@ -198,18 +195,12 @@ def build_schedule(
         ignore_ids(ids, ids_to_ignore)
 
     # Sanity checks
-    if len(ids) < len(team_ids):
+    if len(ids) < config.num_teams:
         raise ValueError(
-            f"Not enough places in the schedule (need {len(ids)}, got {len(team_ids)}).",
+            f"Not enough places in the schedule (need {len(ids)}, got {config.num_teams}).",
         )
 
     # Get matches
-    matches, bad_matches = get_best_fit(
-        ids,
-        team_ids,
-        schedule,
-        arena_ids,
-        teams_per_game,
-    )
+    matches, bad_matches = get_best_fit(config, ids, schedule)
 
     return matches, bad_matches

@@ -1,6 +1,7 @@
 import unittest
 
 from sr.comp.cli.import_schedule.core import build_schedule, get_id_subsets
+from sr.comp.cli.import_schedule.types import Configuration
 
 
 class ImportScheduleTests(unittest.TestCase):
@@ -80,7 +81,11 @@ class ImportScheduleTests(unittest.TestCase):
         lines = ['0|1|2|3', '1|2|3|4']
         teams = ['ABC', 'DEF', 'GHI']
 
-        matches, bad = build_schedule(lines, '', teams, ['A'], teams_per_game=4)
+        matches, bad = build_schedule(
+            Configuration(['A'], teams, teams_per_game=4),
+            lines,
+            ids_to_ignore=[],
+        )
 
         expected_matches = {
             0: {'A': [None, 'ABC', 'DEF', 'GHI']},
@@ -95,7 +100,11 @@ class ImportScheduleTests(unittest.TestCase):
         lines = ['3|1|0|4', '1|2|4|0']
         teams = ['ABC', 'DEF', 'GHI']
 
-        matches, bad = build_schedule(lines, '', teams, ['A'], teams_per_game=4)
+        matches, bad = build_schedule(
+            Configuration(['A'], teams, teams_per_game=4),
+            lines,
+            ids_to_ignore=[],
+        )
 
         expected_matches = {
             0: {'A': [None, 'ABC', 'DEF', 'GHI']},

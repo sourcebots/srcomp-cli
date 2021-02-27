@@ -27,6 +27,7 @@ from sr.comp.cli.import_schedule import loading, teams_mapping
 
 def command(args: argparse.Namespace) -> None:
     from sr.comp.cli.import_schedule import core
+    from sr.comp.cli.import_schedule.types import Configuration
 
     with open(args.schedule, 'r') as sfp:
         schedule_lines = loading.tidy(sfp.readlines())
@@ -47,12 +48,12 @@ def command(args: argparse.Namespace) -> None:
         args.team_order_strategy,
     )
 
+    config = Configuration(arena_ids, team_ids, teams_per_game)
+
     matches, bad_matches = core.build_schedule(
+        config,
         schedule_lines,
         args.ignore_ids,
-        team_ids,
-        arena_ids,
-        teams_per_game,
     )
 
     # Print any warnings about the matches
@@ -77,6 +78,15 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
         '--ignore-ids',
         type=loading.parse_ids,
         help="comma separated list of ids to ignore",
+    )
+    parser.add_argument(
+        '--extend',
+        default=False,
+        action='store_true',
+        help=(
+            "Whether to replace (the defualt) or extend the existing league "
+            "with the matches in the given schedule file."
+        ),
     )
     parser.add_argument(
         '--team-order-strategy',
