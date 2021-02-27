@@ -1,5 +1,14 @@
 import collections
-from typing import Dict, Iterator, List, Mapping, Optional, Tuple, TypeVar
+from typing import (
+    Collection,
+    Dict,
+    Iterator,
+    List,
+    Mapping,
+    Optional,
+    Tuple,
+    TypeVar,
+)
 
 from sr.comp.types import ArenaName, MatchNumber, TLA
 
@@ -29,7 +38,7 @@ def ignore_ids(ids: List[ID], ids_to_remove: List[ID]) -> None:
         ids.remove(i)
 
 
-def get_id_subsets(ids: List[T], limit: int) -> Iterator[List[T]]:
+def get_id_subsets(ids: Collection[T], limit: int) -> Iterator[Collection[T]]:
     num_ids = len(ids)
 
     extra = num_ids - limit
@@ -40,14 +49,14 @@ def get_id_subsets(ids: List[T], limit: int) -> Iterator[List[T]]:
 
     elif extra == 1:
         for idx in range(len(ids)):
-            ids_clone = ids[:]
+            ids_clone = list(ids)
             ids_clone.pop(idx)
             yield ids_clone
 
     elif extra == 2:
         for idx1 in range(len(ids)):
             for idx2 in range(idx1 + 1, len(ids)):
-                ids_clone = ids[:]
+                ids_clone = list(ids)
                 ids_clone.pop(idx2)
                 ids_clone.pop(idx1)
                 yield ids_clone
@@ -56,7 +65,7 @@ def get_id_subsets(ids: List[T], limit: int) -> Iterator[List[T]]:
         for idx1 in range(len(ids)):
             for idx2 in range(idx1 + 1, len(ids)):
                 for idx3 in range(idx2 + 1, len(ids)):
-                    ids_clone = ids[:]
+                    ids_clone = list(ids)
                     ids_clone.pop(idx3)
                     ids_clone.pop(idx2)
                     ids_clone.pop(idx1)
