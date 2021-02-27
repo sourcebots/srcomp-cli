@@ -20,6 +20,7 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """
 
 import argparse
+import collections
 from typing import (
     Dict,
     Iterable,
@@ -229,10 +230,8 @@ def build_matches(
 
 
 def are_better_matches(best: List[BadMatch], new: List[BadMatch]) -> bool:
-    from collections import Counter
-
     def get_empty_places_map(bad_matches: List[BadMatch]) -> Mapping[int, int]:
-        empty_places_map: Dict[int, int] = Counter()
+        empty_places_map: Dict[int, int] = collections.Counter()
         for bad_match in bad_matches:
             num_empty = TEAMS_PER_GAME - bad_match.num_teams
             empty_places_map[num_empty] += 1
