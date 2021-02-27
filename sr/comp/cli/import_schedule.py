@@ -314,8 +314,10 @@ def command(args):
     team_ids = order_teams(args.compstate, team_ids)
 
     matches, bad_matches = build_schedule(
-        schedule_lines, args.ignore_ids,
-        team_ids, arena_ids,
+        schedule_lines,
+        args.ignore_ids,
+        team_ids,
+        arena_ids,
     )
 
     # Print any warnings about the matches
