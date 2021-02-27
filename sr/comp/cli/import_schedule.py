@@ -69,8 +69,13 @@ def tidy(lines: Iterable[str]) -> List[str]:
 
 
 def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
+    if len(list_) % size != 0:
+        raise ValueError(
+            "Unable to chunk list whose size is not evenly divisble by given "
+            f"size {size}.",
+        )
+
     list_ = list_[:]
-    assert len(list_) % size == 0
     while len(list_):
         chunk = []
         for _ in range(size):
@@ -104,7 +109,11 @@ def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName],
     return team_ids, arena_ids, num_corners
 
 
-def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[ID], List[List[ID]]]:
+def load_ids_schedule(
+    schedule_lines: Iterable[str],
+    num_arenas: int,
+    teams_per_game: int,
+) -> Tuple[List[ID], List[List[ID]]]:
     """
     Converts an iterable of strings containing pipe-separated ids into
     a tuple: ``(ids, schedule)``. The ``ids`` is a list of unique ids
@@ -112,12 +121,33 @@ def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[ID], List[Lis
     lists of ids in each line.
     """
 
+    max_teams_per_slot = teams_per_game * num_arenas
+
     ids: List[ID] = []
     schedule: List[List[ID]] = []
-    for match in schedule_lines:
+
+    for match_num, match in enumerate(schedule_lines):
         match_ids = parse_ids(match, sep='|')
+
         uniq_match_ids = set(match_ids)
-        assert len(match_ids) == len(uniq_match_ids), match_ids
+        if len(match_ids) != len(uniq_match_ids):
+            raise ValueError(
+                f"Match {match_num} contains the same id more than once. "
+                f"(got ids {match_ids!r})",
+            )
+
+        if len(match_ids) > max_teams_per_slot:
+            raise ValueError(
+                f"Match {match_num} has too many ids. (got {len(match_ids)}, "
+                f"can cope with {max_teams_per_slot})",
+            )
+
+        if len(match_ids) % teams_per_game != 0:
+            raise ValueError(
+                f"Match {match_num} has incompatible number of ids: "
+                f"{len(match_ids)} is not a multiple of {teams_per_game}.",
+            )
+
         schedule.append(match_ids)
 
         for id_ in match_ids:
@@ -194,16 +224,9 @@ def build_matches(
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
 ]:
-    num_arenas = len(arena_ids)
-
     matches = {}
     bad_matches = []
     for match_num, match_ids in enumerate(schedule):
-        assert len(match_ids) / teams_per_game <= num_arenas, \
-            "Match {0} has too many ids".format(match_num)
-        assert len(match_ids) % teams_per_game == 0, \
-            "Match {0} has incompatible number of ids".format(match_num)
-
         match_teams = [id_team_map.get(id_) for id_ in match_ids]
         games = chunks_of_size(match_teams, teams_per_game)
 
@@ -284,6 +307,7 @@ def order_teams(compstate_path: Path, team_ids: List[TLA]) -> List[TLA]:
     import yaml
 
     from sr.comp.knockout_scheduler.stable_random import Random
+    from sr.comp.validation import join_and
 
     layout_yaml = compstate_path / 'layout.yaml'
     if not layout_yaml.exists():
@@ -302,18 +326,19 @@ def order_teams(compstate_path: Path, team_ids: List[TLA]) -> List[TLA]:
         ordered_teams += group['teams']
 
     layout_teams = set(ordered_teams)
-    assert len(layout_teams) == len(ordered_teams), "Some teams appear twice in the layout!"
+
+    if len(layout_teams) != len(ordered_teams):
+        duplicates = [x for x, y in collections.Counter(ordered_teams).items() if y > 1]
+        raise ValueError(f"Some teams appear twice in the layout! {join_and(duplicates)}")
 
     all_teams = set(team_ids)
     missing = all_teams - layout_teams
-    assert not missing, "Some teams not in layout: {0}.".format(", ".join(missing))
+    if missing:
+        raise ValueError(f"Some teams not in layout: {join_and(missing)}.")
 
-    all_teams = set(team_ids)
     extra = layout_teams - all_teams
     if extra:
-        print("WARNING: Extra teams in layout will be ignoreed: {0}.".format(
-            ", ".join(extra),
-        ))
+        print(f"WARNING: Extra teams in layout will be ignoreed: {join_and(extra)}.")
         for tla in extra:
             ordered_teams.remove(tla)
 
@@ -331,17 +356,21 @@ def build_schedule(
     List[BadMatch],
 ]:
     # Collect up the ids used
-    ids, schedule = load_ids_schedule(schedule_lines)
+    ids, schedule = load_ids_schedule(
+        schedule_lines,
+        num_arenas=len(arena_ids),
+        teams_per_game=teams_per_game,
+    )
 
     # Ignore any ids we've been told to
     if ids_to_ignore:
         ignore_ids(ids, ids_to_ignore)
 
     # Sanity checks
-    num_ids = len(ids)
-    num_teams = len(team_ids)
-    assert num_ids >= num_teams, "Not enough places in the schedule " \
-                                 "(need {0}, got {1}).".format(num_ids, num_teams)
+    if len(ids) < len(team_ids):
+        raise ValueError(
+            f"Not enough places in the schedule (need {len(ids)}, got {len(team_ids)})."
+        )
 
     # Get matches
     matches, bad_matches = get_best_fit(
