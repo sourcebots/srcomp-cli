@@ -20,8 +20,15 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """
 
 import argparse
+from typing import NamedTuple
 
 TEAMS_PER_GAME = 4
+
+
+class BadMatch(NamedTuple):
+    arena: str
+    num: int
+    num_teams: int
 
 
 def tidy(lines):
@@ -166,9 +173,6 @@ def build_id_team_maps(ids, team_ids):
 
 
 def build_matches(id_team_map, schedule, arena_ids):
-    from collections import namedtuple
-    BadMatch = namedtuple('BadMatch', ['arena', 'num', 'num_teams'])
-
     num_arenas = len(arena_ids)
 
     matches = {}
