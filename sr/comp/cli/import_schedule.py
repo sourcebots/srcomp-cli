@@ -1,3 +1,24 @@
+"""
+Import a league.yaml from a schedule file.
+
+A schedule file specifies matches one-per-line, as follows:
+
+A 'match' consists of a number of unique identifiers separated by pipe
+characters. The total number of identifiers in the file should be equal
+to or greater than the number of teams in the compstate.
+
+The number of identifiers in a given match must be a multiple of the
+number of teams per game (currently 4), up to the number of arenas in
+the compstate.
+
+Whitespace (other than newlines) within the file is ignored, as is any
+content to the right of a hash character (#), including the hash. As a
+result hash characters may be used to start line comments.
+
+Example schedules for 48, 52 or 56 teams are available  at:
+https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
+"""
+
 import argparse
 
 TEAMS_PER_GAME = 4
@@ -308,26 +329,7 @@ def command(args):
 
 
 def add_subparser(subparsers):
-    description = """
-Import a league.yaml from a schedule file.
-
-A schedule file specifies matches one-per-line, as follows:
-
-A 'match' consists of a number of unique identifiers separated by pipe
-characters. The total number of identifiers in the file should be equal
-to or greater than the number of teams in the compstate.
-
-The number of identifiers in a given match must be a multiple of the
-number of teams per game (currently 4), up to the number of arenas in
-the compstate.
-
-Whitespace (other than newlines) within the file is ignored, as is any
-content to the right of a hash character (#), including the hash. As a
-result hash characters may be used to start line comments.
-
-Example schedules for 48, 52 or 56 teams are available  at:
-https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
-""".strip()
+    description = __doc__
 
     parser = subparsers.add_parser(
         'import-schedule',
