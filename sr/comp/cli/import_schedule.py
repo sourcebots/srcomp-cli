@@ -41,8 +41,6 @@ T = TypeVar('T')
 ID = NewType('ID', str)
 RawMatch = Dict[ArenaName, List[Optional[TLA]]]
 
-TEAMS_PER_GAME = 4
-
 
 class BadMatch(NamedTuple):
     arena: ArenaName
@@ -95,13 +93,15 @@ def dump_league_yaml(
         yaml.dump(empty, lfp)
 
 
-def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName]]:
+def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName], int]:
     from sr.comp import arenas, teams
 
     team_ids = sorted(teams.load_teams(compstate_path / 'teams.yaml').keys())
-    arena_ids = sorted(arenas.load_arenas(compstate_path / 'arenas.yaml').keys())
+    arenas_yaml = compstate_path / 'arenas.yaml'
+    arena_ids = sorted(arenas.load_arenas(arenas_yaml).keys())
+    num_corners = len(arenas.load_corners(arenas_yaml))
 
-    return team_ids, arena_ids
+    return team_ids, arena_ids, num_corners
 
 
 def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[ID], List[List[ID]]]:
@@ -189,6 +189,7 @@ def build_matches(
     id_team_map: Dict[ID, TLA],
     schedule: List[List[ID]],
     arena_ids: List[ArenaName],
+    teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
@@ -198,30 +199,34 @@ def build_matches(
     matches = {}
     bad_matches = []
     for match_num, match_ids in enumerate(schedule):
-        assert len(match_ids) / TEAMS_PER_GAME <= num_arenas, \
+        assert len(match_ids) / teams_per_game <= num_arenas, \
             "Match {0} has too many ids".format(match_num)
-        assert len(match_ids) % TEAMS_PER_GAME == 0, \
+        assert len(match_ids) % teams_per_game == 0, \
             "Match {0} has incompatible number of ids".format(match_num)
 
         match_teams = [id_team_map.get(id_) for id_ in match_ids]
-        games = chunks_of_size(match_teams, TEAMS_PER_GAME)
+        games = chunks_of_size(match_teams, teams_per_game)
 
         matches[MatchNumber(match_num)] = match = dict(zip(arena_ids, games))
 
         # Check that the match has enough actual teams; warn if not
         for arena, teams in match.items():
             num_teams = len(set(teams) - set([None]))
-            if num_teams <= 2:
+            if num_teams <= (teams_per_game / 2):
                 bad_matches.append(BadMatch(arena, MatchNumber(match_num), num_teams))
 
     return matches, bad_matches
 
 
-def are_better_matches(best: List[BadMatch], new: List[BadMatch]) -> bool:
+def are_better_matches(
+    best: List[BadMatch],
+    new: List[BadMatch],
+    teams_per_game: int,
+) -> bool:
     def get_empty_places_map(bad_matches: List[BadMatch]) -> Mapping[int, int]:
         empty_places_map: Dict[int, int] = collections.Counter()
         for bad_match in bad_matches:
-            num_empty = TEAMS_PER_GAME - bad_match.num_teams
+            num_empty = teams_per_game - bad_match.num_teams
             empty_places_map[num_empty] += 1
         return empty_places_map
 
@@ -243,6 +248,7 @@ def get_best_fit(
     team_ids: List[TLA],
     schedule: List[List[ID]],
     arena_ids: List[ArenaName],
+    teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
@@ -252,13 +258,18 @@ def get_best_fit(
         List[BadMatch],
     ]] = None
     for id_team_map in build_id_team_maps(ids, team_ids):
-        matches, bad_matches = build_matches(id_team_map, schedule, arena_ids)
+        matches, bad_matches = build_matches(
+            id_team_map,
+            schedule,
+            arena_ids,
+            teams_per_game,
+        )
 
         if len(bad_matches) == 0:
             # Nothing bad about these, ship them
             return matches, bad_matches
 
-        if best is None or are_better_matches(best[1], bad_matches):
+        if best is None or are_better_matches(best[1], bad_matches, teams_per_game):
             best = (matches, bad_matches)
 
     assert best is not None
@@ -314,6 +325,7 @@ def build_schedule(
     ids_to_ignore: List[ID],
     team_ids: List[TLA],
     arena_ids: List[ArenaName],
+    teams_per_game: int,
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
     List[BadMatch],
@@ -332,7 +344,13 @@ def build_schedule(
                                  "(need {0}, got {1}).".format(num_ids, num_teams)
 
     # Get matches
-    matches, bad_matches = get_best_fit(ids, team_ids, schedule, arena_ids)
+    matches, bad_matches = get_best_fit(
+        ids,
+        team_ids,
+        schedule,
+        arena_ids,
+        teams_per_game,
+    )
 
     return matches, bad_matches
 
@@ -343,7 +361,7 @@ def command(args: argparse.Namespace) -> None:
 
     # Grab the teams and arenas
     try:
-        team_ids, arena_ids = load_teams_areans(args.compstate)
+        team_ids, arena_ids, teams_per_game = load_teams_areans(args.compstate)
     except Exception as e:
         print("Failed to load existing state ({0}).".format(e))
         print("Make it valid (consider removing the league.yaml and layout.yaml)")
@@ -358,6 +376,7 @@ def command(args: argparse.Namespace) -> None:
         args.ignore_ids,
         team_ids,
         arena_ids,
+        teams_per_game,
     )
 
     # Print any warnings about the matches
