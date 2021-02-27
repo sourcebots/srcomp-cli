@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+from typing import List, Optional
 
 from . import (
     add_delay,
@@ -27,7 +28,7 @@ from . import (
 )
 
 
-def add_list_commands(subparsers):
+def add_list_commands(subparsers: argparse._SubParsersAction) -> None:
     def command(settings):
         commands = subparsers.choices.keys()
         print(" ".join(commands))
@@ -39,7 +40,7 @@ def add_list_commands(subparsers):
     parser.set_defaults(func=command)
 
 
-def argument_parser():
+def argument_parser() -> argparse.ArgumentParser:
     """A parser for CLI tool command line arguments, from argparse."""
     parser = argparse.ArgumentParser(description="srcomp command-line interface")
     subparsers = parser.add_subparsers(title="commands")
@@ -69,7 +70,7 @@ def argument_parser():
     return parser
 
 
-def main(args=None):
+def main(args: Optional[List[str]] = None) -> None:
     """Run as the CLI tool."""
     if args is None:
         args = sys.argv[1:]
