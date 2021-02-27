@@ -20,18 +20,33 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """
 
 import argparse
-from typing import NamedTuple
+from typing import (
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Mapping,
+    NamedTuple,
+    Optional,
+    Tuple,
+    TypeVar,
+)
+
+from sr.comp.types import ArenaName, MatchNumber, TLA
+
+T = TypeVar('T')
+RawMatch = Dict[ArenaName, List[Optional[TLA]]]
 
 TEAMS_PER_GAME = 4
 
 
 class BadMatch(NamedTuple):
-    arena: str
-    num: int
+    arena: ArenaName
+    num: MatchNumber
     num_teams: int
 
 
-def tidy(lines):
+def tidy(lines: Iterable[str]) -> List[str]:
     "Strip comments and trailing whitespace"
     schedule = []
     for line in lines:
@@ -47,7 +62,7 @@ def tidy(lines):
     return schedule
 
 
-def chunks_of_size(list_, size):
+def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
     list_ = list_[:]
     assert len(list_) % size == 0
     while len(list_):
@@ -57,14 +72,17 @@ def chunks_of_size(list_, size):
         yield chunk
 
 
-def league_yaml_path(compstate_path):
+def league_yaml_path(compstate_path: str) -> str:
     import os.path
 
     league_yaml = os.path.join(compstate_path, 'league.yaml')
     return league_yaml
 
 
-def dump_league_yaml(matches, file_path):
+def dump_league_yaml(
+    matches: Dict[MatchNumber, RawMatch],
+    file_path: str,
+) -> None:
     import yaml
 
     with open(file_path, 'w') as lfp:
@@ -72,7 +90,7 @@ def dump_league_yaml(matches, file_path):
         yaml.dump(empty, lfp)
 
 
-def load_teams_areans(compstate_path):
+def load_teams_areans(compstate_path: str) -> Tuple[List[TLA], List[ArenaName]]:
     import os.path
 
     from sr.comp.comp import SRComp
@@ -91,7 +109,7 @@ def load_teams_areans(compstate_path):
     return team_ids, arena_ids
 
 
-def load_ids_schedule(schedule_lines):
+def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[str], List[List[str]]]:
     """
     Converts an iterable of strings containing pipe-separated ids into
     a tuple: ``(ids, schedule)``. The ``ids`` is a list of unique ids
@@ -99,8 +117,8 @@ def load_ids_schedule(schedule_lines):
     lists of ids in each line.
     """
 
-    ids = []
-    schedule = []
+    ids: List[str] = []
+    schedule: List[List[str]] = []
     for match in schedule_lines:
         match_ids = match.split('|')
         uniq_match_ids = set(match_ids)
@@ -114,12 +132,12 @@ def load_ids_schedule(schedule_lines):
     return ids, schedule
 
 
-def ignore_ids(ids, ids_to_remove):
+def ignore_ids(ids: List[str], ids_to_remove: List[str]) -> None:
     for i in ids_to_remove:
         ids.remove(i)
 
 
-def get_id_subsets(ids, limit):
+def get_id_subsets(ids: List[str], limit: int) -> Iterator[List[str]]:
     num_ids = len(ids)
 
     extra = num_ids - limit
@@ -157,7 +175,7 @@ def get_id_subsets(ids, limit):
         raise Exception("Too many empty slots to compensate for ({0}).".format(extra))
 
 
-def build_id_team_maps(ids, team_ids):
+def build_id_team_maps(ids: List[str], team_ids: List[TLA]) -> Iterator[Dict[str, TLA]]:
     # If there are more ids than team_ids we want to ensure that we minimize
     # the number of matches which have empty places and also the number of
     # empty places in any given match.
@@ -172,7 +190,14 @@ def build_id_team_maps(ids, team_ids):
         yield dict(zip(id_subset, team_ids))
 
 
-def build_matches(id_team_map, schedule, arena_ids):
+def build_matches(
+    id_team_map: Dict[str, TLA],
+    schedule: List[List[str]],
+    arena_ids: List[ArenaName],
+) -> Tuple[
+    Dict[MatchNumber, RawMatch],
+    List[BadMatch],
+]:
     num_arenas = len(arena_ids)
 
     matches = {}
@@ -186,22 +211,22 @@ def build_matches(id_team_map, schedule, arena_ids):
         match_teams = [id_team_map.get(id_) for id_ in match_ids]
         games = chunks_of_size(match_teams, TEAMS_PER_GAME)
 
-        matches[match_num] = match = dict(zip(arena_ids, games))
+        matches[MatchNumber(match_num)] = match = dict(zip(arena_ids, games))
 
         # Check that the match has enough actual teams; warn if not
         for arena, teams in match.items():
             num_teams = len(set(teams) - set([None]))
             if num_teams <= 2:
-                bad_matches.append(BadMatch(arena, match_num, num_teams))
+                bad_matches.append(BadMatch(arena, MatchNumber(match_num), num_teams))
 
     return matches, bad_matches
 
 
-def are_better_matches(best, new):
+def are_better_matches(best: List[BadMatch], new: List[BadMatch]) -> bool:
     from collections import Counter
 
-    def get_empty_places_map(bad_matches):
-        empty_places_map = Counter()
+    def get_empty_places_map(bad_matches: List[BadMatch]) -> Mapping[int, int]:
+        empty_places_map: Dict[int, int] = Counter()
         for bad_match in bad_matches:
             num_empty = TEAMS_PER_GAME - bad_match.num_teams
             empty_places_map[num_empty] += 1
@@ -220,8 +245,19 @@ def are_better_matches(best, new):
     return False
 
 
-def get_best_fit(ids, team_ids, schedule, arena_ids):
-    best = None
+def get_best_fit(
+    ids: List[str],
+    team_ids: List[TLA],
+    schedule: List[List[str]],
+    arena_ids: List[ArenaName],
+) -> Tuple[
+    Dict[MatchNumber, RawMatch],
+    List[BadMatch],
+]:
+    best: Optional[Tuple[
+        Dict[MatchNumber, RawMatch],
+        List[BadMatch],
+    ]] = None
     for id_team_map in build_id_team_maps(ids, team_ids):
         matches, bad_matches = build_matches(id_team_map, schedule, arena_ids)
 
@@ -237,7 +273,7 @@ def get_best_fit(ids, team_ids, schedule, arena_ids):
     return best
 
 
-def order_teams(compstate_path, team_ids):
+def order_teams(compstate_path: str, team_ids: List[TLA]) -> List[TLA]:
     """
     Order teams either randomly or, if there's a layout available, by location.
     """
@@ -281,7 +317,15 @@ def order_teams(compstate_path, team_ids):
     return ordered_teams
 
 
-def build_schedule(schedule_lines, ids_to_ignore, team_ids, arena_ids):
+def build_schedule(
+    schedule_lines: List[str],
+    ids_to_ignore: str,
+    team_ids: List[TLA],
+    arena_ids: List[ArenaName],
+) -> Tuple[
+    Dict[MatchNumber, RawMatch],
+    List[BadMatch],
+]:
     # Collect up the ids used
     ids, schedule = load_ids_schedule(schedule_lines)
 
@@ -301,7 +345,7 @@ def build_schedule(schedule_lines, ids_to_ignore, team_ids, arena_ids):
     return matches, bad_matches
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     with open(args.schedule, 'r') as sfp:
         schedule_lines = tidy(sfp.readlines())
 
@@ -334,7 +378,7 @@ def command(args):
     dump_league_yaml(matches, league_yaml)
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser(
         'import-schedule',
         help="Import a league.yaml file from a schedule file",
