@@ -23,18 +23,16 @@ import argparse
 from pathlib import Path
 
 from sr.comp.cli.import_schedule import loading, teams_mapping
+from sr.comp.cli.import_schedule.types import Configuration
 
 
-def command(args: argparse.Namespace) -> None:
-    from sr.comp.cli.import_schedule import core
-    from sr.comp.cli.import_schedule.types import Configuration
-
-    with open(args.schedule, 'r') as sfp:
-        schedule_lines = loading.tidy(sfp.readlines())
-
+def get_configuration(
+    compensate_path: Path,
+    team_order_strategy: teams_mapping.Strategy,
+) -> Configuration:
     # Grab the teams and arenas
     try:
-        team_ids, arena_ids, teams_per_game = loading.load_teams_areans(args.compstate)
+        team_ids, arena_ids, teams_per_game = loading.load_teams_areans(compensate_path)
     except Exception as e:
         print("Failed to load existing state ({0}).".format(e))
         print("Make it valid (consider removing the league.yaml and layout.yaml)")
@@ -43,12 +41,28 @@ def command(args: argparse.Namespace) -> None:
 
     # Semi-randomise
     team_ids = teams_mapping.order_teams(
-        args.compstate,
+        compensate_path,
         team_ids,
-        args.team_order_strategy,
+        team_order_strategy,
     )
 
-    config = Configuration(arena_ids, team_ids, teams_per_game)
+    return Configuration(
+        arena_ids,
+        team_ids,
+        teams_per_game,
+    )
+
+
+def command(args: argparse.Namespace) -> None:
+    from sr.comp.cli.import_schedule import core
+
+    with open(args.schedule, 'r') as sfp:
+        schedule_lines = loading.tidy(sfp.readlines())
+
+    config = get_configuration(
+        args.compstate,
+        args.team_order_strategy,
+    )
 
     matches, bad_matches = core.build_schedule(
         config,
