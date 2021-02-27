@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import argparse
 import io
+import sys
 import textwrap
+import warnings
 from contextlib import contextmanager
 from typing import Any, cast, Iterable, Iterator, Sequence, TYPE_CHECKING
 
@@ -32,6 +34,44 @@ def exit_on_exception(
     except kind as e:
         print_fail(msg.format(e))
         exit(1)
+
+
+@contextmanager
+def guard_unicode_output(stream):
+    """
+    Cope with users environments not being able to handle unicode by softening
+    the display of characters they can't handle.
+
+    While I would ideally prefer not to have this sort of behaviour, as it can
+    happen mid-deploy (which we cannot roll back) it's far safer that we handle
+    these _somehow_ than error the deploy part-way through.
+
+    This is aimed at users running under certain Windows Subsystem for Linux
+    Operating Systems which default to a non utf-8 locale :(
+    """
+
+    encoding = stream.encoding
+
+    if encoding.lower() == 'utf-8':
+        # Happy path
+        yield
+        return
+
+    warnings.warn(
+        "Your locale does not support unicode. Some characters may not display correctly.",
+    )
+
+    orig_write = stream.write
+
+    def write(text, *a, **k):
+        text = text.encode(encoding, errors='backslashreplace').decode(encoding)
+        orig_write(text, *a, **k)
+
+    try:
+        stream.write = write
+        yield
+    finally:
+        stream.write = orig_write
 
 
 def print_fail(*args: object, **kargs: Any) -> None:
@@ -262,13 +302,14 @@ def run_deployments(
 def command(args: argparse.Namespace) -> None:
     from sr.comp.raw_compstate import RawCompstate
 
-    compstate = RawCompstate(args.compstate, local_only=False)
-    hosts = get_deployments(compstate)
+    with guard_unicode_output(sys.stdout), guard_unicode_output(sys.stderr):
+        compstate = RawCompstate(args.compstate, local_only=False)
+        hosts = get_deployments(compstate)
 
-    require_no_changes(compstate)
-    require_valid(compstate)
+        require_no_changes(compstate)
+        require_valid(compstate)
 
-    run_deployments(args, compstate, hosts)
+        run_deployments(args, compstate, hosts)
 
 
 def add_options(parser: argparse.ArgumentParser) -> None:
