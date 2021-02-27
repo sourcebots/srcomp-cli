@@ -329,12 +329,10 @@ def command(args):
 
 
 def add_subparser(subparsers):
-    description = __doc__
-
     parser = subparsers.add_parser(
         'import-schedule',
         help="Import a league.yaml file from a schedule file",
-        description=description,
+        description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
