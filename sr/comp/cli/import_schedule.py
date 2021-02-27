@@ -73,7 +73,7 @@ def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
     assert len(list_) % size == 0
     while len(list_):
         chunk = []
-        for i in range(size):
+        for _ in range(size):
             chunk.append(list_.pop(0))
         yield chunk
 
