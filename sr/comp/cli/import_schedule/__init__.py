@@ -22,11 +22,11 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 import argparse
 from pathlib import Path
 
-from sr.comp.cli.import_schedule import loading
+from sr.comp.cli.import_schedule import loading, teams_mapping
 
 
 def command(args: argparse.Namespace) -> None:
-    from sr.comp.cli.import_schedule import core, teams_mapping
+    from sr.comp.cli.import_schedule import core
 
     with open(args.schedule, 'r') as sfp:
         schedule_lines = loading.tidy(sfp.readlines())
@@ -41,7 +41,11 @@ def command(args: argparse.Namespace) -> None:
         exit(1)
 
     # Semi-randomise
-    team_ids = teams_mapping.order_teams(args.compstate, team_ids)
+    team_ids = teams_mapping.order_teams(
+        args.compstate,
+        team_ids,
+        args.team_order_strategy,
+    )
 
     matches, bad_matches = core.build_schedule(
         schedule_lines,
@@ -73,6 +77,13 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
         '--ignore-ids',
         type=loading.parse_ids,
         help="comma separated list of ids to ignore",
+    )
+    parser.add_argument(
+        '--team-order-strategy',
+        choices=teams_mapping.Strategy,
+        default=teams_mapping.Strategy.AUTO,
+        type=teams_mapping.Strategy,
+        help="How to map schedule ids to TLAs",
     )
     parser.add_argument('compstate', type=Path, help="competition state repository")
     parser.add_argument('schedule', type=Path, help="schedule to import")
