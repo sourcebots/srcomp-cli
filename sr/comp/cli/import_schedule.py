@@ -250,7 +250,7 @@ def order_teams(compstate_path, team_ids):
     if not os.path.exists(layout_yaml):
         # No layout; go random
         random = Random()
-        random.seed("".join(team_ids))
+        random.seed("".join(team_ids).encode())
         random.shuffle(team_ids)
         return team_ids
 
