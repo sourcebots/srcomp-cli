@@ -72,8 +72,10 @@ def command(args: argparse.Namespace) -> None:
 
     # Print any warnings about the matches
     for bad_match in bad_matches:
-        tpl = "Warning: match {arena}:{num} only has {num_teams} teams."
-        print(tpl.format(**bad_match._asdict()))
+        print(
+            f"Warning: match {bad_match.arena}:{bad_match.num} only has "
+            f"{bad_match.num_teams} teams.",
+        )
 
     # Save the matches to the file
     league_yaml = loading.league_yaml_path(args.compstate)
