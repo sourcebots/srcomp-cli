@@ -1,6 +1,6 @@
 import unittest
 
-from sr.comp.cli.import_schedule import build_schedule, get_id_subsets
+from sr.comp.cli.import_schedule.core import build_schedule, get_id_subsets
 
 
 class ImportScheduleTests(unittest.TestCase):
