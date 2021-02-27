@@ -237,7 +237,7 @@ class Scheduler:
                     matches = matches_prime
                     self.lprint("  completed via LCG permutation")
                     continue
-            for tick in range(10000):
+            for _ in range(10000):
                 if matchup_impatience.reached():
                     matchup_impatience.reset()
                     self.lprint("  Easing off on matchup constraint.")
