@@ -27,6 +27,7 @@ from typing import (
     List,
     Mapping,
     NamedTuple,
+    NewType,
     Optional,
     Tuple,
     TypeVar,
@@ -35,6 +36,7 @@ from typing import (
 from sr.comp.types import ArenaName, MatchNumber, TLA
 
 T = TypeVar('T')
+ID = NewType('ID', str)
 RawMatch = Dict[ArenaName, List[Optional[TLA]]]
 
 TEAMS_PER_GAME = 4
@@ -44,6 +46,10 @@ class BadMatch(NamedTuple):
     arena: ArenaName
     num: MatchNumber
     num_teams: int
+
+
+def parse_ids(ids: str, sep: str = ',') -> List[ID]:
+    return [ID(x) for x in ids.split(sep)]
 
 
 def tidy(lines: Iterable[str]) -> List[str]:
@@ -109,7 +115,7 @@ def load_teams_areans(compstate_path: str) -> Tuple[List[TLA], List[ArenaName]]:
     return team_ids, arena_ids
 
 
-def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[str], List[List[str]]]:
+def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[ID], List[List[ID]]]:
     """
     Converts an iterable of strings containing pipe-separated ids into
     a tuple: ``(ids, schedule)``. The ``ids`` is a list of unique ids
@@ -117,10 +123,10 @@ def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[str], List[Li
     lists of ids in each line.
     """
 
-    ids: List[str] = []
-    schedule: List[List[str]] = []
+    ids: List[ID] = []
+    schedule: List[List[ID]] = []
     for match in schedule_lines:
-        match_ids = match.split('|')
+        match_ids = parse_ids(match, sep='|')
         uniq_match_ids = set(match_ids)
         assert len(match_ids) == len(uniq_match_ids), match_ids
         schedule.append(match_ids)
@@ -132,12 +138,12 @@ def load_ids_schedule(schedule_lines: Iterable[str]) -> Tuple[List[str], List[Li
     return ids, schedule
 
 
-def ignore_ids(ids: List[str], ids_to_remove: List[str]) -> None:
+def ignore_ids(ids: List[ID], ids_to_remove: List[ID]) -> None:
     for i in ids_to_remove:
         ids.remove(i)
 
 
-def get_id_subsets(ids: List[str], limit: int) -> Iterator[List[str]]:
+def get_id_subsets(ids: List[T], limit: int) -> Iterator[List[T]]:
     num_ids = len(ids)
 
     extra = num_ids - limit
@@ -175,7 +181,7 @@ def get_id_subsets(ids: List[str], limit: int) -> Iterator[List[str]]:
         raise Exception("Too many empty slots to compensate for ({0}).".format(extra))
 
 
-def build_id_team_maps(ids: List[str], team_ids: List[TLA]) -> Iterator[Dict[str, TLA]]:
+def build_id_team_maps(ids: List[ID], team_ids: List[TLA]) -> Iterator[Dict[ID, TLA]]:
     # If there are more ids than team_ids we want to ensure that we minimize
     # the number of matches which have empty places and also the number of
     # empty places in any given match.
@@ -191,8 +197,8 @@ def build_id_team_maps(ids: List[str], team_ids: List[TLA]) -> Iterator[Dict[str
 
 
 def build_matches(
-    id_team_map: Dict[str, TLA],
-    schedule: List[List[str]],
+    id_team_map: Dict[ID, TLA],
+    schedule: List[List[ID]],
     arena_ids: List[ArenaName],
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
@@ -246,9 +252,9 @@ def are_better_matches(best: List[BadMatch], new: List[BadMatch]) -> bool:
 
 
 def get_best_fit(
-    ids: List[str],
+    ids: List[ID],
     team_ids: List[TLA],
-    schedule: List[List[str]],
+    schedule: List[List[ID]],
     arena_ids: List[ArenaName],
 ) -> Tuple[
     Dict[MatchNumber, RawMatch],
@@ -319,7 +325,7 @@ def order_teams(compstate_path: str, team_ids: List[TLA]) -> List[TLA]:
 
 def build_schedule(
     schedule_lines: List[str],
-    ids_to_ignore: str,
+    ids_to_ignore: List[ID],
     team_ids: List[TLA],
     arena_ids: List[ArenaName],
 ) -> Tuple[
@@ -331,7 +337,7 @@ def build_schedule(
 
     # Ignore any ids we've been told to
     if ids_to_ignore:
-        ignore_ids(ids, ids_to_ignore.split(','))
+        ignore_ids(ids, ids_to_ignore)
 
     # Sanity checks
     num_ids = len(ids)
@@ -388,6 +394,7 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
     parser.add_argument(
         '-i',
         '--ignore-ids',
+        type=parse_ids,
         help="comma separated list of ids to ignore",
     )
     parser.add_argument('compstate', help="competition state repository")
