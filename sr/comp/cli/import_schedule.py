@@ -96,18 +96,10 @@ def dump_league_yaml(
 
 
 def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName]]:
-    from sr.comp.comp import SRComp
+    from sr.comp import arenas, teams
 
-    league_yaml = league_yaml_path(compstate_path)
-
-    if not league_yaml.exists():
-        # If nothing there yet create an empty schedule so the state can load
-        # Assume that if it is there it's in the right format
-        dump_league_yaml({}, league_yaml)
-
-    comp = SRComp(compstate_path)
-    team_ids = sorted(comp.teams.keys())
-    arena_ids = sorted(comp.arenas.keys())
+    team_ids = sorted(teams.load_teams(compstate_path / 'teams.yaml').keys())
+    arena_ids = sorted(arenas.load_arenas(compstate_path / 'arenas.yaml').keys())
 
     return team_ids, arena_ids
 
