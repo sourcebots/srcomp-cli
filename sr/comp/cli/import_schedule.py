@@ -21,6 +21,7 @@ https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 
 import argparse
 import collections
+from pathlib import Path
 from typing import (
     Dict,
     Iterable,
@@ -79,16 +80,13 @@ def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
         yield chunk
 
 
-def league_yaml_path(compstate_path: str) -> str:
-    import os.path
-
-    league_yaml = os.path.join(compstate_path, 'league.yaml')
-    return league_yaml
+def league_yaml_path(compstate_path: Path) -> Path:
+    return compstate_path / 'league.yaml'
 
 
 def dump_league_yaml(
     matches: Dict[MatchNumber, RawMatch],
-    file_path: str,
+    file_path: Path,
 ) -> None:
     import yaml
 
@@ -97,14 +95,12 @@ def dump_league_yaml(
         yaml.dump(empty, lfp)
 
 
-def load_teams_areans(compstate_path: str) -> Tuple[List[TLA], List[ArenaName]]:
-    import os.path
-
+def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName]]:
     from sr.comp.comp import SRComp
 
     league_yaml = league_yaml_path(compstate_path)
 
-    if not os.path.exists(league_yaml):
+    if not league_yaml.exists():
         # If nothing there yet create an empty schedule so the state can load
         # Assume that if it is there it's in the right format
         dump_league_yaml({}, league_yaml)
@@ -278,17 +274,16 @@ def get_best_fit(
     return best
 
 
-def order_teams(compstate_path: str, team_ids: List[TLA]) -> List[TLA]:
+def order_teams(compstate_path: Path, team_ids: List[TLA]) -> List[TLA]:
     """
     Order teams either randomly or, if there's a layout available, by location.
     """
-    import os.path
     import yaml
 
     from sr.comp.knockout_scheduler.stable_random import Random
 
-    layout_yaml = os.path.join(compstate_path, 'layout.yaml')
-    if not os.path.exists(layout_yaml):
+    layout_yaml = compstate_path / 'layout.yaml'
+    if not layout_yaml.exists():
         # No layout; go random
         random = Random()
         random.seed("".join(team_ids).encode())
@@ -396,6 +391,6 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
         type=parse_ids,
         help="comma separated list of ids to ignore",
     )
-    parser.add_argument('compstate', help="competition state repository")
-    parser.add_argument('schedule', help="schedule to import")
+    parser.add_argument('compstate', type=Path, help="competition state repository")
+    parser.add_argument('schedule', type=Path, help="schedule to import")
     parser.set_defaults(func=command)
