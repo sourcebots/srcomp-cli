@@ -7,6 +7,11 @@ with open('README.rst') as f:
 setup(
     name='sr.comp.cli',
     version='1.2.0',
+    project_urls={
+        'Documentation': 'https://srcomp-cli.readthedocs.org/',
+        'Code': 'https://github.com/PeterJCLaw/srcomp-cli',
+        'Issue tracker': 'https://github.com/PeterJCLaw/srcomp-cli/issues',
+    },
     packages=find_namespace_packages(exclude=('tests',)),
     namespace_packages=['sr', 'sr.comp'],
     description="CLI tools for srcomp repositories",
