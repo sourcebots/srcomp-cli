@@ -14,7 +14,7 @@ Usage
 .. code:: shell
 
     pip install -U pip setuptools wheel
-    pip install git+https://github.com/PeterJCLaw/srcomp git+https://github.com/PeterJCLaw/srcomp-cli
+    pip install git+https://github.com/PeterJCLaw/srcomp-cli
 
 Bash completions are also available, see the ``bash-completion`` file in the
 root of the repo.
@@ -26,7 +26,6 @@ Development
 
 .. code:: shell
 
-    pip install git+https://github.com/PeterJCLaw/srcomp
     pip install -e .
 
 
