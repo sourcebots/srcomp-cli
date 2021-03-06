@@ -10,9 +10,9 @@ def find_unused_port():
 
 
 def command(settings):
-    import webbrowser
     import threading
     import time
+    import webbrowser
 
     try:
         import sr.comp.scorer  # type: ignore[import]

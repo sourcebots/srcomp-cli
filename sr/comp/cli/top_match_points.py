@@ -2,10 +2,10 @@ __description__ = "Summaries the teams scoring the most match points"
 
 
 def command(settings):
+    import os.path
     from collections import defaultdict
     from functools import partial
     from itertools import chain
-    import os.path
 
     from sr.comp.comp import SRComp
 

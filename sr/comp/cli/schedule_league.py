@@ -1,3 +1,5 @@
+
+
 def max_possible_match_periods(sched_db):
     from datetime import timedelta
 
@@ -14,10 +16,11 @@ def max_possible_match_periods(sched_db):
 
 
 def command(args):
-    from multiprocessing import Pool
     import os.path
     import random
     import sys
+    from multiprocessing import Pool
+
     import yaml
 
     from sr.comp.cli.league_scheduler import Scheduler

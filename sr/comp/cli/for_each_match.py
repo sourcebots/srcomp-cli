@@ -72,7 +72,9 @@ def replace_placeholders(match: 'Match', command: List[str]) -> List[str]:
 
 def command(args):
     import subprocess
+
     from sr.comp.comp import SRComp
+
     from .deploy import print_fail
 
     compstate = SRComp(args.compstate)

@@ -139,8 +139,9 @@ def get_deployments(compstate):
 
 
 def get_current_state(host):
-    import simplejson as json
     from urllib.request import urlopen
+
+    import simplejson as json
 
     url = 'http://{0}/comp-api/state'.format(host)
     try:

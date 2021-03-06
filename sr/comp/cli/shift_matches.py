@@ -1,7 +1,7 @@
 def command(args):
     from datetime import datetime, timedelta
 
-    from .yaml_round_trip import load as load_yaml, dump as dump_yaml
+    from .yaml_round_trip import dump as dump_yaml, load as load_yaml
 
     schedule = load_yaml(str(args.compstate / 'schedule.yaml'))
 

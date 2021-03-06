@@ -8,8 +8,8 @@ class BadDurationException(ValueError):
 
 
 def parse_duration(time_str):
-    from datetime import timedelta
     import re
+    from datetime import timedelta
 
     parts = re.match(time_parse_pattern, time_str)
     if not parts:
@@ -29,6 +29,7 @@ def parse_duration(time_str):
 def parse_datetime(when_str):
     import re
     from datetime import datetime
+
     from dateutil.parser import parse as parse_date
     from dateutil.tz import tzlocal
 

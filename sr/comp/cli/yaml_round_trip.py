@@ -5,6 +5,7 @@ def _load():
     global _ryaml
     if _ryaml is None:
         import ruamel.yaml as _ryaml
+
         from sr.comp.yaml_loader import add_time_constructor
         add_time_constructor(_ryaml.RoundTripLoader)
     return _ryaml

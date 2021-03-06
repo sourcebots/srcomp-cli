@@ -9,8 +9,9 @@ def round_name(rounds_left):
 
 
 def command(settings):
-    from sr.comp.comp import SRComp
     import os.path
+
+    from sr.comp.comp import SRComp
 
     comp = SRComp(os.path.realpath(settings.compstate))
 
