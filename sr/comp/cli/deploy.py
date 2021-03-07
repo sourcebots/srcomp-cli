@@ -89,14 +89,12 @@ def query_bool(question: str, default_val: Optional[bool] = None) -> bool:
 
 
 def query_warn(msg: object) -> None:
-    query_msg = f"Warning: {msg}. Continue?"
-    if not query_bool(query_msg, False):
+    if not query_bool(f"Warning: {msg}. Continue?", False):
         exit(1)
 
 
 def ref_compstate(host: str) -> str:
-    url = f'ssh://{DEPLOY_USER}@{host}/~/compstate.git'
-    return url
+    return f'ssh://{DEPLOY_USER}@{host}/~/compstate.git'
 
 
 def deploy_to(compstate, host, revision, verbose):
@@ -165,24 +163,19 @@ def check_host_state(compstate, host, revision, verbose):
     SKIP = True
     UPDATE = False
     if verbose:
-        print("Checking host state for {} (timeout {} seconds).".format(
-            host,
-            API_TIMEOUT_SECONDS,
-        ))
+        print(f"Checking host state for {host} (timeout {API_TIMEOUT_SECONDS} seconds).")
     state = get_current_state(host)
     if not state:
-        tpl = "Failed to get state for {0}, cannot advise about history." \
-              " Deploy anyway?"
-        if query_bool(tpl.format(host, state), True):
+        if query_bool(
+            f"Failed to get state for {host}, cannot advise about history. Deploy anyway?",
+            True,
+        ):
             return UPDATE
         else:
             return SKIP
 
     if state == revision:
-        print("Host {} already has requested revision ({})".format(
-            host,
-            revision[:8],
-        ))
+        print(f"Host {host} already has requested revision ({revision[:8]})")
         return SKIP
 
     # Ideal case:
@@ -191,30 +184,26 @@ def check_host_state(compstate, host, revision, verbose):
 
     # Check for unknown commit
     if not compstate.has_commit(state):
-        tpl = "Host {0} has unknown state '{1}'. Try to fetch it?"
-        if query_bool(tpl.format(host, state), True):
+        if query_bool(f"Host {host} has unknown state '{state}'. Try to fetch it?", True):
             compstate.fetch('origin', quiet=True)
             compstate.fetch(ref_compstate(host), quiet=True)
 
     # Old revision:
     if compstate.has_descendant(state):
-        tpl = "Host {0} has more recent state '{1}'. Deploy anyway?"
-        if query_bool(tpl.format(host, state), True):
+        if query_bool(f"Host {host} has more recent state '{state}'. Deploy anyway?", True):
             return UPDATE
         else:
             return SKIP
 
     # Some other revision:
     if compstate.has_commit(state):
-        tpl = "Host {0} has sibling state '{1}'. Deploy anyway?"
-        if query_bool(tpl.format(host, state), True):
+        if query_bool(f"Host {host} has sibling state '{state}'. Deploy anyway?", True):
             return UPDATE
         else:
             return SKIP
 
     # An unknown state
-    tpl = "Host {0} has unknown state '{1}'. Deploy anyway?"
-    if query_bool(tpl.format(host, state), True):
+    if query_bool(f"Host {host} has unknown state '{state}'. Deploy anyway?", True):
         return UPDATE
     else:
         return SKIP
