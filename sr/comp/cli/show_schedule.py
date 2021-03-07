@@ -75,11 +75,13 @@ def add_subparser(subparsers):
         help="competition state repo",
     )
     parser.add_argument(
-        '--all', action='store_true',
+        '--all',
+        action='store_true',
         help="show all matches, not just the upcoming ones (ignores --limit)",
     )
     parser.add_argument(
-        '--limit', default=MAX_MATCHES,
+        '--limit',
+        default=MAX_MATCHES,
         help="how many matches to show (default: {0})".format(MAX_MATCHES),
     )
     parser.set_defaults(func=command)
