@@ -74,7 +74,7 @@ def get_id_subsets(ids: Collection[T], limit: int) -> Iterator[Collection[T]]:
 
     else:
         # TODO: consider generalising the above or adding more handling
-        raise Exception("Too many empty slots to compensate for ({0}).".format(extra))
+        raise Exception(f"Too many empty slots to compensate for ({extra}).")
 
 
 def build_id_team_maps(ids: List[ID], team_ids: Sequence[TLA]) -> Iterator[Dict[ID, TLA]]:

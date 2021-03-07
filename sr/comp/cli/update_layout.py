@@ -33,7 +33,7 @@ def command(settings):
     layout = rtyaml.load(layout_yaml)
     layout_teams = layout['teams']
 
-    with open(settings.teams_list, 'r') as tlf:
+    with open(settings.teams_list) as tlf:
         teams_list = []
         for line in tlf.readlines():
             tla = line.split('#', 1)[0].strip()

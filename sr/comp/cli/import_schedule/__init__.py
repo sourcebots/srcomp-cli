@@ -44,7 +44,7 @@ def get_configuration(
     try:
         team_ids, arena_ids, teams_per_game = loading.load_teams_areans(compensate_path)
     except Exception as e:
-        print("Failed to load existing state ({0}).".format(e))
+        print(f"Failed to load existing state ({e}).")
         print("Make it valid (consider removing the league.yaml and layout.yaml)")
         print("and try again.")
         exit(1)
@@ -67,7 +67,7 @@ def get_configuration(
 def command(args: argparse.Namespace) -> None:
     from sr.comp.cli.import_schedule import core
 
-    with open(args.schedule, 'r') as sfp:
+    with open(args.schedule) as sfp:
         schedule_lines = loading.tidy(sfp.readlines())
 
     league_yaml = loading.league_yaml_path(args.compstate)

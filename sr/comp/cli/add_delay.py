@@ -3,7 +3,7 @@ time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d
 
 class BadDurationException(ValueError):
     def __init__(self, time_str):
-        msg = "Unable to parse duration string '{0}'.".format(time_str)
+        msg = f"Unable to parse duration string '{time_str}'."
         super().__init__(msg)
 
 
@@ -65,7 +65,7 @@ def parse_datetime(when_str):
             continue
     else:
         raise ValueError(
-            "Unable to parse date string: {0!r}".format(when_str),
+            f"Unable to parse date string: {when_str!r}",
         )
 
     # Timezone information gets ignored, and the resulting datetime is

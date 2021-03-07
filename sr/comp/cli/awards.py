@@ -26,10 +26,10 @@ def command(settings):
     )
 
     missing = set(Award) - set(award_order)
-    assert not missing, "Awards missed!: {0}".format(", ".join(map(str, missing)))
+    assert not missing, "Awards missed!: {}".format(", ".join(map(str, missing)))
 
     for award in award_order:
-        print('### {}'.format(award.value.upper()))
+        print(f'### {award.value.upper()}')
         recipients = comp.awards.get(award, None)
         if recipients is None:
             print('  Not yet awarded.')

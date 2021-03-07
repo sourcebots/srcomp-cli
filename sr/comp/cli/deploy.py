@@ -63,7 +63,7 @@ def query(
     assert len(set(options)) == len(options)
     opts = '/'.join(options)
 
-    query = format_fail("{0} [{1}]: ".format(question.rstrip(), opts))
+    query = format_fail(f"{question.rstrip()} [{opts}]: ")
 
     while True:
         # Loop until we get a suitable response from the user
@@ -89,18 +89,18 @@ def query_bool(question: str, default_val: Optional[bool] = None) -> bool:
 
 
 def query_warn(msg: object) -> None:
-    query_msg = "Warning: {0}. Continue?".format(msg)
+    query_msg = f"Warning: {msg}. Continue?"
     if not query_bool(query_msg, False):
         exit(1)
 
 
 def ref_compstate(host: str) -> str:
-    url = 'ssh://{0}@{1}/~/compstate.git'.format(DEPLOY_USER, host)
+    url = f'ssh://{DEPLOY_USER}@{host}/~/compstate.git'
     return url
 
 
 def deploy_to(compstate, host, revision, verbose):
-    print(BOLD + "Deploying to {0}:".format(host) + ENDC)
+    print(BOLD + f"Deploying to {host}:" + ENDC)
 
     # Make connection early to check if host is up.
     with ssh_connection(host) as client:
@@ -118,10 +118,10 @@ def deploy_to(compstate, host, revision, verbose):
             compstate.push(
                 url,
                 revspec,
-                err_msg="Failed to push to {0}.".format(host),
+                err_msg=f"Failed to push to {host}.",
             )
 
-        cmd = "./update '{0}'".format(revision)
+        cmd = f"./update '{revision}'"
         _, stdout, stderr = client.exec_command(cmd)
         retcode = stdout.channel.recv_exit_status()
 
@@ -143,7 +143,7 @@ def get_current_state(host):
 
     import simplejson as json
 
-    url = 'http://{0}/comp-api/state'.format(host)
+    url = f'http://{host}/comp-api/state'
     try:
         page = urlopen(url, timeout=API_TIMEOUT_SECONDS)
         raw_state = json.load(page)
@@ -165,7 +165,7 @@ def check_host_state(compstate, host, revision, verbose):
     SKIP = True
     UPDATE = False
     if verbose:
-        print("Checking host state for {0} (timeout {1} seconds).".format(
+        print("Checking host state for {} (timeout {} seconds).".format(
             host,
             API_TIMEOUT_SECONDS,
         ))
@@ -179,7 +179,7 @@ def check_host_state(compstate, host, revision, verbose):
             return SKIP
 
     if state == revision:
-        print("Host {0} already has requested revision ({1})".format(
+        print("Host {} already has requested revision ({})".format(
             host,
             revision[:8],
         ))
@@ -247,16 +247,13 @@ def run_deployments(args, compstate, hosts):
         if not args.skip_host_check:
             skip_host = check_host_state(compstate, host, revision, args.verbose)
             if skip_host:
-                print(BOLD + "Skipping {0}.".format(host) + ENDC)
+                print(BOLD + f"Skipping {host}." + ENDC)
                 continue
 
         retcode = deploy_to(compstate, host, revision, args.verbose)
         if retcode != 0:
             # TODO: work out if it makes sense to try to rollback here?
-            print_fail("Failed to deploy to '{0}' (exit status: {1}).".format(
-                host,
-                retcode,
-            ))
+            print_fail(f"Failed to deploy to '{host}' (exit status: {retcode}).")
             exit(retcode)
 
     print(BOLD + OKBLUE + "Done" + ENDC)

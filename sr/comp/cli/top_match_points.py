@@ -24,17 +24,14 @@ def command(settings):
 
     for idx, (points, team_info) in enumerate(sorted(points_map.items())):
         if idx + 2 < count:
-            print("{0:>3} teams scored {1}".format(len(team_info), points))
+            print(f"{len(team_info):>3} teams scored {points}")
         else:
             print()
-            print("The following {0} team(s) scored {1} points:".format(
-                len(team_info),
-                points,
-            ))
+            print(f"The following {len(team_info)} team(s) scored {points} points:")
             for tla, matches in team_info.items():
-                print("- {0} in match(es): {1}".format(
-                    tla,
-                    ", ".join("{0}{1}".format(*x) for x in matches),
+                print(f"- {tla} in match(es): " + ", ".join(
+                    "{}{}".format(*x)
+                    for x in matches
                 ))
 
 

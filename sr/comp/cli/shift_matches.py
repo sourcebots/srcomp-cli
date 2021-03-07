@@ -27,7 +27,7 @@ def command(args):
 
     with (args.compstate / '.update-pls').open('w'):
         pass
-    print("Shifted matches by {}".format(dt))
+    print(f"Shifted matches by {dt}")
 
 
 def add_subparser(subparsers):

@@ -44,7 +44,7 @@ def dump_league_yaml(
 def load_league_yaml(league_yaml: Path) -> Dict[MatchNumber, RawMatch]:
     import yaml
 
-    with open(league_yaml, 'r') as lfp:
+    with open(league_yaml) as lfp:
         data = yaml.load(lfp)
         matches: Dict[MatchNumber, RawMatch] = data['matches']
         return matches

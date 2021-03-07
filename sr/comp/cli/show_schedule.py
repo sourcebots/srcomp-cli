@@ -49,7 +49,7 @@ def command(settings):
     arena_ids = comp.arenas.keys()
     for slot in matches:
         m = first(slot.values())
-        print_col(" {0:>3} {1:%H:%M} ".format(m.num, m.start_time))
+        print_col(f" {m.num:>3} {m.start_time:%H:%M} ")
 
         for a_id in arena_ids:
             if a_id in slot:

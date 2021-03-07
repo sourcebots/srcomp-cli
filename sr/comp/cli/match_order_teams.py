@@ -8,7 +8,7 @@ def command(args):
 
     for slot in matches:
         for arena, match in slot.items():
-            print("## Match #{0} in Arena {1} (at {2:%H:%M})".format(
+            print("## Match #{} in Arena {} (at {:%H:%M})".format(
                 match.num,
                 arena,
                 match.start_time,

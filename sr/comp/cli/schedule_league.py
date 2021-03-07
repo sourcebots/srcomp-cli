@@ -1,5 +1,3 @@
-
-
 def max_possible_match_periods(sched_db):
     from datetime import timedelta
 
@@ -56,7 +54,7 @@ def command(args):
         enable_lcg=args.lcg,
     )
     if args.parallel > 1:
-        scheduler.lprint('Using {} threads'.format(args.parallel))
+        scheduler.lprint(f'Using {args.parallel} threads')
         pool = Pool(args.parallel)
 
         def get_output(data):
@@ -65,7 +63,7 @@ def command(args):
 
         for n in range(args.parallel):
             scheduler.random = random.Random()
-            scheduler.tag = '[Thread {}] '.format(n)
+            scheduler.tag = f'[Thread {n}] '
             pool.apply_async(scheduler.run, callback=get_output)
 
         pool.close()

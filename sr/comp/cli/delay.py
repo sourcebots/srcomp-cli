@@ -16,7 +16,7 @@ def command(args):
     how_long, when = add_delay.command(args)
 
     if args.when != 'now':
-        msg = "Confirm adding {0} delay at {1}".format(how_long, when)
+        msg = f"Confirm adding {how_long} delay at {when}"
         if not deploy.query_bool(msg, default_val=True):
             print("Leaving state with local modifications")
             exit()
@@ -25,7 +25,7 @@ def command(args):
 
     with deploy.exit_on_exception(kind=RuntimeError):
         compstate.stage('schedule.yaml')
-        msg = "Adding {0} delay at {1}".format(args.how_long, when)
+        msg = f"Adding {args.how_long} delay at {when}"
         compstate.commit(msg)
 
     deploy.run_deployments(args, compstate, hosts)

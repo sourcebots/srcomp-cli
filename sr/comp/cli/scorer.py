@@ -27,7 +27,7 @@ def command(settings):
 
     def browse():
         time.sleep(1.5)
-        webbrowser.open('http://localhost:{}/'.format(port))
+        webbrowser.open(f'http://localhost:{port}/')
 
     thread = threading.Thread(target=browse)
     thread.start()

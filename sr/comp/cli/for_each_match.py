@@ -45,7 +45,7 @@ class PlaceholderExpander:
     @staticmethod
     def validate(value: str) -> None:
         if value.startswith('@') and value[1:] not in PLACEHOLDERS:
-            print("Warning: unrecognised value {!r}.".format(value), file=sys.stderr)
+            print(f"Warning: unrecognised value {value!r}.", file=sys.stderr)
 
     def __getitem__(self, key: str) -> str:
         return ' '.join(PLACEHOLDERS[key](self.match))

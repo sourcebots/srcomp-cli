@@ -91,7 +91,7 @@ class Scheduler:
         )
         if overflow < self.entrants_per_match_period:
             for n in range(overflow):
-                teams.append('~{}'.format(n))
+                teams.append(f'~{n}')
         self._teams = teams
 
     @property
@@ -196,7 +196,7 @@ class Scheduler:
                 if not acceptable:
                     continue
                 self._lcg_params = (a, c)
-                self.lprint("Found LCG settings: ({}, {})".format(a, c))
+                self.lprint(f"Found LCG settings: ({a}, {c})")
                 return
         self.lprint("No valid LCG parameters")
         self._lcg_params = None

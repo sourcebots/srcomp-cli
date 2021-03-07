@@ -39,7 +39,7 @@ def order_teams_by_location(layout_yaml: Path, team_ids: List[TLA]) -> List[TLA]
 
     from sr.comp.validation import join_and
 
-    with open(layout_yaml, 'r') as lf:
+    with open(layout_yaml) as lf:
         layout_raw = yaml.load(lf)
         layout = layout_raw['teams']
 
