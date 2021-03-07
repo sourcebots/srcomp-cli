@@ -58,7 +58,7 @@ class ScheduleGenerator:
         headings = [("Number", 'white', True), ("Time", 'white', True)]
         for arena in self.arenas.values():
             headings += [
-                (f"{arena.display_name}", 'white', True),
+                (arena.display_name, 'white', True),
                 "",
                 "",
                 "",
