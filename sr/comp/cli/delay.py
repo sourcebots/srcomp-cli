@@ -35,7 +35,8 @@ def add_subparser(subparsers):
     help_msg = "Add and deploy a delay to the competition"
     parser = subparsers.add_parser('delay', help=help_msg, description=help_msg)
     parser.add_argument(
-        '--no-pull', action='store_true',
+        '--no-pull',
+        action='store_true',
         help="skips updating to the latest revision",
     )
     deploy.add_options(parser)
