@@ -1,4 +1,3 @@
-MAX_MATCHES = 15
 DISPLAY_NAME_WIDTH = 18
 
 
@@ -81,7 +80,7 @@ def add_subparser(subparsers):
     )
     parser.add_argument(
         '--limit',
-        default=MAX_MATCHES,
-        help="how many matches to show (default: {0})".format(MAX_MATCHES),
+        default=15,
+        help="how many matches to show (default: %(default)s)",
     )
     parser.set_defaults(func=command)
