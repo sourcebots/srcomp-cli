@@ -3,6 +3,8 @@ from setuptools import find_namespace_packages, setup
 with open('README.rst') as f:
     long_description = f.read()
 
+with open('setup-requirements.txt') as f:
+    setup_requires = f.readlines()
 
 setup(
     name='sr.comp.cli',
@@ -34,9 +36,7 @@ setup(
             'srcomp = sr.comp.cli.command_line:main',
         ],
     },
-    setup_requires=[
-        'Sphinx >=3.0.2, <4',
-    ],
+    setup_requires=setup_requires,
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
