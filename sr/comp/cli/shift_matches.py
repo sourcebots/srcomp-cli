@@ -1,3 +1,11 @@
+"""
+Shift the matches to start at the current time.
+
+This is primarily aimed for development of SRComp related tooling, as a way to
+reset the matches in a compstate to start at a convenient time.
+"""
+
+
 def command(args):
     from datetime import datetime, timedelta
 
@@ -33,7 +41,11 @@ def command(args):
 def add_subparser(subparsers):
     from pathlib import Path
 
-    parser = subparsers.add_parser('shift-matches', help="Shift matches up")
+    parser = subparsers.add_parser(
+        'shift-matches',
+        help=__doc__.strip().splitlines()[0],
+        description=__doc__,
+    )
     parser.add_argument(
         'compstate',
         type=Path,
