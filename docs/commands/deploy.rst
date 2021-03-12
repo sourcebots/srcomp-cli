@@ -57,8 +57,7 @@ Each host is assumed to:
    -  an executable file ``update`` in its home directory which accepts
       as single argument the revision being deployed and subsequently
       calls the function ``sr.comp.http.update.main()`` with the path to
-      the user's ``compstate.git`` and that revision as the proper
-      ``sys.argv`` values.
+      the live compstate and that revision as the proper ``sys.argv`` values.
 
 The usual way to achieve this is to configure a host using |srcomp-puppet|_,
 which contains the canonical implementation.
