@@ -1,8 +1,8 @@
 import random
 import sys
 from collections import Counter
-from fractions import gcd
 from itertools import product
+from math import gcd
 
 
 class PatienceCounter:
