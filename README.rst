@@ -33,8 +33,8 @@ Development
 ``./run-tests``
 
 
-.. |Build Status| image:: https://travis-ci.org/PeterJCLaw/srcomp-cli.png?branch=master
-   :target: https://travis-ci.org/PeterJCLaw/srcomp-cli
+.. |Build Status| image:: https://circleci.com/gh/PeterJCLaw/srcomp-cli.svg?style=svg
+   :target: https://circleci.com/gh/PeterJCLaw/srcomp-cli
 
 .. |Docs Status| image:: https://readthedocs.org/projects/srcomp-cli/badge/?version=latest
    :target: https://srcomp-cli.readthedocs.org/
