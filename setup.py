@@ -16,7 +16,10 @@ setup(
     },
     packages=find_namespace_packages(exclude=('tests',)),
     namespace_packages=['sr', 'sr.comp'],
-    description="Command line tools for interacting with the state of the Student Robotics Competition",
+    description=(
+        "Command line tools for interacting with the state of the Student "
+        "Robotics Competition"
+    ),
     long_description=long_description,
     author="Student Robotics Competition Software SIG",
     author_email='srobo-devel@googlegroups.com',
