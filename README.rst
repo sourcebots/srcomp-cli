@@ -14,7 +14,7 @@ Usage
 .. code:: shell
 
     pip install -U pip setuptools wheel
-    pip install git+https://github.com/PeterJCLaw/srcomp-cli
+    pip install sr.comp.cli
 
 Bash completions are also available, see the ``bash-completion`` file in the
 root of the repo.
