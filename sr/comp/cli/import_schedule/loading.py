@@ -50,10 +50,18 @@ def load_league_yaml(league_yaml: Path) -> Dict[MatchNumber, RawMatch]:
         return matches
 
 
-def load_teams_areans(compstate_path: Path) -> Tuple[List[TLA], List[ArenaName], int]:
+def load_teams_areans(
+    compstate_path: Path,
+    first_match_number: MatchNumber,
+) -> Tuple[List[TLA], List[ArenaName], int]:
     from sr.comp import arenas, teams
 
-    team_ids = sorted(teams.load_teams(compstate_path / 'teams.yaml').keys())
+    team_ids = sorted(
+        x.tla
+        for x in teams.load_teams(compstate_path / 'teams.yaml').values()
+        if x.is_still_around(first_match_number)
+    )
+
     arenas_yaml = compstate_path / 'arenas.yaml'
     arena_ids = sorted(arenas.load_arenas(arenas_yaml).keys())
     num_corners = len(arenas.load_corners(arenas_yaml))

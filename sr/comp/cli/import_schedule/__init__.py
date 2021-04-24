@@ -40,9 +40,14 @@ def get_configuration(
     team_order_strategy: teams_mapping.Strategy,
     existing_match_numbers: Iterable[MatchNumber],
 ) -> Configuration:
+    first_match_number = get_first_match_number(existing_match_numbers)
+
     # Grab the teams and arenas
     try:
-        team_ids, arena_ids, teams_per_game = loading.load_teams_areans(compensate_path)
+        team_ids, arena_ids, teams_per_game = loading.load_teams_areans(
+            compensate_path,
+            first_match_number,
+        )
     except Exception as e:
         print(f"Failed to load existing state ({e}).")
         print("Make it valid (consider removing the league.yaml and layout.yaml)")
@@ -56,12 +61,7 @@ def get_configuration(
         team_order_strategy,
     )
 
-    return Configuration(
-        arena_ids,
-        team_ids,
-        teams_per_game,
-        get_first_match_number(existing_match_numbers),
-    )
+    return Configuration(arena_ids, team_ids, teams_per_game, first_match_number)
 
 
 def command(args: argparse.Namespace) -> None:
