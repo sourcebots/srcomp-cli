@@ -8,7 +8,7 @@ with open('setup-requirements.txt') as f:
 
 setup(
     name='sr.comp.cli',
-    version='1.3.0',
+    version='1.3.1',
     project_urls={
         'Documentation': 'https://srcomp-cli.readthedocs.org/',
         'Code': 'https://github.com/PeterJCLaw/srcomp-cli',
