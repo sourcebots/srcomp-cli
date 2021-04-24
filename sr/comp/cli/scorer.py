@@ -1,3 +1,8 @@
+"""
+Run the SRComp Scorer UI. Requires sr.comp.scorer to be installed.
+"""
+
+
 def find_unused_port():
     import socket
 
@@ -44,7 +49,11 @@ def command(settings):
 
 
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('score')
+    parser = subparsers.add_parser(
+        'score',
+        help=__doc__.strip().splitlines()[0],
+        description=__doc__,
+    )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument(
         '-p',
