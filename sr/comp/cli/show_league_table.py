@@ -9,9 +9,6 @@ SORT_TYPES = {  # cli string: (sort column, sort direction)
 
 def command(settings):
     import os.path
-    from collections import defaultdict
-    from functools import partial
-    from itertools import chain
 
     from sr.comp.comp import SRComp
 
