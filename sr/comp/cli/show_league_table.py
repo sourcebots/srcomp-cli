@@ -31,9 +31,9 @@ def command(settings):
     league_table.sort(key=lambda row: row[sort_col], reverse=sort_direction)
 
     # Print header
-    print("Pos | League | Game | Team")
+    print("Rank | League | Game | Team")
     for row in league_table:
-        print(f"{row[0]:>3} | {row[1]:>6} | {row[2]:>4} | {row[3]+':':<5} {row[4]}")
+        print(f"{row[0]:>4} | {row[1]:>6} | {row[2]:>4} | {row[3]+':':<5} {row[4]}")
 
 
 def add_subparser(subparsers):
