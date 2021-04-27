@@ -2,7 +2,7 @@ __description__ = "Show the current state of the league table"
 
 
 SORT_TYPES = {  # cli string: (sort column, sort direction)
-    'position': (0, False),
+    'rank': (0, False),
     'game': (2, True),
     'team': (3, False),
 }
