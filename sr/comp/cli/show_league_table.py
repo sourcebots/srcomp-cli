@@ -12,8 +12,9 @@ def command(settings):
     import os.path
     from collections import Counter
 
-    from sr.comp.comp import SRComp
     from tabulate import tabulate
+
+    from sr.comp.comp import SRComp
 
     comp = SRComp(os.path.realpath(settings.compstate))
 
