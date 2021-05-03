@@ -11,6 +11,7 @@ def command(settings):
     import os.path
 
     from sr.comp.comp import SRComp
+    from tabulate import tabulate
 
     comp = SRComp(os.path.realpath(settings.compstate))
 
@@ -30,10 +31,16 @@ def command(settings):
     sort_col, sort_direction = SORT_TYPES[settings.sort]
     league_table.sort(key=lambda row: row[sort_col], reverse=sort_direction)
 
-    # Print header
-    print("Rank | League | Game | Team")
-    for row in league_table:
-        print(f"{row[0]:>4} | {row[1]:>6} | {row[2]:>4} | {row[3]+':':<5} {row[4]}")
+    # Print table
+    print(tabulate(
+        [
+            [rank, league_points, game_points, f"{tla}: {team_name}"]
+            for rank, league_points, game_points, tla, team_name in league_table
+        ],
+        headers=["Rank", "League", "Game", "Team"],
+        tablefmt='github',
+        colalign=('center', 'center', 'center', 'left'),  # left-align team names
+    ))
 
 
 def add_subparser(subparsers):

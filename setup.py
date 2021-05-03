@@ -32,6 +32,7 @@ setup(
         'ruamel.yaml >=0.13.0, <0.16',
         'simplejson >=3.6, <4',
         'mido >=1.1, <2',
+        'tabulate >=0.8.9, <1',
     ],
     python_requires='>=3.7',
     entry_points={
