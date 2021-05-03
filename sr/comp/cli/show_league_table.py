@@ -49,7 +49,7 @@ def add_subparser(subparsers):
     parser.add_argument(
         '--sort',
         choices=SORT_TYPES.keys(),
-        default='position',
+        default='rank',
         help="Sort table by a column",
     )
     parser.set_defaults(func=command)
