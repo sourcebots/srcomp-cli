@@ -7,6 +7,7 @@ SORT_TYPES = {  # cli string: (sort column, sort direction)
     'team': (3, False),
 }
 
+
 def command(settings):
     import os.path
     from collections import Counter
