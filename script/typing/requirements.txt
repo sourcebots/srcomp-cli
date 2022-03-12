@@ -5,3 +5,4 @@ types-freezegun
 types-paramiko
 types-python-dateutil
 types-setuptools
+types-tabulate

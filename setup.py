@@ -31,6 +31,7 @@ setup(
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.13.0, <0.16',
         'mido >=1.1, <2',
+        'tabulate >=0.8.9, <0.9',
     ],
     python_requires='>=3.7',
     entry_points={
