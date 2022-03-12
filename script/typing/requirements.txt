@@ -3,4 +3,5 @@ mypy>=0.940
 
 types-freezegun
 types-paramiko
+types-python-dateutil
 types-setuptools
