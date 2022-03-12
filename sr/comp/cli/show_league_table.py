@@ -18,6 +18,9 @@ def command(settings):
 
     comp = SRComp(os.path.realpath(settings.compstate))
 
+    tie_count = Counter(comp.scores.league.positions.values())
+    tied_positions = set(x for x, y in tie_count.items() if y > 1)
+
     league_table = []
     for team in comp.teams.values():
         scores = comp.scores.league.teams[team.tla]
@@ -34,13 +37,9 @@ def command(settings):
     sort_col, sort_direction = SORT_TYPES[settings.sort]
     league_table.sort(key=lambda row: row[sort_col], reverse=sort_direction)
 
-    # calculate ties
-    tie_count = Counter(rank for rank, _, _, _, _ in league_table)
-    ties = [rank for rank, count in tie_count.items() if count > 1]
-
     # apply tie formatting
     for team_data in league_table:
-        if team_data[0] in ties:
+        if team_data[0] in tied_positions:
             team_data[0] = f"={team_data[0]}"
 
     # Print table
