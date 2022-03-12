@@ -34,7 +34,7 @@ def dump_league_yaml(
     matches: Dict[MatchNumber, RawMatch],
     file_path: Path,
 ) -> None:
-    import yaml
+    from sr.comp.cli import yaml_round_trip as yaml
 
     with open(file_path, 'w') as lfp:
         empty = {'matches': matches}
@@ -42,7 +42,7 @@ def dump_league_yaml(
 
 
 def load_league_yaml(league_yaml: Path) -> Dict[MatchNumber, RawMatch]:
-    import yaml
+    from sr.comp.cli import yaml_round_trip as yaml
 
     with open(league_yaml) as lfp:
         data = yaml.load(lfp)

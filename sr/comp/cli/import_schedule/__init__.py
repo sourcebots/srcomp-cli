@@ -19,6 +19,8 @@ Example schedules for 48, 52 or 56 teams are available  at:
 https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
 """
 
+from __future__ import annotations
+
 import argparse
 from pathlib import Path
 from typing import Dict, Iterable
@@ -98,7 +100,7 @@ def command(args: argparse.Namespace) -> None:
     loading.dump_league_yaml({**existing_matches, **matches}, league_yaml)
 
 
-def add_subparser(subparsers: argparse._SubParsersAction) -> None:
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'import-schedule',
         help="Import a league.yaml file from a schedule file",
@@ -116,7 +118,7 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
         default=False,
         action='store_true',
         help=(
-            "Whether to replace (the defualt) or extend the existing league "
+            "Whether to replace (the default) or extend the existing league "
             "with the matches in the given schedule file."
         ),
     )

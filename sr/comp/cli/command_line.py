@@ -1,5 +1,7 @@
 """srcomp command-line interface."""
 
+from __future__ import annotations
+
 import argparse
 import sys
 from typing import List, Optional
@@ -29,7 +31,7 @@ from . import (
 )
 
 
-def add_list_commands(subparsers: argparse._SubParsersAction) -> None:
+def add_list_commands(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     def command(settings):
         commands = subparsers.choices.keys()
         print(" ".join(commands))

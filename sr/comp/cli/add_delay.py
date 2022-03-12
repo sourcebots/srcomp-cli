@@ -108,10 +108,10 @@ def add_delay(schedule, delay_seconds, when):
 def command(settings):
     import os.path
 
-    from sr.comp.cli import yaml_round_trip as rtyaml
+    from sr.comp.cli import yaml_round_trip as yaml
 
     schedule_path = os.path.join(settings.compstate, "schedule.yaml")
-    schedule = rtyaml.load(schedule_path)
+    schedule = yaml.load(schedule_path)
 
     how_long = parse_duration(settings.how_long)
     how_long_seconds = how_long.seconds
@@ -121,7 +121,7 @@ def command(settings):
 
     add_delay(schedule, how_long_seconds, when)
 
-    rtyaml.dump(schedule_path, schedule)
+    yaml.dump(schedule_path, schedule)
 
     return how_long, when
 
