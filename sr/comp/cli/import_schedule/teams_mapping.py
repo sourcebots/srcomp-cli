@@ -35,8 +35,7 @@ def order_teams_by_location(layout_yaml: Path, team_ids: List[TLA]) -> List[TLA]
     This is useful as it should mean that the scrutineers can move around the
     venue easily visiting teams in the order which they first appear in matches.
     """
-    import yaml
-
+    from sr.comp.cli import yaml_round_trip as yaml
     from sr.comp.validation import join_and
 
     with open(layout_yaml) as lf:

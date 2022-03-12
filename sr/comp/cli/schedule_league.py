@@ -19,8 +19,7 @@ def command(args):
     import sys
     from multiprocessing import Pool
 
-    import yaml
-
+    from sr.comp.cli import yaml_round_trip as yaml
     from sr.comp.cli.league_scheduler import Scheduler
 
     with open(os.path.join(args.compstate, 'arenas.yaml')) as f:

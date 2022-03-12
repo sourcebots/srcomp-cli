@@ -27,10 +27,10 @@ class Takeable:
 def command(settings):
     import os.path
 
-    from sr.comp.cli import yaml_round_trip as rtyaml
+    from sr.comp.cli import yaml_round_trip as yaml
 
     layout_yaml = os.path.join(settings.compstate, 'layout.yaml')
-    layout = rtyaml.load(layout_yaml)
+    layout = yaml.load(layout_yaml)
     layout_teams = layout['teams']
 
     with open(settings.teams_list) as tlf:
@@ -51,7 +51,7 @@ def command(settings):
     if teams.has_more:
         layout_teams[-1]['teams'] += teams.remainder
 
-    rtyaml.dump(layout_yaml, layout)
+    yaml.dump(layout_yaml, layout)
 
     print("Layout updated. You should consider re-importing the schedule now.")
 
