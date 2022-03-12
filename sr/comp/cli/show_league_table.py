@@ -1,4 +1,4 @@
-__description__ = "Show the current state of the league table"
+"""Show the current state of the league table"""
 
 
 SORT_TYPES = {  # cli string: (sort column, sort direction)
@@ -58,8 +58,8 @@ def command(settings):
 def add_subparser(subparsers):
     parser = subparsers.add_parser(
         'show-league-table',
-        help=__description__,
-        description=__description__,
+        help=__doc__,
+        description=__doc__,
     )
     parser.add_argument(
         'compstate',
