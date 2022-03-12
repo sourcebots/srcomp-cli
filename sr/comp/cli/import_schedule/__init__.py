@@ -116,7 +116,7 @@ def add_subparser(subparsers: argparse._SubParsersAction) -> None:
         default=False,
         action='store_true',
         help=(
-            "Whether to replace (the defualt) or extend the existing league "
+            "Whether to replace (the default) or extend the existing league "
             "with the matches in the given schedule file."
         ),
     )
