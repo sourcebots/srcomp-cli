@@ -1,14 +1,37 @@
 """Show the current state of the league table"""
 
+from __future__ import annotations
 
-SORT_TYPES = {  # cli string: (sort column, sort direction)
-    'rank': (0, False),
-    'game': (2, True),
-    'team': (3, False),
+import argparse
+from typing import Any, Callable, NamedTuple
+
+from league_ranker import LeaguePoints
+
+from sr.comp.scores import LeaguePosition
+from sr.comp.types import GamePoints, TLA
+
+
+class Row(NamedTuple):
+    position: LeaguePosition
+    league_points: LeaguePoints
+    game_points: GamePoints
+    tla: TLA
+    name: str
+
+
+class SortSpec(NamedTuple):
+    key: Callable[[Row], Any]
+    reverse: bool
+
+
+SORT_TYPES = {
+    'rank': SortSpec(lambda x: x.position, False),
+    'game': SortSpec(lambda x: x.game_points, True),
+    'team': SortSpec(lambda x: x.name, False),
 }
 
 
-def command(settings):
+def command(args: argparse.Namespace) -> None:
     import os.path
     from collections import Counter
 
@@ -16,7 +39,7 @@ def command(settings):
 
     from sr.comp.comp import SRComp
 
-    comp = SRComp(os.path.realpath(settings.compstate))
+    comp = SRComp(os.path.realpath(args.compstate))
 
     tie_count = Counter(comp.scores.league.positions.values())
     tied_positions = set(x for x, y in tie_count.items() if y > 1)
@@ -25,28 +48,26 @@ def command(settings):
     for team in comp.teams.values():
         scores = comp.scores.league.teams[team.tla]
         league_pos = comp.scores.league.positions[team.tla]
-        league_table.append([
+        league_table.append(Row(
             league_pos,
             scores.league_points,
             scores.game_points,
             team.tla,
             team.name,
-        ])
+        ))
 
-    # sort rows
-    sort_col, sort_direction = SORT_TYPES[settings.sort]
-    league_table.sort(key=lambda row: row[sort_col], reverse=sort_direction)
+    key, reverse = SORT_TYPES[args.sort]
+    league_table.sort(key=key, reverse=reverse)
 
-    # apply tie formatting
-    for team_data in league_table:
-        if team_data[0] in tied_positions:
-            team_data[0] = f"={team_data[0]}"
-
-    # Print table
     print(tabulate(
         [
-            [rank, league_points, game_points, f"{tla}: {team_name}"]
-            for rank, league_points, game_points, tla, team_name in league_table
+            [
+                f"={x.position}" if x.position in tied_positions else x.position,
+                x.league_points,
+                x.game_points,
+                f"{x.tla}: {x.name}",
+            ]
+            for x in league_table
         ],
         headers=["Rank", "League", "Game", "Team"],
         tablefmt='github',
@@ -54,7 +75,7 @@ def command(settings):
     ))
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'show-league-table',
         help=__doc__,
