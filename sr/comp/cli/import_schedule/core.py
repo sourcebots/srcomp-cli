@@ -45,7 +45,7 @@ def get_id_subsets(ids: Collection[T], limit: int) -> Iterator[Collection[T]]:
     extra = num_ids - limit
 
     if extra == 0:
-        # Only one posibility -- use all of them
+        # Only one possibility -- use all of them
         yield ids
 
     elif extra == 1:
