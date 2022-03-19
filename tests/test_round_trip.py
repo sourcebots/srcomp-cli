@@ -6,6 +6,8 @@ from sr.comp.cli.yaml_round_trip import command
 
 
 class RoundTripTests(unittest.TestCase):
+    maxDiff = 8000
+
     def get_info(self, file_path):
         mod = os.stat(file_path).st_mtime
 
