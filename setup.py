@@ -29,7 +29,7 @@ setup(
         'sr.comp >=1.2, <2',
         'reportlab >=3.1.44, <3.6',
         'requests >=2.5.1, <3',
-        'ruamel.yaml >=0.13.0, <0.16',
+        'ruamel.yaml >=0.15, <1.0',
         'mido >=1.1, <2',
         'tabulate >=0.8.9, <0.9',
     ],
