@@ -57,7 +57,7 @@ def command(settings: argparse.Namespace) -> None:
     if teams.has_more:
         layout_teams[-1]['teams'] += teams.remainder
 
-    yaml.dump(layout_yaml, layout)
+    yaml.dump(layout, dest=layout_yaml)
 
     print("Layout updated. You should consider re-importing the schedule now.")
 

@@ -21,7 +21,7 @@ def load(yaml_file):
         return ryaml.load(stream=yf)
 
 
-def dump(yaml_file, data):
+def dump(data, dest):
     import io
     ryaml = _load()
 
@@ -34,13 +34,13 @@ def dump(yaml_file, data):
             yaml = yaml[len(YAML_1_1_prefix):]
 
     yaml = "\n".join(x.rstrip() for x in yaml.splitlines())
-    with open(yaml_file, 'w') as yf:
+    with open(dest, 'w') as yf:
         print(yaml, file=yf)
 
 
 def command(settings):
     fp = settings.file_path
-    dump(fp, load(fp))
+    dump(load(fp), dest=fp)
 
 
 def add_subparser(subparsers):

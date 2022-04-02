@@ -62,7 +62,7 @@ def command(args: argparse.Namespace) -> None:
         pool = Pool(args.parallel)
 
         def get_output(data):
-            yaml.dump({'matches': data}, sys.stdout)
+            yaml.dump({'matches': data}, dest=sys.stdout)
             pool.terminate()
 
         for n in range(args.parallel):
@@ -74,7 +74,7 @@ def command(args: argparse.Namespace) -> None:
         pool.join()
     else:
         output_data = scheduler.run()
-        yaml.dump({'matches': output_data}, sys.stdout)
+        yaml.dump({'matches': output_data}, dest=sys.stdout)
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:

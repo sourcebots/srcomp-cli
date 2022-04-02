@@ -125,7 +125,7 @@ def command(settings: argparse.Namespace) -> Tuple[datetime.timedelta, datetime.
 
     add_delay(schedule, how_long_seconds, when)
 
-    yaml.dump(schedule_path, schedule)
+    yaml.dump(schedule, dest=schedule_path)
 
     return how_long, when
 
