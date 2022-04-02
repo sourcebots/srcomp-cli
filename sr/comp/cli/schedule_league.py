@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+
+
 def max_possible_match_periods(sched_db):
     from datetime import timedelta
 
@@ -13,8 +19,7 @@ def max_possible_match_periods(sched_db):
     return int(total_league_time.total_seconds() // match_period_length)
 
 
-def command(args):
-    import os.path
+def command(args: argparse.Namespace) -> None:
     import random
     import sys
     from multiprocessing import Pool
@@ -22,15 +27,15 @@ def command(args):
     from sr.comp.cli import yaml_round_trip as yaml
     from sr.comp.cli.league_scheduler import Scheduler
 
-    with open(os.path.join(args.compstate, 'arenas.yaml')) as f:
+    with open(args.compstate / 'arenas.yaml') as f:
         arenas_db = yaml.load(f)
         arenas = arenas_db['arenas'].keys()
         num_corners = len(arenas_db['corners'])
 
-    with open(os.path.join(args.compstate, 'teams.yaml')) as f:
+    with open(args.compstate / 'teams.yaml') as f:
         teams = yaml.load(f)['teams'].keys()
 
-    with open(os.path.join(args.compstate, 'schedule.yaml')) as f:
+    with open(args.compstate / 'schedule.yaml') as f:
         sched_db = yaml.load(f)
         max_periods = max_possible_match_periods(sched_db)
 
@@ -72,14 +77,14 @@ def command(args):
         yaml.dump({'matches': output_data}, sys.stdout)
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'schedule-league',
         help="generate a schedule for a league",
     )
     parser.add_argument(
         'compstate',
-        type=str,
+        type=Path,
         help="competition state git repository",
     )
     parser.add_argument(

@@ -7,6 +7,11 @@ original are simply replaced with equivalently sized groups.
 Any excess teams in the list are added to the final group.
 """
 
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+
 
 class Takeable:
     def __init__(self, source):
@@ -27,12 +32,10 @@ class Takeable:
         return self._source[start:end]
 
 
-def command(settings):
-    import os.path
-
+def command(settings: argparse.Namespace) -> None:
     from sr.comp.cli import yaml_round_trip as yaml
 
-    layout_yaml = os.path.join(settings.compstate, 'layout.yaml')
+    layout_yaml: Path = settings.compstate / 'layout.yaml'
     layout = yaml.load(layout_yaml)
     layout_teams = layout['teams']
 
@@ -59,8 +62,16 @@ def command(settings):
     print("Layout updated. You should consider re-importing the schedule now.")
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser('update-layout', help=__doc__)
-    parser.add_argument('compstate', help="competition state repository")
-    parser.add_argument('teams_list', help="file containing the list of teams")
+    parser.add_argument(
+        'compstate',
+        help="competition state repository",
+        type=Path,
+    )
+    parser.add_argument(
+        'teams_list',
+        help="file containing the list of teams",
+        type=Path,
+    )
     parser.set_defaults(func=command)

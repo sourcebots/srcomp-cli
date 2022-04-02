@@ -1,15 +1,21 @@
+from __future__ import annotations
+
+import argparse
+import datetime
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Tuple
+
 time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?$'
 
 
 class BadDurationException(ValueError):
-    def __init__(self, time_str):
+    def __init__(self, time_str: str) -> None:
         msg = f"Unable to parse duration string '{time_str}'."
         super().__init__(msg)
 
 
-def parse_duration(time_str):
+def parse_duration(time_str: str) -> datetime.timedelta:
     import re
-    from datetime import timedelta
 
     parts = re.match(time_parse_pattern, time_str)
     if not parts:
@@ -17,37 +23,37 @@ def parse_duration(time_str):
             raise BadDurationException(time_str)
         else:
             s = int(time_str)
-            return timedelta(seconds=s)
-    parts = parts.groupdict()
+            return datetime.timedelta(seconds=s)
+
     time_params = {}
-    for (name, param) in parts.items():
+    for (name, param) in parts.groupdict().items():
         if param:
             time_params[name] = int(param)
-    return timedelta(**time_params)
+
+    return datetime.timedelta(**time_params)
 
 
-def parse_datetime(when_str):
+def parse_datetime(when_str: str) -> datetime.datetime:
     import re
-    from datetime import datetime
 
     from dateutil.parser import parse as parse_date
     from dateutil.tz import tzlocal
 
-    def parse_now(match):
-        return datetime.now()
+    def parse_now(match: re.Match[str]) -> datetime.datetime:
+        return datetime.datetime.now()
 
-    def parse_future(match):
+    def parse_future(match: re.Match[str]) -> datetime.datetime:
         offset = parse_duration(match.group(1))
-        return datetime.now() + offset
+        return datetime.datetime.now() + offset
 
-    def parse_past(match):
+    def parse_past(match: re.Match[str]) -> datetime.datetime:
         offset = parse_duration(match.group(1))
-        return datetime.now() - offset
+        return datetime.datetime.now() - offset
 
-    def parse_absolute(match):
+    def parse_absolute(match: re.Match[str]) -> datetime.datetime:
         return parse_date(match.group(0))
 
-    DATETIME_PATTERNS = [
+    DATETIME_PATTERNS: List[Tuple[str, Callable[[re.Match[str]], datetime.datetime]]] = [
         (r'^([^ ]+)\s*ago$', parse_past),
         (r'^in\s*([^ ]+)$', parse_future),
         (r'^now$', parse_now),
@@ -76,7 +82,7 @@ def parse_datetime(when_str):
     return when
 
 
-def get_current_match_start(compstate_path):
+def get_current_match_start(compstate_path: Path) -> datetime.datetime:
     from sr.comp.comp import SRComp
     compstate = SRComp(compstate_path)
     now = compstate.schedule.datetime_now
@@ -87,14 +93,14 @@ def get_current_match_start(compstate_path):
     return min(x.start_time for x in current_matches)
 
 
-def parse_time(compstate_path, when_str):
+def parse_time(compstate_path: Path, when_str: str) -> datetime.datetime:
     if when_str == "current match":
         return get_current_match_start(compstate_path)
     else:
         return parse_datetime(when_str)
 
 
-def add_delay(schedule, delay_seconds, when):
+def add_delay(schedule: Dict[str, Any], delay_seconds: int, when: datetime.datetime) -> None:
     delays = schedule.get('delays')
     if not delays:
         delays = schedule['delays'] = []
@@ -105,12 +111,10 @@ def add_delay(schedule, delay_seconds, when):
     delays.append(new_delay)
 
 
-def command(settings):
-    import os.path
-
+def command(settings: argparse.Namespace) -> Tuple[datetime.timedelta, datetime.datetime]:
     from sr.comp.cli import yaml_round_trip as yaml
 
-    schedule_path = os.path.join(settings.compstate, "schedule.yaml")
+    schedule_path: Path = settings.compstate / 'schedule.yaml'
     schedule = yaml.load(schedule_path)
 
     how_long = parse_duration(settings.how_long)
