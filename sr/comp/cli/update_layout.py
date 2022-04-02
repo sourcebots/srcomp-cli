@@ -1,8 +1,11 @@
-"""Update the layout based on a list of teams.
+"""
+Update the layout based on a list of teams.
+
 The user is responsible for ensuring that the ordering and groupings are
 correct in the layout _before_ running this. Groups of teams in the
 original are simply replaced with equivalently sized groups.
-Any excess teams in the list are added to the final group."""
+Any excess teams in the list are added to the final group.
+"""
 
 
 class Takeable:
