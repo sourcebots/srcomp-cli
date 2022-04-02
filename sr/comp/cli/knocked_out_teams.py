@@ -1,3 +1,6 @@
+from pathlib import Path
+
+
 def round_name(rounds_left):
     if rounds_left == 0:
         return "Finals"
@@ -9,11 +12,9 @@ def round_name(rounds_left):
 
 
 def command(settings):
-    import os.path
-
     from sr.comp.comp import SRComp
 
-    comp = SRComp(os.path.realpath(settings.compstate))
+    comp = SRComp(settings.compstate)
 
     teams_last_round = set()
     last_round_num = len(comp.schedule.knockout_rounds) - 1
@@ -36,5 +37,9 @@ def add_subparser(subparsers):
         'knocked-out-teams',
         help="show the teams knocked out of each knockout round",
     )
-    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument(
+        'compstate',
+        help="competition state repository",
+        type=Path,
+    )
     parser.set_defaults(func=command)

@@ -1,15 +1,16 @@
+from pathlib import Path
+
 __description__ = "Summaries the teams scoring the most match points"
 
 
 def command(settings):
-    import os.path
     from collections import defaultdict
     from functools import partial
     from itertools import chain
 
     from sr.comp.comp import SRComp
 
-    comp = SRComp(os.path.realpath(settings.compstate))
+    comp = SRComp(settings.compstate)
 
     all_scores = (comp.scores.tiebreaker, comp.scores.knockout, comp.scores.league)
     all_points = dict(chain.from_iterable(s.game_points.items() for s in all_scores))
@@ -44,5 +45,6 @@ def add_subparser(subparsers):
     parser.add_argument(
         'compstate',
         help="competition state repo",
+        type=Path,
     )
     parser.set_defaults(func=command)
