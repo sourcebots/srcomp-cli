@@ -1,4 +1,9 @@
-def command(settings):
+from __future__ import annotations
+
+import argparse
+
+
+def command(settings: argparse.Namespace) -> None:
     from sr.comp.comp import SRComp
     from sr.comp.validation import validate
 
@@ -12,7 +17,7 @@ def command(settings):
     exit(error_count)
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'validate',
         help="validate the state of a compstate repository",

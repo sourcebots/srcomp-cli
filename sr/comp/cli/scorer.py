@@ -2,8 +2,13 @@
 Run the SRComp Scorer UI. Requires sr.comp.scorer to be installed.
 """
 
+from __future__ import annotations
 
-def find_unused_port():
+import argparse
+from typing import cast
+
+
+def find_unused_port() -> int:
     import socket
 
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
@@ -11,10 +16,12 @@ def find_unused_port():
     print(sock.getsockname())
     addr, port, flowinfo, scopeid = sock.getsockname()
     sock.close()
-    return port
+    # getsockname's return type is not specified as it differs by socket family.
+    # For IPv6 it's an integer.
+    return cast(int, port)
 
 
-def command(settings):
+def command(settings: argparse.Namespace) -> None:
     import threading
     import time
     import webbrowser
@@ -30,7 +37,7 @@ def command(settings):
     app.config['COMPSTATE'] = settings.compstate
     app.config['COMPSTATE_LOCAL'] = not settings.push_changes
 
-    def browse():
+    def browse() -> None:
         time.sleep(1.5)
         webbrowser.open(f'http://localhost:{port}/')
 
@@ -48,7 +55,7 @@ def command(settings):
         pass
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'score',
         help=__doc__.strip().splitlines()[0],

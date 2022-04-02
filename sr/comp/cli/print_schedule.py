@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 from collections import defaultdict
 
@@ -281,7 +283,7 @@ class ScheduleGenerator:
         self.canvas.save()
 
 
-def command(settings):
+def command(settings: argparse.Namespace) -> None:
     import os.path
 
     from sr.comp.comp import SRComp
@@ -312,7 +314,7 @@ def command(settings):
     generator.write()
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'print-schedule',
         help="print a shepherding sheet",

@@ -1,4 +1,11 @@
-def command(settings):
+from __future__ import annotations
+
+import argparse
+
+from sr.comp.types import TLA
+
+
+def command(settings: argparse.Namespace) -> None:
     import os.path
 
     from sr.comp.comp import SRComp
@@ -6,7 +13,7 @@ def command(settings):
 
     comp = SRComp(os.path.realpath(settings.compstate))
 
-    def format_team(tla):
+    def format_team(tla: TLA) -> str:
         team = comp.teams[tla]
         return '{} ({}{})'.format(
             tla,
@@ -44,7 +51,7 @@ def command(settings):
         print()
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'awards',
         help="show who has been given awards",

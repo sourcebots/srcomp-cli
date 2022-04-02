@@ -1,7 +1,11 @@
+from __future__ import annotations
+
+import argparse
+
 from sr.comp.cli import add_delay, deploy
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     from sr.comp.raw_compstate import RawCompstate
 
     compstate = RawCompstate(args.compstate, local_only=False)
@@ -31,7 +35,7 @@ def command(args):
     deploy.run_deployments(args, compstate, hosts)
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     help_msg = "Add and deploy a delay to the competition"
     parser = subparsers.add_parser('delay', help=help_msg, description=help_msg)
     parser.add_argument(

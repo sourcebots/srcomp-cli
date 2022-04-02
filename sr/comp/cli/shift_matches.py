@@ -4,9 +4,12 @@ Shift the matches to start at the current time.
 This is primarily aimed for development of SRComp related tooling, as a way to
 reset the matches in a compstate to start at a convenient time.
 """
+from __future__ import annotations
+
+import argparse
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     from datetime import datetime, timedelta
 
     from sr.comp.cli import yaml_round_trip as yaml
@@ -38,7 +41,7 @@ def command(args):
     print(f"Shifted matches by {dt}")
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     from pathlib import Path
 
     parser = subparsers.add_parser(

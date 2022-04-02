@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import argparse
+
 DISPLAY_NAME_WIDTH = 18
 
 
@@ -5,7 +9,7 @@ def first(iterable):
     return next(i for i in iterable)
 
 
-def command(settings):
+def command(settings: argparse.Namespace) -> None:
     import os.path
     from datetime import datetime, timedelta
 
@@ -64,7 +68,7 @@ def command(settings):
             print()
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'show-schedule',
         help="show the match schedule",

@@ -130,7 +130,7 @@ def command(settings: argparse.Namespace) -> Tuple[datetime.timedelta, datetime.
     return how_long, when
 
 
-def add_arguments(parser):
+def add_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         'how_long',
         help=(
@@ -150,7 +150,7 @@ def add_arguments(parser):
     )
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'add-delay',
         help="Add a delay the competition state",

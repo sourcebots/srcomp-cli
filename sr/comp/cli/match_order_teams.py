@@ -1,4 +1,9 @@
-def command(args):
+from __future__ import annotations
+
+import argparse
+
+
+def command(args: argparse.Namespace) -> None:
     from sr.comp.comp import SRComp
 
     comp = SRComp(args.compstate)
@@ -14,6 +19,8 @@ def command(args):
                 match.start_time,
             ))
             for tla in match.teams:
+                if not tla:
+                    continue
                 team = remaining_teams.get(tla)
                 if team:
                     print("  - {tla}: {name}".format(**team._asdict()))
@@ -29,7 +36,7 @@ def command(args):
             return
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     help_msg = "Shows a list of teams, ordered by their first matches."
     description = help_msg + (
         " Output is markdown, and can be converted to PDF by piping through "

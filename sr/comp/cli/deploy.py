@@ -1,5 +1,24 @@
+from __future__ import annotations
+
+import argparse
 from contextlib import contextmanager
-from typing import Any, Iterator, Optional, Sequence, Type
+from typing import (
+    Any,
+    cast,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    Type,
+    TYPE_CHECKING,
+)
+
+if TYPE_CHECKING:
+    from paramiko import SSHClient
+    from paramiko.channel import ChannelFile
+
+    from sr.comp.raw_compstate import RawCompstate
 
 API_TIMEOUT_SECONDS = 3
 SSH_TIMEOUT_SECONDS = 2
@@ -10,7 +29,7 @@ OKBLUE = '\033[94m'
 ENDC = '\033[0m'
 
 
-def ssh_connection(host):
+def ssh_connection(host: str) -> SSHClient:
     from paramiko import AutoAddPolicy, SSHClient
 
     client = SSHClient()
@@ -41,7 +60,7 @@ def print_fail(*args: object, **kargs: Any) -> None:
     print(format_fail(*args), **kargs)
 
 
-def print_buffer(buf):
+def print_buffer(buf: ChannelFile) -> None:
     prefix = '> '
     print(prefix + prefix.join(buf.readlines()).strip())
 
@@ -97,7 +116,7 @@ def ref_compstate(host: str) -> str:
     return f'ssh://{DEPLOY_USER}@{host}/~/compstate.git'
 
 
-def deploy_to(compstate, host, revision, verbose):
+def deploy_to(compstate: RawCompstate, host: str, revision: str, verbose: bool) -> int:
     print(BOLD + f"Deploying to {host}:" + ENDC)
 
     # Make connection early to check if host is up.
@@ -131,12 +150,12 @@ def deploy_to(compstate, host, revision, verbose):
         return retcode
 
 
-def get_deployments(compstate):
+def get_deployments(compstate: RawCompstate) -> List[str]:
     with exit_on_exception("Failed to get deployments from state ({0})."):
         return compstate.deployments
 
 
-def get_current_state(host):
+def get_current_state(host: str) -> Optional[str]:
     import json
     from urllib.request import urlopen
 
@@ -148,10 +167,12 @@ def get_current_state(host):
         print(e)
         return None
     else:
-        return raw_state['state']
+        # While this could be any JSON, the schema is that this is a string
+        # containing the commit hash of the compstate.
+        return cast(str, raw_state['state'])
 
 
-def check_host_state(compstate, host, revision, verbose):
+def check_host_state(compstate: RawCompstate, host: str, revision: str, verbose: bool) -> bool:
     """
     Compares the host state to the revision we want to deploy. If the
     host's state isn't in the history of the deploy revision then various
@@ -208,7 +229,7 @@ def check_host_state(compstate, host, revision, verbose):
         return SKIP
 
 
-def require_no_changes(compstate):
+def require_no_changes(compstate: RawCompstate) -> None:
     if compstate.has_changes:
         print_fail(
             "Cannot deploy state with local changes.",
@@ -218,7 +239,7 @@ def require_no_changes(compstate):
         exit(1)
 
 
-def require_valid(compstate):
+def require_valid(compstate: RawCompstate) -> None:
     from sr.comp.validation import validate
 
     with exit_on_exception("State cannot be loaded: {0}"):
@@ -229,7 +250,11 @@ def require_valid(compstate):
         query_warn("State has validation errors (see above)")
 
 
-def run_deployments(args, compstate, hosts):
+def run_deployments(
+    args: argparse.Namespace,
+    compstate: RawCompstate,
+    hosts: Iterable[str],
+) -> None:
     revision = compstate.rev_parse('HEAD')
     for host in hosts:
         if not args.skip_host_check:
@@ -247,7 +272,7 @@ def run_deployments(args, compstate, hosts):
     print(BOLD + OKBLUE + "Done" + ENDC)
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     from sr.comp.raw_compstate import RawCompstate
 
     compstate = RawCompstate(args.compstate, local_only=False)
@@ -259,7 +284,7 @@ def command(args):
     run_deployments(args, compstate, hosts)
 
 
-def add_options(parser):
+def add_options(parser: argparse.ArgumentParser) -> None:
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument(
         '--skip-host-check',
@@ -268,7 +293,7 @@ def add_options(parser):
     )
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     help_msg = "Deploy a given competition state to all known hosts"
     parser = subparsers.add_parser(
         'deploy',

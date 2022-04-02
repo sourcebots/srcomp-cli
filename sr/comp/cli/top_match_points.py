@@ -1,11 +1,16 @@
+from __future__ import annotations
+
+import argparse
 from pathlib import Path
+from typing import DefaultDict
+
+from sr.comp.types import GamePoints, MatchId, TLA
 
 __description__ = "Summaries the teams scoring the most match points"
 
 
-def command(settings):
+def command(settings: argparse.Namespace) -> None:
     from collections import defaultdict
-    from functools import partial
     from itertools import chain
 
     from sr.comp.comp import SRComp
@@ -15,10 +20,11 @@ def command(settings):
     all_scores = (comp.scores.tiebreaker, comp.scores.knockout, comp.scores.league)
     all_points = dict(chain.from_iterable(s.game_points.items() for s in all_scores))
 
-    points_map = defaultdict(partial(defaultdict, list))
+    points_map: DefaultDict[GamePoints, DefaultDict[TLA, list[MatchId]]]
+    points_map = defaultdict(lambda: defaultdict(list))
 
-    for match, points in all_points.items():
-        for tla, team_points in points.items():
+    for match, match_points in all_points.items():
+        for tla, team_points in match_points.items():
             points_map[team_points][tla].append(match)
 
     count = len(points_map)
@@ -36,7 +42,7 @@ def command(settings):
                 ))
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'top-match-points',
         help=__description__,

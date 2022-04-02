@@ -15,6 +15,8 @@ placeholder will always include enough entries for every zone in the arena,
 using '-' to represent an empty zone.
 """
 
+from __future__ import annotations
+
 import argparse
 import sys
 from typing import Callable, Dict, List, TYPE_CHECKING
@@ -70,7 +72,7 @@ def replace_placeholders(match: 'Match', command: List[str]) -> List[str]:
     ))
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     import subprocess
 
     from sr.comp.comp import SRComp
@@ -103,7 +105,7 @@ def command(args):
         exit(1)
 
 
-def add_options(parser):
+def add_options(parser: argparse.ArgumentParser) -> None:
     from sr.comp.matches import parse_ranges
 
     parser.add_argument(
@@ -134,7 +136,7 @@ def add_options(parser):
     )
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'for-each-match',
         help="Run a command for each of the given matches.",

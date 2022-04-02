@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+import argparse
+
+
 def first(iterable):
     return next(i for i in iterable)
 
@@ -7,7 +12,7 @@ def counter_to_string(cntr):
     return string
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     from collections import Counter
 
     from sr.comp.comp import SRComp
@@ -50,7 +55,7 @@ def command(args):
     ))
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     help_msg = "Show summary data about a compstate"
 
     parser = subparsers.add_parser('summary', help=help_msg, description=help_msg)

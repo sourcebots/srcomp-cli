@@ -1,7 +1,13 @@
+from __future__ import annotations
+
+import argparse
 from pathlib import Path
+from typing import Optional, Set
+
+from sr.comp.types import TLA
 
 
-def round_name(rounds_left):
+def round_name(rounds_left: int) -> str:
     if rounds_left == 0:
         return "Finals"
     elif rounds_left == 1:
@@ -11,12 +17,12 @@ def round_name(rounds_left):
     return ""
 
 
-def command(settings):
+def command(settings: argparse.Namespace) -> None:
     from sr.comp.comp import SRComp
 
     comp = SRComp(settings.compstate)
 
-    teams_last_round = set()
+    teams_last_round: Set[Optional[TLA]] = set()
     last_round_num = len(comp.schedule.knockout_rounds) - 1
     for i, matches in enumerate(comp.schedule.knockout_rounds):
         teams_this_round = set()
@@ -32,7 +38,7 @@ def command(settings):
         print()
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'knocked-out-teams',
         help="show the teams knocked out of each knockout round",

@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import argparse
 import time
 from datetime import timedelta
 from enum import Enum
@@ -142,7 +145,7 @@ class MidiLightingController(LightingController):
         self.cur_playback = playback
 
 
-def command(args):
+def command(args: argparse.Namespace) -> None:
     comp = SRComp(args.compstate)
 
     controller = None
@@ -159,7 +162,7 @@ def command(args):
     controller.run()
 
 
-def add_subparser(subparsers):
+def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'lighting-controller',
         help=__description__,

@@ -32,7 +32,7 @@ from . import (
 
 
 def add_list_commands(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    def command(settings):
+    def command(settings: argparse.Namespace) -> None:
         commands = subparsers.choices.keys()
         print(" ".join(commands))
 
