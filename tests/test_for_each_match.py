@@ -18,7 +18,6 @@ class ForEachMatchTests(unittest.TestCase):
     maxDiff = None
 
     def test_smoke(self):
-        # Assumes that the dummy schedule is already properly formatted
         compstate_path = str(Path(__file__).parent / 'dummy')
 
         mock_settings = mock.Mock(
