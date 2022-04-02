@@ -1,15 +1,14 @@
-import os.path
 import subprocess
 import unittest
+from pathlib import Path
 
 
 class ValidationTests(unittest.TestCase):
     def test_dummy_is_valid(self) -> None:
-        test_dir = os.path.dirname(os.path.abspath(__file__))
-        dummy_compstate = os.path.join(test_dir, 'dummy')
+        dummy_compstate = Path(__file__).parent / 'dummy'
 
         result = subprocess.run(
-            ['srcomp', 'validate', dummy_compstate],
+            ['srcomp', 'validate', str(dummy_compstate)],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
         )
