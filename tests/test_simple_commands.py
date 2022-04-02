@@ -38,7 +38,7 @@ class SimpleCommandsTests(unittest.TestCase):
 
                 expected = snapshot.read_bytes()
                 self.assertEqual(
-                    expected,
-                    result.stdout,
+                    expected.decode(),
+                    result.stdout.decode(),
                     "Command output unexpected content",
                 )
