@@ -157,7 +157,7 @@ def check_host_state(compstate, host, revision, verbose):
     host's state isn't in the history of the deploy revision then various
     options are presented to the user.
 
-    Returrns whether or not to skip deploying to the host.
+    Returns whether or not to skip deploying to the host.
     """
     SKIP = True
     UPDATE = False
