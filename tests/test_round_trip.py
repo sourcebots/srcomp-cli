@@ -1,5 +1,6 @@
-import os
 import unittest
+from pathlib import Path
+from typing import Tuple
 from unittest import mock
 
 from sr.comp.cli.yaml_round_trip import command
@@ -8,18 +9,12 @@ from sr.comp.cli.yaml_round_trip import command
 class RoundTripTests(unittest.TestCase):
     maxDiff = 8000
 
-    def get_info(self, file_path):
-        mod = os.stat(file_path).st_mtime
+    def get_info(self, file_path: Path) -> Tuple[float, str]:
+        return file_path.stat().st_mtime, file_path.read_text()
 
-        with open(file_path, 'r') as f:
-            content = f.read()
-
-        return mod, content
-
-    def test_dummy_schedule(self):
+    def test_dummy_schedule(self) -> None:
         # Assumes that the dummy schedule is already properly formatted
-        test_dir = os.path.dirname(os.path.abspath(__file__))
-        dummy_schedule = os.path.join(test_dir, 'dummy', 'schedule.yaml')
+        dummy_schedule = Path(__file__).parent / 'dummy' / 'schedule.yaml'
 
         orig_mod, orig_content = self.get_info(dummy_schedule)
 
