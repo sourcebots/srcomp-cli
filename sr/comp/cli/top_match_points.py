@@ -35,7 +35,7 @@ def command(settings: argparse.Namespace) -> None:
         else:
             print()
             print(f"The following {len(team_info)} team(s) scored {points} points:")
-            for tla, matches in team_info.items():
+            for tla, matches in sorted(team_info.items()):
                 print(f"- {tla} in match(es): " + ", ".join(
                     "{}{}".format(*x)
                     for x in matches

@@ -12,15 +12,15 @@
  18 teams scored 11
 
 The following 6 team(s) scored 12 points:
-- PAS in match(es): B76
-- KDE in match(es): B73
-- PSC in match(es): B96
 - BGS in match(es): A77
-- MEA in match(es): A6
 - BPV in match(es): A47
+- KDE in match(es): B73
+- MEA in match(es): A6
+- PAS in match(es): B76
+- PSC in match(es): B96
 
 The following 4 team(s) scored 13 points:
 - LSS in match(es): B46
+- QEH in match(es): A89
 - TWG in match(es): A8
 - WYC in match(es): A94
-- QEH in match(es): A89
