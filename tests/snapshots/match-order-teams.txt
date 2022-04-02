@@ -1,0 +1,171 @@
+## Match #0 in Arena A (at 13:00)
+  - CLY: Collyers Sixth Form College
+  - TTN: Tauntons College
+
+## Match #0 in Arena B (at 13:00)
+  - GRS: Greshams School
+  - QMC: Queen Mary's College
+
+
+## Match #1 in Arena A (at 13:06)
+  - WYC: Wymondham College
+  - QMS: Queensmead School
+  - LSS: Lawrence Sheriff School
+  - EMM: Lycée Emmanuel Mounier
+
+## Match #1 in Arena B (at 13:06)
+  - BPV: Barton Peveril College
+  - BDF: Bedford School
+  - NHS: Norwich High School for Girls
+  - MEA: Merchants' Academy
+
+
+## Match #2 in Arena A (at 13:12)
+  - ICE: Iceni Academy
+  - MFG: Mirfield Free Grammar
+  - SWI: South Wilts Grammar School for Girls
+  - BRN: St Brendan's Sixth Form College
+
+## Match #2 in Arena B (at 13:12)
+  - TBG: Torquay Boys Grammar School
+  - SGS: Sutton Grammar School for Boys
+  - GYG: Guernsey Grammar School
+
+
+## Match #3 in Arena A (at 13:18)
+  - MAI2: Gymnasium Markt Indersdorf (team 2)
+  - HSO: Headington School
+  - KDE: Kennet District Explorer Scouts
+  - CCR: Cirencester College
+
+## Match #3 in Arena B (at 13:18)
+  - SCC: Southampton City College
+  - HZW: Hazelwick Comprehensive School
+  - MAI: Gymnasium Markt Indersdorf
+
+
+## Match #4 in Arena A (at 13:24)
+  - RED: Redland Green School
+  - JMS: John Mason School
+
+## Match #4 in Arena B (at 13:24)
+  - KHS: Kingsbury High School
+  - DSF: Dereham Sixth Form
+
+
+## Match #5 in Arena A (at 13:30)
+  - BGS: Bristol Grammar School
+  - HRS: Hills Road Sixth Form College
+  - GRD: Gordano School
+
+## Match #5 in Arena B (at 13:30)
+  - RGS: Royal Grammar School, Guildford
+  - CRB: Cranbrook School
+
+
+## Match #6 in Arena A (at 13:36)
+
+## Match #6 in Arena B (at 13:36)
+  - CLF: Clifton High School
+
+
+## Match #7 in Arena A (at 13:42)
+  - CGS: Colston's Girls' School
+
+## Match #7 in Arena B (at 13:42)
+
+
+## Match #8 in Arena A (at 13:47)
+  - TWG: Tunbridge Wells Grammar School for Boys
+
+## Match #8 in Arena B (at 13:47)
+  - KES: King Edward VI School
+
+
+## Match #9 in Arena A (at 13:52)
+  - SEN: Southend High School for Boys
+  - LFG: Lion-Feuchtwanger-Gymnasium
+  - PSC: Peter Symonds College
+
+## Match #9 in Arena B (at 13:52)
+  - BRK: Brockenhurst College
+  - RUN: Runshaw College
+
+
+## Match #10 in Arena A (at 13:57)
+
+## Match #10 in Arena B (at 13:57)
+
+
+## Match #11 in Arena A (at 14:02)
+
+## Match #11 in Arena B (at 14:02)
+  - BAY: Bay House School & Sixth Form
+  - HYP: Holt Youth Project
+
+
+## Match #12 in Arena A (at 14:07)
+
+## Match #12 in Arena B (at 14:07)
+
+
+## Match #13 in Arena A (at 14:12)
+
+## Match #13 in Arena B (at 14:12)
+  - PAG: Pate's Grammar School
+  - CPR: The Cooper School
+
+
+## Match #14 in Arena A (at 14:17)
+
+## Match #14 in Arena B (at 14:17)
+
+
+## Match #15 in Arena A (at 14:22)
+
+## Match #15 in Arena B (at 14:22)
+
+
+## Match #16 in Arena A (at 14:27)
+  - QEH: Queen Elizabeth's Hospital School
+
+## Match #16 in Arena B (at 14:27)
+
+
+## Match #17 in Arena A (at 14:32)
+  - STA: St Anne's Catholic School
+
+## Match #17 in Arena B (at 14:32)
+
+
+## Match #18 in Arena A (at 14:37)
+
+## Match #18 in Arena B (at 14:37)
+
+
+## Match #19 in Arena A (at 14:42)
+
+## Match #19 in Arena B (at 14:42)
+
+
+## Match #20 in Arena A (at 14:47)
+
+## Match #20 in Arena B (at 14:47)
+
+
+## Match #21 in Arena A (at 14:52)
+  - PAS: Parmiters School
+
+## Match #21 in Arena B (at 14:52)
+
+
+## Match #22 in Arena A (at 14:57)
+  - BWS: Bishop Wordsworth School
+
+## Match #22 in Arena B (at 14:57)
+
+
+## Match #23 in Arena A (at 15:02)
+
+## Match #23 in Arena B (at 15:02)
+  - RWD: Ringwood School

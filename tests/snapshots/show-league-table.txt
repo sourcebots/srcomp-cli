@@ -1,0 +1,55 @@
+|  Rank  |  League  |  Game  | Team                                         |
+|--------|----------|--------|----------------------------------------------|
+|   1    |   149    |  146   | CLY: Collyers Sixth Form College             |
+|   2    |   107    |  116   | SCC: Southampton City College                |
+|   3    |   105    |  112   | QEH: Queen Elizabeth's Hospital School       |
+|   4    |   104    |   99   | PSC: Peter Symonds College                   |
+|   5    |   102    |  108   | SWI: South Wilts Grammar School for Girls    |
+|   6    |   100    |   98   | NHS: Norwich High School for Girls           |
+|   7    |    99    |  112   | HRS: Hills Road Sixth Form College           |
+|   8    |    99    |  108   | KHS: Kingsbury High School                   |
+|   9    |    99    |   99   | DSF: Dereham Sixth Form                      |
+|   10   |    98    |  102   | SEN: Southend High School for Boys           |
+|   11   |    96    |  113   | BRK: Brockenhurst College                    |
+|   12   |    95    |  102   | TTN: Tauntons College                        |
+|   13   |    92    |  101   | LFG: Lion-Feuchtwanger-Gymnasium             |
+|   14   |    88    |   94   | QMS: Queensmead School                       |
+|   15   |    87    |  105   | LSS: Lawrence Sheriff School                 |
+|   16   |    86    |   82   | GRD: Gordano School                          |
+|  =17   |    84    |   94   | MAI2: Gymnasium Markt Indersdorf (team 2)    |
+|  =17   |    84    |   94   | RWD: Ringwood School                         |
+|   19   |    84    |   93   | KES: King Edward VI School                   |
+|   20   |    84    |   85   | KDE: Kennet District Explorer Scouts         |
+|   21   |    79    |   84   | STA: St Anne's Catholic School               |
+|   22   |    78    |   77   | BPV: Barton Peveril College                  |
+|   23   |    77    |   90   | EMM: Lycée Emmanuel Mounier                  |
+|   24   |    77    |   85   | CGS: Colston's Girls' School                 |
+|   25   |    76    |   85   | GRS: Greshams School                         |
+|   26   |    75    |   77   | HSO: Headington School                       |
+|   27   |    75    |   73   | RUN: Runshaw College                         |
+|   28   |    74    |   74   | BRN: St Brendan's Sixth Form College         |
+|   29   |    73    |   85   | HYP: Holt Youth Project                      |
+|   30   |    73    |   83   | SGS: Sutton Grammar School for Boys          |
+|   31   |    73    |   76   | HZW: Hazelwick Comprehensive School          |
+|   32   |    71    |   88   | TBG: Torquay Boys Grammar School             |
+|   33   |    69    |   81   | PAG: Pate's Grammar School                   |
+|   34   |    69    |   73   | CPR: The Cooper School                       |
+|   35   |    69    |   69   | BAY: Bay House School & Sixth Form           |
+|   36   |    68    |   69   | CLF: Clifton High School                     |
+|   37   |    65    |   71   | GYG: Guernsey Grammar School                 |
+|   38   |    64    |   82   | MAI: Gymnasium Markt Indersdorf              |
+|   39   |    64    |   65   | PAS: Parmiters School                        |
+|   40   |    64    |   57   | MFG: Mirfield Free Grammar                   |
+|   41   |    60    |   67   | TWG: Tunbridge Wells Grammar School for Boys |
+|   42   |    58    |   77   | WYC: Wymondham College                       |
+|   43   |    57    |   61   | BGS: Bristol Grammar School                  |
+|   44   |    54    |   54   | RGS: Royal Grammar School, Guildford         |
+|   45   |    52    |   59   | BDF: Bedford School                          |
+|   46   |    52    |   49   | JMS: John Mason School                       |
+|   47   |    51    |   55   | ICE: Iceni Academy                           |
+|   48   |    48    |   48   | BWS: Bishop Wordsworth School                |
+|   49   |    43    |   40   | RED: Redland Green School                    |
+|   50   |    42    |   42   | CCR: Cirencester College                     |
+|   51   |    41    |   50   | CRB: Cranbrook School                        |
+|   52   |    34    |   38   | MEA: Merchants' Academy                      |
+|   53   |    21    |   21   | QMC: Queen Mary's College                    |
