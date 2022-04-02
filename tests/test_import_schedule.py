@@ -5,7 +5,7 @@ from sr.comp.cli.import_schedule.types import Configuration
 
 
 class ImportScheduleTests(unittest.TestCase):
-    def test_num_ids_equasl_num_teams(self):
+    def test_num_ids_equals_num_teams(self):
         ids = list(range(5))
         maps = list(get_id_subsets(ids, 5))
 
@@ -115,7 +115,7 @@ class ImportScheduleTests(unittest.TestCase):
 
         self.assertEqual([], bad, "Should not be any 'bad' matches")
 
-    def test_build_schedule_appaerance_order(self):
+    def test_build_schedule_appearance_order(self):
         lines = ['3|1|0|4', '1|2|4|0']
         teams = ['ABC', 'DEF', 'GHI']
 
