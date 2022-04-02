@@ -4,13 +4,13 @@ from sr.comp.cli.update_layout import Takeable
 
 
 class TakeableTests(unittest.TestCase):
-    def test_take_0_str(self):
+    def test_take_0_str(self) -> None:
         t = Takeable('abcd')
 
         self.assertEqual('', t.take(0))
         self.assertEqual('a', t.take(1))
 
-    def test_take_1_str(self):
+    def test_take_1_str(self) -> None:
         t = Takeable('abcd')
 
         self.assertTrue(t.has_more)
@@ -22,7 +22,7 @@ class TakeableTests(unittest.TestCase):
 
         self.assertFalse(t.has_more)
 
-    def test_take_2_str(self):
+    def test_take_2_str(self) -> None:
         t = Takeable('abcd')
 
         self.assertTrue(t.has_more)
@@ -32,13 +32,13 @@ class TakeableTests(unittest.TestCase):
 
         self.assertFalse(t.has_more)
 
-    def test_take_0_list(self):
+    def test_take_0_list(self) -> None:
         t = Takeable(list('abcd'))
 
         self.assertEqual([], t.take(0))
         self.assertEqual(['a'], t.take(1))
 
-    def test_take_1_list(self):
+    def test_take_1_list(self) -> None:
         t = Takeable(list('abcd'))
 
         self.assertTrue(t.has_more)
@@ -50,7 +50,7 @@ class TakeableTests(unittest.TestCase):
 
         self.assertFalse(t.has_more)
 
-    def test_take_2_list(self):
+    def test_take_2_list(self) -> None:
         t = Takeable(list('abcd'))
 
         self.assertTrue(t.has_more)
@@ -60,7 +60,7 @@ class TakeableTests(unittest.TestCase):
 
         self.assertFalse(t.has_more)
 
-    def test_take_too_many(self):
+    def test_take_too_many(self) -> None:
         t = Takeable('abcd')
 
         self.assertTrue(t.has_more)
@@ -71,7 +71,7 @@ class TakeableTests(unittest.TestCase):
 
         self.assertFalse(t.has_more)
 
-    def test_remainder(self):
+    def test_remainder(self) -> None:
         t = Takeable('abcd')
 
         self.assertEqual('ab', t.take(2))
@@ -80,14 +80,14 @@ class TakeableTests(unittest.TestCase):
 
         self.assertEqual('cd', t.take(2))
 
-    def test_remainder_when_no_more(self):
+    def test_remainder_when_no_more(self) -> None:
         t = Takeable('abcd')
 
         self.assertEqual('abcd', t.take(4))
 
         self.assertEqual('', t.remainder)
 
-    def test_remainder_when_beyond_end(self):
+    def test_remainder_when_beyond_end(self) -> None:
         t = Takeable('abcd')
 
         self.assertEqual('abcd', t.take(5))

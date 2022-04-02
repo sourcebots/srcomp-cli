@@ -12,7 +12,7 @@ from sr.comp.cli.add_delay import (
 
 
 class ParseDurationTests(unittest.TestCase):
-    def test_bad_inputs(self):
+    def test_bad_inputs(self) -> None:
         data = [
             "nope",
             "now",
@@ -24,7 +24,7 @@ class ParseDurationTests(unittest.TestCase):
                 with self.assertRaises(BadDurationException):
                     parse_duration(time_str)
 
-    def test_valid_inputs(self):
+    def test_valid_inputs(self) -> None:
         data = [
             ("1m", timedelta(minutes=1)),
             ("1s", timedelta(seconds=1)),
@@ -40,7 +40,7 @@ class ParseDurationTests(unittest.TestCase):
 
 
 class ParseDatetimeTests(unittest.TestCase):
-    def test_bad_dates(self):
+    def test_bad_dates(self) -> None:
         data = [
             "fail",
             "five of the clock",
@@ -57,7 +57,7 @@ class ParseDatetimeTests(unittest.TestCase):
                     parse_datetime(when)
 
     @freeze_time('2015-01-01 14:00')
-    def test_valid_dates(self):
+    def test_valid_dates(self) -> None:
         data = [
             ("now", datetime(2015, 1, 1, 14, 0, tzinfo=tzlocal())),
             ("16:00", datetime(2015, 1, 1, 16, 0, tzinfo=tzlocal())),

@@ -4,7 +4,7 @@ import unittest
 
 
 class LeagueTableTests(unittest.TestCase):
-    def test_league_table_succeeds(self):
+    def test_league_table_succeeds(self) -> None:
         test_dir = os.path.dirname(os.path.abspath(__file__))
         dummy_compstate = os.path.join(test_dir, 'dummy')
 

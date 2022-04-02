@@ -11,22 +11,25 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+from typing import Generic, Sequence, TypeVar
+
+T = TypeVar('T')
 
 
-class Takeable:
-    def __init__(self, source):
+class Takeable(Generic[T]):
+    def __init__(self, source: Sequence[T]) -> None:
         self._source = source
         self._idx = 0
 
     @property
-    def has_more(self):
+    def has_more(self) -> bool:
         return self._idx < len(self._source)
 
     @property
-    def remainder(self):
+    def remainder(self) -> Sequence[T]:
         return self._source[self._idx:]
 
-    def take(self, n):
+    def take(self, n: int) -> Sequence[T]:
         start = self._idx
         self._idx = end = start + n
         return self._source[start:end]

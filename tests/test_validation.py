@@ -4,7 +4,7 @@ import unittest
 
 
 class ValidationTests(unittest.TestCase):
-    def test_dummy_is_valid(self):
+    def test_dummy_is_valid(self) -> None:
         test_dir = os.path.dirname(os.path.abspath(__file__))
         dummy_compstate = os.path.join(test_dir, 'dummy')
 

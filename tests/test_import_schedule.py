@@ -2,10 +2,11 @@ import unittest
 
 from sr.comp.cli.import_schedule.core import build_schedule, get_id_subsets
 from sr.comp.cli.import_schedule.types import Configuration
+from sr.comp.types import ArenaName, MatchNumber, TLA
 
 
 class ImportScheduleTests(unittest.TestCase):
-    def test_num_ids_equals_num_teams(self):
+    def test_num_ids_equals_num_teams(self) -> None:
         ids = list(range(5))
         maps = list(get_id_subsets(ids, 5))
 
@@ -17,7 +18,7 @@ class ImportScheduleTests(unittest.TestCase):
             "Only one possible combination when same number of ids as teams",
         )
 
-    def test_one_spare_id(self):
+    def test_one_spare_id(self) -> None:
         ids = list(range(3))
         num_teams = 2
 
@@ -46,7 +47,7 @@ class ImportScheduleTests(unittest.TestCase):
             "Should have omitted each id once",
         )
 
-    def test_two_spare_ids(self):
+    def test_two_spare_ids(self) -> None:
         ids = list(range(4))
         num_teams = 2
 
@@ -77,12 +78,17 @@ class ImportScheduleTests(unittest.TestCase):
             "Should have omitted each id pair once",
         )
 
-    def test_build_schedule(self):
+    def test_build_schedule(self) -> None:
         lines = ['0|1|2|3', '1|2|3|4']
-        teams = ['ABC', 'DEF', 'GHI']
+        teams = [TLA('ABC'), TLA('DEF'), TLA('GHI')]
 
         matches, bad = build_schedule(
-            Configuration(['A'], teams, teams_per_game=4, first_match_number=0),
+            Configuration(
+                [ArenaName('A')],
+                teams,
+                teams_per_game=4,
+                first_match_number=MatchNumber(0),
+            ),
             lines,
             ids_to_ignore=[],
         )
@@ -96,12 +102,17 @@ class ImportScheduleTests(unittest.TestCase):
 
         self.assertEqual([], bad, "Should not be any 'bad' matches")
 
-    def test_extend_schedule(self):
+    def test_extend_schedule(self) -> None:
         lines = ['0|1|2|3', '1|2|3|4']
-        teams = ['ABC', 'DEF', 'GHI']
+        teams = [TLA('ABC'), TLA('DEF'), TLA('GHI')]
 
         matches, bad = build_schedule(
-            Configuration(['A'], teams, teams_per_game=4, first_match_number=4),
+            Configuration(
+                [ArenaName('A')],
+                teams,
+                teams_per_game=4,
+                first_match_number=MatchNumber(4),
+            ),
             lines,
             ids_to_ignore=[],
         )
@@ -115,12 +126,17 @@ class ImportScheduleTests(unittest.TestCase):
 
         self.assertEqual([], bad, "Should not be any 'bad' matches")
 
-    def test_build_schedule_appearance_order(self):
+    def test_build_schedule_appearance_order(self) -> None:
         lines = ['3|1|0|4', '1|2|4|0']
-        teams = ['ABC', 'DEF', 'GHI']
+        teams = [TLA('ABC'), TLA('DEF'), TLA('GHI')]
 
         matches, bad = build_schedule(
-            Configuration(['A'], teams, teams_per_game=4, first_match_number=0),
+            Configuration(
+                [ArenaName('A')],
+                teams,
+                teams_per_game=4,
+                first_match_number=MatchNumber(0),
+            ),
             lines,
             ids_to_ignore=[],
         )

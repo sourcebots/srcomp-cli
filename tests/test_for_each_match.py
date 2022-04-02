@@ -9,6 +9,7 @@ from sr.comp.cli.for_each_match import (
     PlaceholderExpander,
     replace_placeholders,
 )
+from sr.comp.types import TLA
 
 from .factories import build_match
 
@@ -17,7 +18,7 @@ class ForEachMatchTests(unittest.TestCase):
     longMessage = True
     maxDiff = None
 
-    def test_smoke(self):
+    def test_smoke(self) -> None:
         compstate_path = str(Path(__file__).parent / 'dummy')
 
         mock_settings = mock.Mock(
@@ -39,7 +40,7 @@ class ForEachMatchTests(unittest.TestCase):
             mock.call(['spam', 'league:B', '3|SCC LSS HZW MAI']),
         ])
 
-    def test_validate_placeholders(self):
+    def test_validate_placeholders(self) -> None:
         with contextlib.redirect_stderr(io.StringIO()) as stderr:
             PlaceholderExpander.validate('fine')
             self.assertEqual("", stderr.getvalue())
@@ -55,8 +56,8 @@ class ForEachMatchTests(unittest.TestCase):
             PlaceholderExpander.validate('@TLAS')
             self.assertEqual("", stderr.getvalue())
 
-    def test_replace_placeholders(self):
-        match = build_match(num=42, teams=['ABC', None])
+    def test_replace_placeholders(self) -> None:
+        match = build_match(num=42, teams=[TLA('ABC'), None])
 
         command = replace_placeholders(match, [
             'spam',
