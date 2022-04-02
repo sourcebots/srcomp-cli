@@ -9,9 +9,9 @@ reset the matches in a compstate to start at a convenient time.
 def command(args):
     from datetime import datetime, timedelta
 
-    from .yaml_round_trip import dump as dump_yaml, load as load_yaml
+    from sr.comp.cli import yaml_round_trip as yaml
 
-    schedule = load_yaml(str(args.compstate / 'schedule.yaml'))
+    schedule = yaml.load(args.compstate / 'schedule.yaml')
 
     old_start = schedule['match_periods'][args.focus][0]['start_time']
     new_start = datetime.now(old_start.tzinfo)
@@ -31,7 +31,7 @@ def command(args):
             if 'max_end_time' in entry:
                 entry['max_end_time'] += dt
 
-    dump_yaml(str(args.compstate / 'schedule.yaml'), schedule)
+    yaml.dump(schedule, dest=args.compstate / 'schedule.yaml')
 
     with (args.compstate / '.update-pls').open('w'):
         pass
