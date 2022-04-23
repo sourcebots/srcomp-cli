@@ -145,8 +145,8 @@ def add_arguments(parser: argparse.ArgumentParser) -> None:
         help=(
             "When the delay should occur. This can be specified in a number of "
             "formats: an absolute time (parsed by dateutil), 'now', "
-            "<duration> ago or in <duration> where <duration> is specified as a "
-            "number of seconds or a string of the form 1m30s. "
+            "'<duration> ago' or 'in <duration>' where <duration> is specified "
+            "as a number of seconds or a string of the form 1m30s. "
             "Assumes all times are in the current timezone, regardless of input."
         ),
     )
