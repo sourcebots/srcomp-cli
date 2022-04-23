@@ -24,12 +24,12 @@ The duration of the delay should be specified in the format ``1hr2m3s``, each
 granularity of which is optional. For example, specifications such as ``2hr3s``
 or ``5m`` are valid.
 
-The time at which the delay applies can be specified as a human-readable string
-either of an absolute time, such as ``2019-04-06 12:00``, or as a relative time,
-such as ``now`` or ``now + 5 minutes``.
-
-Alternatively, you can specify ``current match`` in order to have the delay
-inserted at the start of the current match slot.
+The time at which the delay applies can be specified in a number of formats:
+ * ``now`` (default)
+ * ``current match`` -- the start of the current match slot
+ * ``<duration> ago`` or ``in <duration>``, using the same duration spelling as
+   for the length of the delay (see above)
+ * an absolute time, such as ``2019-04-06 12:00``, which will be parsed by ``dateutil``
 
 .. note:: Parsed times are always interpreted in the local system timezone,
           rather than the compstate's configured timezone.
