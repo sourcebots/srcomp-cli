@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import textwrap
 from contextlib import contextmanager
 from typing import (
     Any,
@@ -61,8 +62,9 @@ def print_fail(*args: object, **kargs: Any) -> None:
 
 
 def print_buffer(buf: ChannelFile) -> None:
-    prefix = '> '
-    print(prefix + prefix.join(buf.readlines()).strip())
+    content = buf.read().decode().rstrip()
+    if content:
+        print(textwrap.indent(content, '> '))
 
 
 def get_input(prompt: str) -> str:
