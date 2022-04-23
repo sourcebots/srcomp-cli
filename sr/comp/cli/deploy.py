@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import textwrap
 from contextlib import contextmanager
 from typing import (
@@ -16,28 +17,14 @@ from typing import (
 )
 
 if TYPE_CHECKING:
-    from paramiko import SSHClient
-    from paramiko.channel import ChannelFile
-
     from sr.comp.raw_compstate import RawCompstate
 
 API_TIMEOUT_SECONDS = 3
-SSH_TIMEOUT_SECONDS = 2
 DEPLOY_USER = 'srcomp'
 BOLD = '\033[1m'
 FAIL = '\033[91m'
 OKBLUE = '\033[94m'
 ENDC = '\033[0m'
-
-
-def ssh_connection(host: str) -> SSHClient:
-    from paramiko import AutoAddPolicy, SSHClient
-
-    client = SSHClient()
-    client.load_system_host_keys()
-    client.set_missing_host_key_policy(AutoAddPolicy())
-    client.connect(host, username=DEPLOY_USER, timeout=SSH_TIMEOUT_SECONDS)
-    return client
 
 
 def format_fail(*args: object) -> str:
@@ -61,8 +48,8 @@ def print_fail(*args: object, **kargs: Any) -> None:
     print(format_fail(*args), **kargs)
 
 
-def print_buffer(buf: ChannelFile) -> None:
-    content = buf.read().decode().rstrip()
+def print_buffer(buf: io.StringIO) -> None:
+    content = buf.getvalue().rstrip()
     if content:
         print(textwrap.indent(content, '> '))
 
@@ -121,8 +108,11 @@ def ref_compstate(host: str) -> str:
 def deploy_to(compstate: RawCompstate, host: str, revision: str, verbose: bool) -> int:
     print(BOLD + f"Deploying to {host}:" + ENDC)
 
+    from fabric import Connection  # type: ignore[import]
+    from invoke.exceptions import UnexpectedExit  # type: ignore[import]
+
     # Make connection early to check if host is up.
-    with ssh_connection(host) as client:
+    with Connection(host, user=DEPLOY_USER) as connection:
         # Push the repo
         url = ref_compstate(host)
         # Make a new branch for this revision so that it's visible to
@@ -141,8 +131,13 @@ def deploy_to(compstate: RawCompstate, host: str, revision: str, verbose: bool) 
             )
 
         cmd = f"./update '{revision}'"
-        _, stdout, stderr = client.exec_command(cmd)
-        retcode = stdout.channel.recv_exit_status()
+        stdout, stderr = io.StringIO(), io.StringIO()
+        try:
+            result = connection.run(cmd, out_stream=stdout, err_stream=stderr)
+        except UnexpectedExit as e:
+            result = e.result
+
+        retcode: int = result.exited
 
         if verbose or retcode != 0:
             print_buffer(stdout)
