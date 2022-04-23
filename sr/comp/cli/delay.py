@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 from sr.comp.cli import add_delay, deploy
 
@@ -44,6 +45,10 @@ def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser
         help="skips updating to the latest revision",
     )
     deploy.add_options(parser)
-    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument(
+        'compstate',
+        type=Path,
+        help="competition state repository",
+    )
     add_delay.add_arguments(parser)
     parser.set_defaults(func=command)
