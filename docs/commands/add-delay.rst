@@ -31,5 +31,5 @@ such as ``now`` or ``now + 5 minutes``.
 Alternatively, you can specify ``current match`` in order to have the delay
 inserted at the start of the current match slot.
 
-.. note:: Parsed times are always interpretted in the local system timezone,
+.. note:: Parsed times are always interpreted in the local system timezone,
           rather than the compstate's configured timezone.
