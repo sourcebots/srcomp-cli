@@ -29,7 +29,7 @@ class SimpleCommandsTests(unittest.TestCase):
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                 )
-                self.assertEqual(0, result.returncode, result.stdout)
+                self.assertEqual(0, result.returncode, result.stdout.decode())
 
                 snapshot = (snapshots / command).with_suffix('.txt')
 
