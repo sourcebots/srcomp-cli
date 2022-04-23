@@ -157,6 +157,10 @@ def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser
         'add-delay',
         help="Add a delay the competition state",
     )
-    parser.add_argument('compstate', help="competition state repository")
+    parser.add_argument(
+        'compstate',
+        type=Path,
+        help="competition state repository",
+    )
     add_arguments(parser)
     parser.set_defaults(func=command)
