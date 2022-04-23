@@ -1,2 +1,2 @@
-Schedule  has the following errors:
+Schedule has the following errors:
     Only contains enough time for 111 matches, 200 are planned
