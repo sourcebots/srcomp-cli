@@ -158,13 +158,13 @@ def get_deployments(compstate: RawCompstate) -> List[str]:
 
 
 def get_current_state(host: str) -> Optional[str]:
-    import json
-    from urllib.request import urlopen
+    import requests
 
     url = f'http://{host}/comp-api/state'
     try:
-        page = urlopen(url, timeout=API_TIMEOUT_SECONDS)
-        raw_state = json.load(page)
+        response = requests.get(url, timeout=API_TIMEOUT_SECONDS)
+        response.raise_for_status()
+        raw_state = response.json()
     except Exception as e:
         print(e)
         return None
