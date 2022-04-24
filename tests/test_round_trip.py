@@ -1,8 +1,12 @@
+import datetime
+import io
+import textwrap
 import unittest
 from pathlib import Path
 from typing import Tuple
 from unittest import mock
 
+from sr.comp.cli import yaml_round_trip as yaml
 from sr.comp.cli.yaml_round_trip import command
 
 
@@ -28,4 +32,66 @@ class RoundTripTests(unittest.TestCase):
             orig_content,
             new_content,
             "Should not have changed file content",
+        )
+
+    def test_timestamp_with_timezone(self) -> None:
+        content = textwrap.dedent('''
+            start: 2022-04-01 12:04:12+01:00
+            end: 2022-04-01 12:05:37+01:00
+        ''').lstrip()
+
+        data = yaml.load(io.StringIO(content))
+
+        tzinfo = datetime.timezone(offset=datetime.timedelta(hours=1))
+
+        self.assertEqual(
+            {
+                'start': datetime.datetime(2022, 4, 1, 12, 4, 12, tzinfo=tzinfo),
+                'end': datetime.datetime(2022, 4, 1, 12, 5, 37, tzinfo=tzinfo),
+            },
+            dict(data),
+            "Should have parsed timezone aware times",
+        )
+
+        output = io.StringIO()
+        yaml.dump(data, output)
+
+        self.assertEqual(
+            content,
+            output.getvalue(),
+            "Timestamps with timezones should round-trip",
+        )
+
+    def test_timestamp_with_timezone_updated(self) -> None:
+        content = textwrap.dedent('''
+            start: 2022-04-01 12:04:12+01:00
+            end: 2022-04-01 12:05:37+01:00
+        ''').lstrip()
+
+        data = yaml.load(io.StringIO(content))
+
+        tzinfo = datetime.timezone(offset=datetime.timedelta(hours=1))
+
+        self.assertEqual(
+            {
+                'start': datetime.datetime(2022, 4, 1, 12, 4, 12, tzinfo=tzinfo),
+                'end': datetime.datetime(2022, 4, 1, 12, 5, 37, tzinfo=tzinfo),
+            },
+            dict(data),
+            "Should have parsed timezone aware times",
+        )
+
+        data['end'] += datetime.timedelta(hours=1)
+        expected = textwrap.dedent('''
+            start: 2022-04-01 12:04:12+01:00
+            end: 2022-04-01 13:05:37+01:00
+        ''').lstrip()
+
+        output = io.StringIO()
+        yaml.dump(data, output)
+
+        self.assertEqual(
+            expected,
+            output.getvalue(),
+            "Timestamps with timezones should be updated suitably",
         )

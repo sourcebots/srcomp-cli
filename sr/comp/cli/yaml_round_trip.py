@@ -19,7 +19,7 @@ def _load() -> ruamel.yaml.YAML:
         _ryaml.version = (1, 1)  # type: ignore[assignment]
 
         from sr.comp.yaml_loader import add_time_constructor
-        add_time_constructor(ruamel.yaml)  # type: ignore[arg-type]
+        add_time_constructor(_ryaml.Constructor)
 
     return _ryaml
 
