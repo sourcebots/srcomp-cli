@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import datetime
-from typing import Optional, Sequence
+from typing import Sequence
 
 from dateutil.tz import UTC
 
@@ -13,7 +15,7 @@ _DEFAULT_END_TIME = datetime.datetime(2020, 1, 25, 11, 5, tzinfo=UTC)
 def build_match(
     num: int = 0,
     arena: str = 'main',
-    teams: Sequence[Optional[TLA]] = (),
+    teams: Sequence[TLA | None] = (),
     start_time: datetime.datetime = _DEFAULT_START_TIME,
     end_time: datetime.datetime = _DEFAULT_END_TIME,
     type_: MatchType = MatchType.league,
@@ -21,7 +23,7 @@ def build_match(
 ) -> Match:
     return Match(
         MatchNumber(num),
-        "Match {n}".format(n=num),
+        f"Match {num}",
         ArenaName(arena),
         list(teams),
         start_time,

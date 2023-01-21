@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Dict, Iterable
+from typing import Iterable
 
 from sr.comp.cli.import_schedule import loading, teams_mapping
 from sr.comp.cli.import_schedule.types import Configuration, RawMatch
@@ -73,7 +73,7 @@ def command(args: argparse.Namespace) -> None:
         schedule_lines = loading.tidy(sfp.readlines())
 
     league_yaml = loading.league_yaml_path(args.compstate)
-    existing_matches: Dict[MatchNumber, RawMatch] = {}
+    existing_matches: dict[MatchNumber, RawMatch] = {}
     if args.extend:
         existing_matches = loading.load_league_yaml(league_yaml)
 

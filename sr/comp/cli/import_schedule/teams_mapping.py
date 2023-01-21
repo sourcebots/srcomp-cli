@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import collections
 import enum
 from pathlib import Path
-from typing import List
 
 from sr.comp.types import TLA
 
@@ -15,7 +16,7 @@ class Strategy(enum.Enum):
         return self.value
 
 
-def order_teams_randomly(team_ids: List[TLA]) -> List[TLA]:
+def order_teams_randomly(team_ids: list[TLA]) -> list[TLA]:
     """
     Order teams using our stable random logic.
     """
@@ -27,7 +28,7 @@ def order_teams_randomly(team_ids: List[TLA]) -> List[TLA]:
     return team_ids
 
 
-def order_teams_by_location(layout_yaml: Path, team_ids: List[TLA]) -> List[TLA]:
+def order_teams_by_location(layout_yaml: Path, team_ids: list[TLA]) -> list[TLA]:
     """
     Order teams by location, such that the order of appearances in the matches
     is equivalent to the ordering in the layout.
@@ -68,9 +69,9 @@ def order_teams_by_location(layout_yaml: Path, team_ids: List[TLA]) -> List[TLA]
 
 def order_teams(
     compstate_path: Path,
-    team_ids: List[TLA],
+    team_ids: list[TLA],
     strategy: Strategy,
-) -> List[TLA]:
+) -> list[TLA]:
     """
     Order teams either randomly or, if there's a layout available, by location.
     """

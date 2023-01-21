@@ -1,16 +1,18 @@
+from __future__ import annotations
+
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Iterable
 
 from sr.comp.types import ArenaName, MatchNumber, TLA
 
 from .types import ID, RawMatch
 
 
-def parse_ids(ids: str, sep: str = ',') -> List[ID]:
+def parse_ids(ids: str, sep: str = ',') -> list[ID]:
     return [ID(x) for x in ids.split(sep)]
 
 
-def tidy(lines: Iterable[str]) -> List[str]:
+def tidy(lines: Iterable[str]) -> list[str]:
     "Strip comments and trailing whitespace"
     schedule = []
     for line in lines:
@@ -31,7 +33,7 @@ def league_yaml_path(compstate_path: Path) -> Path:
 
 
 def dump_league_yaml(
-    matches: Dict[MatchNumber, RawMatch],
+    matches: dict[MatchNumber, RawMatch],
     file_path: Path,
 ) -> None:
     from sr.comp.cli import yaml_round_trip as yaml
@@ -39,19 +41,19 @@ def dump_league_yaml(
     yaml.dump({'matches': matches}, dest=file_path)
 
 
-def load_league_yaml(league_yaml: Path) -> Dict[MatchNumber, RawMatch]:
+def load_league_yaml(league_yaml: Path) -> dict[MatchNumber, RawMatch]:
     from sr.comp.cli import yaml_round_trip as yaml
 
     with open(league_yaml) as lfp:
         data = yaml.load(lfp)
-        matches: Dict[MatchNumber, RawMatch] = data['matches']
+        matches: dict[MatchNumber, RawMatch] = data['matches']
         return matches
 
 
 def load_teams_areans(
     compstate_path: Path,
     first_match_number: MatchNumber,
-) -> Tuple[List[TLA], List[ArenaName], int]:
+) -> tuple[list[TLA], list[ArenaName], int]:
     from sr.comp import arenas, teams
 
     team_ids = sorted(
@@ -71,7 +73,7 @@ def load_ids_schedule(
     schedule_lines: Iterable[str],
     num_arenas: int,
     teams_per_game: int,
-) -> Tuple[List[ID], List[List[ID]]]:
+) -> tuple[list[ID], list[list[ID]]]:
     """
     Converts an iterable of strings containing pipe-separated ids into
     a tuple: ``(ids, schedule)``. The ``ids`` is a list of unique ids
@@ -81,8 +83,8 @@ def load_ids_schedule(
 
     max_teams_per_slot = teams_per_game * num_arenas
 
-    ids: List[ID] = []
-    schedule: List[List[ID]] = []
+    ids: list[ID] = []
+    schedule: list[list[ID]] = []
 
     for match_num, match in enumerate(schedule_lines):
         match_ids = parse_ids(match, sep='|')

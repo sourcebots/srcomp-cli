@@ -1,15 +1,7 @@
+from __future__ import annotations
+
 import collections
-from typing import (
-    Collection,
-    Dict,
-    Iterator,
-    List,
-    Mapping,
-    Optional,
-    Sequence,
-    Tuple,
-    TypeVar,
-)
+from typing import Collection, Iterator, Mapping, Sequence, TypeVar
 
 from sr.comp.types import ArenaName, MatchNumber, TLA
 
@@ -19,7 +11,7 @@ from .types import BadMatch, Configuration, ID, RawMatch
 T = TypeVar('T')
 
 
-def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
+def chunks_of_size(list_: list[T], size: int) -> Iterator[list[T]]:
     if len(list_) % size != 0:
         raise ValueError(
             "Unable to chunk list whose size is not evenly divisble by given "
@@ -34,7 +26,7 @@ def chunks_of_size(list_: List[T], size: int) -> Iterator[List[T]]:
         yield chunk
 
 
-def ignore_ids(ids: List[ID], ids_to_remove: List[ID]) -> None:
+def ignore_ids(ids: list[ID], ids_to_remove: list[ID]) -> None:
     for i in ids_to_remove:
         ids.remove(i)
 
@@ -77,7 +69,7 @@ def get_id_subsets(ids: Collection[T], limit: int) -> Iterator[Collection[T]]:
         raise Exception(f"Too many empty slots to compensate for ({extra}).")
 
 
-def build_id_team_maps(ids: List[ID], team_ids: Sequence[TLA]) -> Iterator[Dict[ID, TLA]]:
+def build_id_team_maps(ids: list[ID], team_ids: Sequence[TLA]) -> Iterator[dict[ID, TLA]]:
     # If there are more ids than team_ids we want to ensure that we minimize
     # the number of matches which have empty places and also the number of
     # empty places in any given match.
@@ -93,14 +85,14 @@ def build_id_team_maps(ids: List[ID], team_ids: Sequence[TLA]) -> Iterator[Dict[
 
 
 def build_matches(
-    id_team_map: Dict[ID, TLA],
-    schedule: List[List[ID]],
+    id_team_map: dict[ID, TLA],
+    schedule: list[list[ID]],
     arena_ids: Collection[ArenaName],
     teams_per_game: int,
     first_match_number: int,
-) -> Tuple[
-    Dict[MatchNumber, RawMatch],
-    List[BadMatch],
+) -> tuple[
+    dict[MatchNumber, RawMatch],
+    list[BadMatch],
 ]:
     matches = {}
     bad_matches = []
@@ -120,12 +112,12 @@ def build_matches(
 
 
 def are_better_matches(
-    best: List[BadMatch],
-    new: List[BadMatch],
+    best: list[BadMatch],
+    new: list[BadMatch],
     teams_per_game: int,
 ) -> bool:
-    def get_empty_places_map(bad_matches: List[BadMatch]) -> Mapping[int, int]:
-        empty_places_map: Dict[int, int] = collections.Counter()
+    def get_empty_places_map(bad_matches: list[BadMatch]) -> Mapping[int, int]:
+        empty_places_map: dict[int, int] = collections.Counter()
         for bad_match in bad_matches:
             num_empty = teams_per_game - bad_match.num_teams
             empty_places_map[num_empty] += 1
@@ -146,16 +138,16 @@ def are_better_matches(
 
 def get_best_fit(
     config: Configuration,
-    ids: List[ID],
-    schedule: List[List[ID]],
-) -> Tuple[
-    Dict[MatchNumber, RawMatch],
-    List[BadMatch],
+    ids: list[ID],
+    schedule: list[list[ID]],
+) -> tuple[
+    dict[MatchNumber, RawMatch],
+    list[BadMatch],
 ]:
-    best: Optional[Tuple[
-        Dict[MatchNumber, RawMatch],
-        List[BadMatch],
-    ]] = None
+    best: tuple[
+        dict[MatchNumber, RawMatch],
+        list[BadMatch],
+    ] | None = None
     for id_team_map in build_id_team_maps(ids, config.team_ids):
         matches, bad_matches = build_matches(
             id_team_map,
@@ -179,11 +171,11 @@ def get_best_fit(
 
 def build_schedule(
     config: Configuration,
-    schedule_lines: List[str],
-    ids_to_ignore: List[ID],
-) -> Tuple[
-    Dict[MatchNumber, RawMatch],
-    List[BadMatch],
+    schedule_lines: list[str],
+    ids_to_ignore: list[ID],
+) -> tuple[
+    dict[MatchNumber, RawMatch],
+    list[BadMatch],
 ]:
     # Collect up the ids used
     ids, schedule = loading.load_ids_schedule(

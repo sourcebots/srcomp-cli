@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import datetime
 import io
 import textwrap
 import unittest
 from pathlib import Path
-from typing import Tuple
 from unittest import mock
 
 from sr.comp.cli import yaml_round_trip as yaml
@@ -13,7 +14,7 @@ from sr.comp.cli.yaml_round_trip import command
 class RoundTripTests(unittest.TestCase):
     maxDiff = 8000
 
-    def get_info(self, file_path: Path) -> Tuple[float, str]:
+    def get_info(self, file_path: Path) -> tuple[float, str]:
         return file_path.stat().st_mtime, file_path.read_text()
 
     def test_dummy_schedule(self) -> None:
