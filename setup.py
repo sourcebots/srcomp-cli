@@ -3,9 +3,6 @@ from setuptools import find_namespace_packages, setup
 with open('README.rst') as f:
     long_description = f.read()
 
-with open('setup-requirements.txt') as f:
-    setup_requires = f.readlines()
-
 setup(
     name='sr.comp.cli',
     version='1.4.0',
@@ -40,7 +37,6 @@ setup(
             'srcomp = sr.comp.cli.command_line:main',
         ],
     },
-    setup_requires=setup_requires,
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',

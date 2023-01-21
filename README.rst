@@ -26,7 +26,7 @@ Development
 
 .. code:: shell
 
-    pip install -e .
+    pip install -e . -r dev-requirements.txt
 
 
 **Test**:
