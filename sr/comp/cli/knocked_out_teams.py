@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Optional, Set
 
 from sr.comp.types import TLA
 
@@ -22,14 +21,14 @@ def command(settings: argparse.Namespace) -> None:
 
     comp = SRComp(settings.compstate)
 
-    teams_last_round: Set[Optional[TLA]] = set()
+    teams_last_round: set[TLA | None] = set()
     last_round_num = len(comp.schedule.knockout_rounds) - 1
     for i, matches in enumerate(comp.schedule.knockout_rounds):
         teams_this_round = set()
         for game in matches:
             teams_this_round.update(game.teams)
 
-        print("Teams not in round {} ({})".format(i, round_name(last_round_num - i)))
+        print(f"Teams not in round {i} ({round_name(last_round_num - i)})")
         out = teams_last_round - teams_this_round
         teams_out = [t for t in out if t is not None]
         for tla in teams_out:

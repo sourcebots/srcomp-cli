@@ -19,29 +19,29 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Callable, Dict, List, TYPE_CHECKING
+from typing import Callable, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sr.comp.match_period import Match
 
 
-def get_tlas(match: 'Match') -> List[str]:
+def get_tlas(match: Match) -> list[str]:
     return [
         x if x is not None else '-'
         for x in match.teams
     ]
 
 
-PLACEHOLDERS = {
+PLACEHOLDERS: dict[str, Callable[[Match], list[str]]] = {
     'ARENA': lambda x: [x.arena],
     'NUMBER': lambda x: [str(x.num)],
     'TLAS': get_tlas,
     'TYPE': lambda x: [str(x.type.value)],
-}  # type: Dict[str, Callable[[Match], List[str]]]
+}
 
 
 class PlaceholderExpander:
-    def __init__(self, match: 'Match') -> None:
+    def __init__(self, match: Match) -> None:
         self.match = match
 
     @staticmethod
@@ -52,7 +52,7 @@ class PlaceholderExpander:
     def __getitem__(self, key: str) -> str:
         return ' '.join(PLACEHOLDERS[key](self.match))
 
-    def expand(self, value: str) -> List[str]:
+    def expand(self, value: str) -> list[str]:
         if value.startswith('@'):
             key = value[1:]
             fn = PLACEHOLDERS.get(key)
@@ -62,7 +62,7 @@ class PlaceholderExpander:
         return [value.format_map(self)]
 
 
-def replace_placeholders(match: 'Match', command: List[str]) -> List[str]:
+def replace_placeholders(match: Match, command: list[str]) -> list[str]:
     import itertools
 
     expander = PlaceholderExpander(match)

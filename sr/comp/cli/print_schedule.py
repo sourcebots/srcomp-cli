@@ -50,7 +50,7 @@ class ScheduleGenerator:
             cols = (134, 353)
         else:
             raise RuntimeError(
-                "Unexpected number of arenas: {}".format(len(self.arenas)),
+                f"Unexpected number of arenas: {len(self.arenas)}",
             )
 
         for x in cols:
@@ -164,7 +164,7 @@ class ScheduleGenerator:
         if shepherds:
             title += " • Shepherd {}".format(
                 ", ".join(
-                    shepherd.get('name', "#{}".format(i + 1))
+                    shepherd.get('name', f"#{i + 1}")
                     for i, shepherd in enumerate(shepherds)
                 ),
             )

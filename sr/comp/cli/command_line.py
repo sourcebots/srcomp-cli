@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import List, Optional
 
 from . import (
     add_delay,
@@ -74,7 +73,7 @@ def argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(args: Optional[List[str]] = None) -> None:
+def main(args: list[str] | None = None) -> None:
     """Run as the CLI tool."""
     if args is None:
         args = sys.argv[1:]

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Any, Dict, IO, TYPE_CHECKING, Union
+from typing import Any, IO, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import ruamel.yaml
@@ -24,12 +24,12 @@ def _load() -> ruamel.yaml.YAML:
     return _ryaml
 
 
-def load(source: Union[Path, IO[str]]) -> Any:
+def load(source: Path | IO[str]) -> Any:
     ryaml = _load()
     return ryaml.load(stream=source)
 
 
-def dump(data: Dict[str, Any], dest: Union[Path, IO[str]]) -> None:
+def dump(data: dict[str, Any], dest: Path | IO[str]) -> None:
     import io
     ryaml = _load()
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable
 
 time_parse_pattern = r'^((?P<hours>\d+?)hr)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?$'
 
@@ -53,7 +53,7 @@ def parse_datetime(when_str: str) -> datetime.datetime:
     def parse_absolute(match: re.Match[str]) -> datetime.datetime:
         return parse_date(match.group(0))
 
-    DATETIME_PATTERNS: List[Tuple[str, Callable[[re.Match[str]], datetime.datetime]]] = [
+    DATETIME_PATTERNS: list[tuple[str, Callable[[re.Match[str]], datetime.datetime]]] = [
         (r'^([^ ]+)\s*ago$', parse_past),
         (r'^in\s*([^ ]+)$', parse_future),
         (r'^now$', parse_now),
@@ -100,7 +100,7 @@ def parse_time(compstate_path: Path, when_str: str) -> datetime.datetime:
         return parse_datetime(when_str)
 
 
-def add_delay(schedule: Dict[str, Any], delay_seconds: int, when: datetime.datetime) -> None:
+def add_delay(schedule: dict[str, Any], delay_seconds: int, when: datetime.datetime) -> None:
     delays = schedule.get('delays')
     if not delays:
         delays = schedule['delays'] = []
@@ -111,7 +111,7 @@ def add_delay(schedule: Dict[str, Any], delay_seconds: int, when: datetime.datet
     delays.append(new_delay)
 
 
-def command(settings: argparse.Namespace) -> Tuple[datetime.timedelta, datetime.datetime]:
+def command(settings: argparse.Namespace) -> tuple[datetime.timedelta, datetime.datetime]:
     from sr.comp.cli import yaml_round_trip as yaml
 
     schedule_path: Path = settings.compstate / 'schedule.yaml'

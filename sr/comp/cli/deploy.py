@@ -4,17 +4,7 @@ import argparse
 import io
 import textwrap
 from contextlib import contextmanager
-from typing import (
-    Any,
-    cast,
-    Iterable,
-    Iterator,
-    List,
-    Optional,
-    Sequence,
-    Type,
-    TYPE_CHECKING,
-)
+from typing import Any, cast, Iterable, Iterator, Sequence, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sr.comp.raw_compstate import RawCompstate
@@ -35,7 +25,7 @@ def format_fail(*args: object) -> str:
 @contextmanager
 def exit_on_exception(
     msg: str = '{0}',
-    kind: Type[Exception] = Exception,
+    kind: type[Exception] = Exception,
 ) -> Iterator[None]:
     try:
         yield
@@ -62,7 +52,7 @@ def get_input(prompt: str) -> str:
 def query(
     question: str,
     options: Sequence[str],
-    default: Optional[str] = None,
+    default: str | None = None,
 ) -> str:
     if default:
         assert default in options
@@ -85,10 +75,10 @@ def query(
             return default
 
 
-def query_bool(question: str, default_val: Optional[bool] = None) -> bool:
+def query_bool(question: str, default_val: bool | None = None) -> bool:
     options = ('y', 'n')
     if default_val is True:
-        default = 'y'  # type: Optional[str]
+        default: str | None = 'y'
     elif default_val is False:
         default = 'n'
     else:
@@ -147,12 +137,12 @@ def deploy_to(compstate: RawCompstate, host: str, revision: str, verbose: bool) 
         return retcode
 
 
-def get_deployments(compstate: RawCompstate) -> List[str]:
+def get_deployments(compstate: RawCompstate) -> list[str]:
     with exit_on_exception("Failed to get deployments from state ({0})."):
         return compstate.deployments
 
 
-def get_current_state(host: str) -> Optional[str]:
+def get_current_state(host: str) -> str | None:
     import requests
 
     url = f'http://{host}/comp-api/state'

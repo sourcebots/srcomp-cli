@@ -45,7 +45,7 @@ def command(settings: argparse.Namespace) -> None:
         elif len(recipients) == 1:
             print(" ", format_team(recipients[0]))
         else:
-            print('  Split between {} teams (a tie):'.format(len(recipients)))
+            print(f'  Split between {len(recipients)} teams (a tie):')
             for recipient in recipients:
                 print("  ", format_team(recipient))
         print()
