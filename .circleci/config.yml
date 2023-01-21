@@ -51,8 +51,8 @@ references:
         declare -a FILES=(
           "script/docs/requirements.txt"
           "script/linting/requirements.txt"
-          "script/typing/requirements.txt"
           "script/testing/requirements.txt"
+          "script/typing/requirements.txt"
         )
         for f in ${FILES[@]}
         do
