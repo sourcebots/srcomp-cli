@@ -16,7 +16,8 @@ def command(args: argparse.Namespace) -> None:
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
-        'list-midi-ports', help=__description__,
+        'list-midi-ports',
+        help=__description__,
         description=__description__,
     )
     parser.set_defaults(func=command)

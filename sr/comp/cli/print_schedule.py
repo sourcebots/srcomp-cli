@@ -267,7 +267,8 @@ class ScheduleGenerator:
     ):
         periods = self._get_periods(competition, period_numbers)
         shepherd_groups = self._get_shepherds(
-            raw_compstate, shepherd_numbers,
+            raw_compstate,
+            shepherd_numbers,
             combine_shepherds,
         )
         locations = self._get_locations(raw_compstate, location_names)
@@ -275,8 +276,11 @@ class ScheduleGenerator:
         for shepherds in shepherd_groups:
             for period in periods:
                 self._generate(
-                    period, shepherds, locations,
-                    location_names is not None, is_plain,
+                    period,
+                    shepherds,
+                    locations,
+                    location_names is not None,
+                    is_plain,
                 )
 
     def write(self):
