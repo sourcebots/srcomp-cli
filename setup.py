@@ -24,7 +24,7 @@ setup(
         'python-dateutil >=2.2, <3',
         'Fabric >= 2.7, <3',
         'invoke >= 1.7, <2',
-        'sr.comp >=1.2, <2',
+        'sr.comp >=1.8, <2',
         'reportlab >=3.1.44, <3.7',
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.15, <1.0',

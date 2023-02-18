@@ -233,7 +233,7 @@ def check_host_state(compstate: RawCompstate, host: str, revision: str, verbose:
     if not compstate.has_commit(state):
         if query_bool(f"Host {host} has unknown state '{state}'. Try to fetch it?", True):
             compstate.fetch('origin', quiet=True)
-            compstate.fetch(ref_compstate(host), quiet=True)
+            compstate.fetch(ref_compstate(host), ('HEAD', state), quiet=True)
 
     # Old revision:
     if compstate.has_descendant(state):
