@@ -59,6 +59,7 @@ def guard_unicode_output(stream):
 
     warnings.warn(
         "Your locale does not support unicode. Some characters may not display correctly.",
+        stacklevel=1,
     )
 
     orig_write = stream.write
