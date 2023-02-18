@@ -10,6 +10,7 @@ from . import (
     awards,
     delay,
     deploy,
+    fetch,
     for_each_match,
     import_schedule,
     knocked_out_teams,
@@ -52,6 +53,7 @@ def argument_parser() -> argparse.ArgumentParser:
     awards.add_subparser(subparsers)
     delay.add_subparser(subparsers)
     deploy.add_subparser(subparsers)
+    fetch.add_subparser(subparsers)
     for_each_match.add_subparser(subparsers)
     import_schedule.add_subparser(subparsers)
     knocked_out_teams.add_subparser(subparsers)
