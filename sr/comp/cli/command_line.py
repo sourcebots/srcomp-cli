@@ -28,6 +28,7 @@ from . import (
     update_layout,
     validate,
     yaml_round_trip,
+    youtube_chapters,
 )
 
 
@@ -71,6 +72,7 @@ def argument_parser() -> argparse.ArgumentParser:
     update_layout.add_subparser(subparsers)
     validate.add_subparser(subparsers)
     yaml_round_trip.add_subparser(subparsers)
+    youtube_chapters.add_subparser(subparsers)
 
     return parser
 

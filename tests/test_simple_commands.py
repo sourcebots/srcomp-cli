@@ -20,6 +20,7 @@ class SimpleCommandsTests(unittest.TestCase):
         ('summary',),
         ('top-match-points',),
         ('validate',),
+        ('youtube-chapters', '600'),
     ]
 
     def test_command_snapshot(self) -> None:
