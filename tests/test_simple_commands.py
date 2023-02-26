@@ -6,6 +6,8 @@ from pathlib import Path
 
 
 class SimpleCommandsTests(unittest.TestCase):
+    maxDiff = None
+
     # Any command which reads the compstate and displays information about it
     # should be listed here. Commands which modify the compstate should be
     # tested separately.
