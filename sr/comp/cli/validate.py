@@ -24,7 +24,8 @@ def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser
     )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument(
-        '-l', '--lax',
+        '-l',
+        '--lax',
         action='store_true',
         help="only check if it loads, rather than run a validation",
     )
