@@ -1,8 +1,18 @@
 from __future__ import annotations
 
 import argparse
+import enum
 
 DISPLAY_NAME_WIDTH = 18
+
+
+class SecondsOption(enum.Enum):
+    ALWAYS = 'always'
+    NEVER = 'never'
+    AUTO = 'auto'
+
+    def __str__(self) -> str:
+        return self.value
 
 
 def first(iterable):
@@ -40,10 +50,30 @@ def command(settings: argparse.Namespace) -> None:
     def print_col(text, last=False):
         print(text, end='|')
 
+    def should_show_seconds() -> bool:
+        if settings.seconds == SecondsOption.ALWAYS:
+            return True
+        if settings.seconds == SecondsOption.NEVER:
+            return False
+
+        assert settings.seconds == SecondsOption.AUTO
+        for slot in matches:
+            for match in slot.values():
+                if match.start_time.second != 0:
+                    return True
+
+        return False
+
+    time_format = '%H:%M'
+    time_space = ""
+    if should_show_seconds():
+        time_format += ':%S'
+        time_space = "   "
+
     empty_teams = teams_str(" " * num_teams_per_arena)
     teams_len = len(empty_teams)
 
-    print_col(" Num Time  ")
+    print_col(f" Num Time  {time_space}")
     for a in comp.arenas.values():
         print_col(a.display_name.center(teams_len))
     print_col("Display Name".center(DISPLAY_NAME_WIDTH))
@@ -52,7 +82,7 @@ def command(settings: argparse.Namespace) -> None:
     arena_ids = comp.arenas.keys()
     for slot in matches:
         m = first(slot.values())
-        print_col(f" {m.num:>3} {m.start_time:%H:%M} ")
+        print_col(f" {m.num:>3} {m.start_time:{time_format}} ")
 
         for a_id in arena_ids:
             if a_id in slot:
@@ -81,6 +111,13 @@ def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser
         '--all',
         action='store_true',
         help="show all matches, not just the upcoming ones (ignores --limit)",
+    )
+    parser.add_argument(
+        '--seconds',
+        help="show times including seconds",
+        choices=SecondsOption,
+        type=SecondsOption,
+        default=SecondsOption.AUTO,
     )
     parser.add_argument(
         '--limit',
