@@ -17,6 +17,9 @@ result hash characters may be used to start line comments.
 
 Example schedules for 48, 52 or 56 teams are available  at:
 https://github.com/PeterJCLaw/srobo-schedules/tree/master/seed_schedules
+
+Teams which are marked as having dropped out before the first match being
+scheduled will not be considered for inclusion in the schedule.
 """
 
 from __future__ import annotations
