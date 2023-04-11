@@ -111,7 +111,7 @@ def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser
         '-i',
         '--ignore-ids',
         type=loading.parse_ids,
-        help="comma separated list of ids to ignore",
+        help="Comma separated list of ids (as present in the schedule file) to ignore.",
     )
     parser.add_argument(
         '--extend',
