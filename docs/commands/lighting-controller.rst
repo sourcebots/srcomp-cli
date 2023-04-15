@@ -1,8 +1,8 @@
-print-schedule
-==============
+lighting-controller
+===================
 
 .. argparse::
    :module: sr.comp.cli.command_line
    :func: argument_parser
    :prog: srcomp
-   :path: print-schedule
+   :path: lighting-controller

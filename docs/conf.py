@@ -4,6 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 extensions = [
+    'sphinxarg.ext',
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',

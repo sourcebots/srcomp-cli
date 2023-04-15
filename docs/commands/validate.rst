@@ -1,12 +1,8 @@
 validate
 ========
 
-Synopsis
---------
-
-``srcomp validate [-h] [-l|--lax] <compstate>``
-
-Description
------------
-
-Check that the compstate can be loaded and represents a valid state.
+.. argparse::
+   :module: sr.comp.cli.command_line
+   :func: argument_parser
+   :prog: srcomp
+   :path: validate

@@ -1,3 +1,5 @@
 # Don't actually care about the specific version, just needs to be fairly
 # recent. Pick the same version as srcomp uses.
 Sphinx==4.3.2
+
+sphinx-argparse

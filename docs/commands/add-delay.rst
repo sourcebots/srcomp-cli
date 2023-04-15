@@ -1,14 +1,6 @@
 add-delay
 =========
 
-Synopsis
---------
-
-``srcomp add-delay [-h] <compstate> <how_long> [when]``
-
-Description
------------
-
 Add a delay to the scheduled timings.
 
 The match schedule supports having delays added in order to cope with delays to
@@ -25,6 +17,7 @@ granularity of which is optional. For example, specifications such as ``2hr3s``
 or ``5m`` are valid.
 
 The time at which the delay applies can be specified in a number of formats:
+
  * ``now`` (default)
  * ``current match`` -- the start of the current match slot
  * ``<duration> ago`` or ``in <duration>``, using the same duration spelling as
@@ -33,3 +26,12 @@ The time at which the delay applies can be specified in a number of formats:
 
 .. note:: Parsed times are always interpreted in the local system timezone,
           rather than the compstate's configured timezone.
+
+Command Help
+------------
+
+.. argparse::
+   :module: sr.comp.cli.command_line
+   :func: argument_parser
+   :prog: srcomp
+   :path: add-delay

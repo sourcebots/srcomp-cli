@@ -54,3 +54,23 @@ class SimpleCommandsTests(unittest.TestCase):
         output = subprocess.check_output(['srcomp', 'list-commands'], text=True)
         commands = set(output.split())
         self.assertIn('list-commands', commands)
+
+    def test_commands_are_documented(self) -> None:
+        output = subprocess.check_output(['srcomp', 'list-commands'], text=True)
+        commands = set(output.split())
+
+        commands_docs_dir = Path(__file__).parent.parent / 'docs' / 'commands'
+        documented_commands = set(x.stem for x in commands_docs_dir.glob('*.rst'))
+
+        missing = commands - documented_commands
+        extra = documented_commands - commands
+        self.assertEqual(
+            set(),
+            missing,
+            "Commands are missing documentation (consider running `script/docs/create-command-docs.py`)",
+        )
+        self.assertEqual(
+            set(),
+            extra,
+            "Documentation exists for non-existent commands",
+        )

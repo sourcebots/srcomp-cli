@@ -1,11 +1,6 @@
 delay
 =====
 
-Synopsis
---------
-
-``srcomp delay [-h] [--no-pull] [--verbose] [--skip-host-check] <compstate> <how_long> [when]``
-
 Description
 -----------
 
@@ -30,3 +25,12 @@ commands and is roughly equivalent to doing:
 
 .. |deploy| replace:: ``deploy``
 .. _deploy: ./deploy.html
+
+Command Help
+------------
+
+.. argparse::
+   :module: sr.comp.cli.command_line
+   :func: argument_parser
+   :prog: srcomp
+   :path: delay

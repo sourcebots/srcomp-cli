@@ -1,8 +1,8 @@
-print-schedule
+for-each-match
 ==============
 
 .. argparse::
    :module: sr.comp.cli.command_line
    :func: argument_parser
    :prog: srcomp
-   :path: print-schedule
+   :path: for-each-match
