@@ -17,9 +17,6 @@ master_doc = 'index'
 project = 'sr.comp.cli'
 copyright = '2015, Student Robotics'  # noqa: A001
 
-release = '1.0.0'
-version = '1.0.0'
-
 html_theme = 'alabaster'
 
 intersphinx_mapping = {'http://docs.python.org/': None}
