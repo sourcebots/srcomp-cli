@@ -67,7 +67,10 @@ class SimpleCommandsTests(unittest.TestCase):
         self.assertEqual(
             set(),
             missing,
-            "Commands are missing documentation (consider running `script/docs/create-command-docs.py`)",
+            (
+                "Commands are missing documentation "
+                "(consider running `script/docs/create-command-docs.py`)"
+            ),
         )
         self.assertEqual(
             set(),
