@@ -20,9 +20,7 @@ root of the repo.
 Commands
 --------
 
-All the tools are provided as sub-commands to the primary ``srcomp`` program. As
-there are more commands than are fully documented here, you are encouraged to
-run ``srcomp --help`` to get information about the commands.
+The CLI tools are provided as sub-commands of a single ``srcomp`` program:
 
 .. toctree::
    :glob:
