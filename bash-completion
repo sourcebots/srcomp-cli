@@ -2,10 +2,10 @@
 _ensure_srcomp_opts()
 {
 	local now
-	now=`date +%s`
-	if test -z "$_SRCOMP_OPTS" || test $now -gt `expr $_SRCOMP_WHEN + 30`
+	now=$(date +%s)
+	if test -z "$_SRCOMP_OPTS" || test $now -gt $(expr $_SRCOMP_WHEN + 30)
 	then
-		_SRCOMP_OPTS=`srcomp list-commands`
+		_SRCOMP_OPTS=$(srcomp list-commands)
 		_SRCOMP_WHEN=$now
 	fi
 }
