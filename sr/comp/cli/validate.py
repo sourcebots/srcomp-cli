@@ -18,7 +18,7 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Validate the state of a compstate repository."
+    help_msg = "Check that the compstate can be loaded and represents a valid state."
     parser = subparsers.add_parser(
         'validate',
         help=help_msg,
