@@ -38,7 +38,7 @@ def add_list_commands(subparsers: argparse._SubParsersAction[argparse.ArgumentPa
         print(" ".join(commands))
 
     help_text = "Lists the available commands; useful for adding " \
-                "auto-completion of command names"
+                "auto-completion of command names."
 
     parser = subparsers.add_parser('list-commands', help=help_text)
     parser.set_defaults(func=command)
