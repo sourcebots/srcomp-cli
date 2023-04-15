@@ -15,7 +15,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = 'sr.comp.cli'
-copyright = '2015, Student Robotics'  # noqa: A001
+copyright = '2015-2023, SRComp contributors'  # noqa: A001
 
 html_theme = 'alabaster'
 
