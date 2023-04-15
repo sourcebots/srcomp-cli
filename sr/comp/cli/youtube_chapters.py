@@ -57,12 +57,14 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = (
+        "Determine the \"chapter\" timings for a Youtube livestream based "
+        "on the match timings."
+    )
     parser = subparsers.add_parser(
         'youtube-chapters',
-        help=(
-            "Determine the \"chapter\" timings for a Youtube livestream based "
-            "on the match timings."
-        ),
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument(
         'compstate',

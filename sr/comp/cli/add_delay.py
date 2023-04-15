@@ -154,9 +154,11 @@ def add_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Add a delay the competition state."
     parser = subparsers.add_parser(
         'add-delay',
-        help="Add a delay the competition state",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument(
         'compstate',

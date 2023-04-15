@@ -37,7 +37,7 @@ def command(args: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Fetch the deployed versions from all known hosts"
+    help_msg = "Fetch the deployed versions from all known hosts."
     parser = subparsers.add_parser(
         'fetch',
         help=help_msg,

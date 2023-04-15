@@ -6,7 +6,7 @@ from typing import DefaultDict
 
 from sr.comp.types import GamePoints, MatchId, TLA
 
-__description__ = "Summaries the teams scoring the most match points"
+__description__ = "Summaries the teams scoring the most match points."
 
 
 def command(settings: argparse.Namespace) -> None:

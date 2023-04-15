@@ -323,7 +323,7 @@ def add_options(parser: argparse.ArgumentParser) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Deploy a given competition state to all known hosts"
+    help_msg = "Deploy a given competition state to all known hosts."
     parser = subparsers.add_parser(
         'deploy',
         help=help_msg,

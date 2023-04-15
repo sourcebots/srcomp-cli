@@ -18,9 +18,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Validate the state of a compstate repository."
     parser = subparsers.add_parser(
         'validate',
-        help="validate the state of a compstate repository",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument(

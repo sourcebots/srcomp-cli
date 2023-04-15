@@ -99,9 +99,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Show the match schedule."
     parser = subparsers.add_parser(
         'show-schedule',
-        help="show the match schedule",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument(
         'compstate',

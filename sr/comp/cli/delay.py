@@ -37,7 +37,7 @@ def command(args: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Add and deploy a delay to the competition"
+    help_msg = "Add and deploy a delay to the competition."
     parser = subparsers.add_parser('delay', help=help_msg, description=help_msg)
     parser.add_argument(
         '--no-pull',

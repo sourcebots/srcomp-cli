@@ -54,9 +54,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Round-trip a yaml file using compstate loading."
     parser = subparsers.add_parser(
         'round-trip',
-        help="Round-trip a yaml file using compstate loading",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument(
         'file_path',

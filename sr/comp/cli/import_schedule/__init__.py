@@ -106,7 +106,7 @@ def command(args: argparse.Namespace) -> None:
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     parser = subparsers.add_parser(
         'import-schedule',
-        help="Import a league.yaml file from a schedule file",
+        help="Import a league.yaml file from a schedule file.",
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

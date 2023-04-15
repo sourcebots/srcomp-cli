@@ -66,7 +66,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    parser = subparsers.add_parser('update-layout', help=__doc__)
+    parser = subparsers.add_parser(
+        'update-layout',
+        help=__doc__.strip().splitlines()[0],
+        description=__doc__,
+    )
     parser.add_argument(
         'compstate',
         help="competition state repository",

@@ -56,7 +56,7 @@ def command(args: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Show summary data about a compstate"
+    help_msg = "Show summary data about a compstate."
 
     parser = subparsers.add_parser('summary', help=help_msg, description=help_msg)
     parser.add_argument('compstate', help="competition state repository")

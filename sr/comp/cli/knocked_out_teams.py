@@ -38,9 +38,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Show the teams knocked out of each knockout round."
     parser = subparsers.add_parser(
         'knocked-out-teams',
-        help="show the teams knocked out of each knockout round",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument(
         'compstate',

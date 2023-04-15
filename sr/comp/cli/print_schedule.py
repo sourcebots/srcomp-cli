@@ -319,9 +319,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    help_msg = "Produce a PDF shepherding sheet, suitable for printing."
     parser = subparsers.add_parser(
         'print-schedule',
-        help="print a shepherding sheet",
+        help=help_msg,
+        description=help_msg,
     )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument(

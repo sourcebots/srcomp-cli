@@ -1,4 +1,4 @@
-"""Show the current state of the league table"""
+"""Show the current state of the league table."""
 
 from __future__ import annotations
 
