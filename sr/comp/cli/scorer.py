@@ -1,5 +1,5 @@
 """
-Run the SRComp Scorer UI. Requires sr.comp.scorer to be installed.
+Run the SRComp Scorer UI. Requires ``sr.comp.scorer`` to be installed.
 """
 
 from __future__ import annotations
