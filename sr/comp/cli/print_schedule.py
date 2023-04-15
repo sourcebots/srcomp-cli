@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
+import collections
 
 
 class ScheduleGenerator:
@@ -232,7 +232,7 @@ class ScheduleGenerator:
         n = 0
         for slot in period.matches:
             # Build map of shepherd id -> total teams they need to fetch this slot
-            shepherd_counts = defaultdict(int)
+            shepherd_counts = collections.defaultdict(int)
             for match in slot.values():
                 for team in match.teams:
                     num = find_shepherd_number(team)
