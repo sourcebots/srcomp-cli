@@ -49,3 +49,8 @@ class SimpleCommandsTests(unittest.TestCase):
                     result.stdout.decode(),
                     "Command output unexpected content",
                 )
+
+    def test_commands_list(self) -> None:
+        output = subprocess.check_output(['srcomp', 'list-commands'], text=True)
+        commands = set(output.split())
+        self.assertIn('list-commands', commands)
