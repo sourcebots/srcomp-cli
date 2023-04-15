@@ -1,3 +1,11 @@
+"""
+Produce a PDF shepherding sheet, suitable for printing.
+
+The shepherds file should contain a key called ``shepherds`` which is a list of
+objects containing a ``teams`` and ``colour`` field, with an optional ``name``
+field.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -319,11 +327,11 @@ def command(settings: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Produce a PDF shepherding sheet, suitable for printing."
     parser = subparsers.add_parser(
         'print-schedule',
-        help=help_msg,
-        description=help_msg,
+        help=__doc__.strip().splitlines()[0],
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument('compstate', help="competition state repository")
     parser.add_argument(
