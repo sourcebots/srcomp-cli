@@ -28,13 +28,13 @@ The CLI tools are provided as sub-commands of a single ``srcomp`` program:
 
    commands/*
 
-API
----
+Internals
+---------
 
 SRComp CLI does not have a Python API as such, however its `shared internals
-<./api.html>`_ are documented as a guide for developers adding new commands.
+<./internals.html>`_ are documented as a guide for developers adding new commands.
 
 .. toctree::
    :hidden:
 
-   api
+   internals
