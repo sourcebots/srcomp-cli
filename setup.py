@@ -11,7 +11,7 @@ setup(
         'Code': 'https://github.com/PeterJCLaw/srcomp-cli',
         'Issue tracker': 'https://github.com/PeterJCLaw/srcomp-cli/issues',
     },
-    packages=find_namespace_packages(exclude=('docs*', 'script*', 'tests*')),
+    packages=find_namespace_packages(include=['sr.*']),
     namespace_packages=['sr', 'sr.comp'],
     description=(
         "Command line tools for interacting with the state of the Student "
