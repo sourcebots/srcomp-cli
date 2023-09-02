@@ -31,7 +31,7 @@ setup(
         'mido >=1.1, <2',
         'tabulate >=0.8.9, <0.10',
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.8',
     entry_points={
         'console_scripts': [
             'srcomp = sr.comp.cli.command_line:main',
@@ -42,7 +42,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Operating System :: POSIX :: Linux',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
