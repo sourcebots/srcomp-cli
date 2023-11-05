@@ -27,7 +27,7 @@ def command(settings: argparse.Namespace) -> None:
     import webbrowser
 
     try:
-        import sr.comp.scorer  # type: ignore[import]
+        import sr.comp.scorer  # type: ignore[import-untyped]
     except ImportError:
         print("sr.comp.scorer not installed.")
         exit(1)

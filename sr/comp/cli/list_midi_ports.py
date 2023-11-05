@@ -6,7 +6,7 @@ __description__ = "List available MIDI output ports."
 
 
 def command(args: argparse.Namespace) -> None:
-    import mido  # type: ignore[import]
+    import mido  # type: ignore[import-untyped]
 
     ports = mido.get_output_names()
     print(len(ports), "outputs:")

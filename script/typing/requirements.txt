@@ -2,6 +2,7 @@
 mypy>=0.940
 
 types-freezegun
+types-invoke
 types-python-dateutil
 types-requests
 types-setuptools

@@ -14,7 +14,7 @@ import collections
 
 class ScheduleGenerator:
     def __init__(self, target, arenas, state):
-        from reportlab.pdfgen import canvas  # type: ignore[import]
+        from reportlab.pdfgen import canvas  # type: ignore[import-untyped]
 
         self.canvas = canvas.Canvas(target)
         self.state = state

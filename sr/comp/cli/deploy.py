@@ -139,8 +139,8 @@ def ref_compstate(host: str) -> str:
 def deploy_to(compstate: RawCompstate, host: str, revision: str, verbose: bool) -> int:
     print(BOLD + f"Deploying to {host}:" + ENDC)
 
-    from fabric import Connection  # type: ignore[import]
-    from invoke.exceptions import UnexpectedExit  # type: ignore[import]
+    from fabric import Connection  # type: ignore[import-untyped]
+    from invoke.exceptions import UnexpectedExit
 
     # Make connection early to check if host is up.
     with Connection(host, user=DEPLOY_USER) as connection:
