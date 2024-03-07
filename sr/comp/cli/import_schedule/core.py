@@ -191,7 +191,7 @@ def build_schedule(
     # Sanity checks
     if len(ids) < config.num_teams:
         raise ValueError(
-            f"Not enough places in the schedule (need {len(ids)}, got {config.num_teams}).",
+            f"Not enough places in the schedule (need {config.num_teams}, got {len(ids)}).",
         )
 
     # Get matches
