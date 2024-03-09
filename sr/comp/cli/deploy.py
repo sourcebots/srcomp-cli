@@ -1,3 +1,25 @@
+"""
+Deploy the compstate to its various deployments.
+
+This is the canonical way to push a local compstate onto host machines;
+specifically it will target those specified in the ``deployments.yaml`` file
+within the compstate.
+
+Compstates must not have local changes or untracked files (as reported by ``git
+status``) and must be valid in order to be deployed.
+
+During deployment, the states of the hosts relative to the current state are
+checked and the user will be warned if:
+
+-  the state of a host was unavailable (for example due to network errors)
+-  the state of a host appears to be more recent than the current state (as
+   determined by git ancestry)
+-  the state of a host appears to be unrelated to the current state (again as
+   determined by git ancestry)
+
+In any case, the user is able to continue with the deployment interactively.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -323,11 +345,12 @@ def add_options(parser: argparse.ArgumentParser) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Deploy a given competition state to all known hosts."
+    help_msg, *_ = __doc__.strip().splitlines()
     parser = subparsers.add_parser(
         'deploy',
         help=help_msg,
-        description=help_msg,
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     add_options(parser)
     parser.add_argument('compstate', help="competition state repository")

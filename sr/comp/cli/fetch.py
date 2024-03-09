@@ -1,3 +1,10 @@
+"""
+Fetch the deployed revisions of the compstate from all known hosts.
+
+This will fetch revisions of the compstate from its 'origin' git remote and from
+its various deployments.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -37,11 +44,12 @@ def command(args: argparse.Namespace) -> None:
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
-    help_msg = "Fetch the deployed versions from all known hosts."
+    help_msg, *_ = __doc__.strip().splitlines()
     parser = subparsers.add_parser(
         'fetch',
         help=help_msg,
-        description=help_msg,
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument('compstate', help="competition state repository")
     parser.set_defaults(func=command)
