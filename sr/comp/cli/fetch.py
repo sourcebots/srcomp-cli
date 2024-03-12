@@ -36,11 +36,13 @@ def command(args: argparse.Namespace) -> None:
 
         # In case of error `get_current_state` prints the error and returns `None`.
         state = get_current_state(host)
+        print(ENDC, end='')
+        sys.stdout.flush()
         if not state:
             continue
 
         compstate.fetch(ref_compstate(host), [state], quiet=True)
-        print(f"{ENDC}{state} fetched.")
+        print(f"{state} fetched.")
 
 
 def add_subparser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
