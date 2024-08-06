@@ -162,8 +162,7 @@ def command(settings):
         skip_filter = False
         # validate TLA exists
         if filter_tla not in comp.teams.keys():
-            print('TLA not found')
-            return
+            exit(f"TLA {filter_tla!r} not recognised")
 
     if not settings.all and skip_filter:
         # get the index of the last scored match
@@ -185,8 +184,7 @@ def command(settings):
         )
 
     if len(match_results) == 0:
-        print("No matches found for current filters")
-        return
+        exit("No matches found for current filters")
 
     num_teams_per_arena = comp.num_teams_per_arena
 
@@ -220,12 +218,13 @@ def add_subparser(subparsers):
         nargs='?',
         help="filter to matches containing this TLA (ignores --limit)",
     )
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         '--all',
         action='store_true',
         help="show all matches (overrides --limit)",
     )
-    parser.add_argument(
+    group.add_argument(
         '--limit',
         default=15,
         help="how many recently scored matches to show (default: %(default)s)",
