@@ -5,7 +5,7 @@ with open('README.rst') as f:
 
 setup(
     name='sr.comp.cli',
-    version='1.9.0',
+    version='1.10.0',
     project_urls={
         'Documentation': 'https://srcomp-cli.readthedocs.org/',
         'Code': 'https://github.com/PeterJCLaw/srcomp-cli',
@@ -25,7 +25,7 @@ setup(
         'Fabric >= 2.7, <3',
         'invoke >= 1.7, <2',
         'sr.comp >=1.8, <2',
-        'reportlab >=3.1.44, <3.7',
+        'reportlab >=3.1.44, <5',
         'requests >=2.5.1, <3',
         'ruamel.yaml >=0.15, <1.0',
         'mido >=1.1, <2',
@@ -46,6 +46,7 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Utilities',
     ],
