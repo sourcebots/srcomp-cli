@@ -28,7 +28,15 @@ import sys
 import textwrap
 import warnings
 from contextlib import contextmanager
-from typing import Any, cast, Iterable, Iterator, Sequence, TYPE_CHECKING
+from typing import (
+    Any,
+    cast,
+    Iterable,
+    Iterator,
+    Sequence,
+    TextIO,
+    TYPE_CHECKING,
+)
 
 if TYPE_CHECKING:
     from sr.comp.raw_compstate import RawCompstate
@@ -41,9 +49,8 @@ OKBLUE = '\033[94m'
 ENDC = '\033[0m'
 
 
-def format_fail(*args: object) -> str:
-    msg = " ".join(map(str, args))
-    return BOLD + FAIL + msg + ENDC
+def format_fail(message: str) -> str:
+    return BOLD + FAIL + message + ENDC
 
 
 @contextmanager
@@ -59,7 +66,7 @@ def exit_on_exception(
 
 
 @contextmanager
-def guard_unicode_output(stream):
+def guard_unicode_output(stream: TextIO) -> Iterator[None]:
     """
     Cope with users environments not being able to handle unicode by softening
     the display of characters they can't handle.
@@ -86,19 +93,19 @@ def guard_unicode_output(stream):
 
     orig_write = stream.write
 
-    def write(text, *a, **k):
+    def write(text: str, *a: object, **k: object) -> None:
         text = text.encode(encoding, errors='backslashreplace').decode(encoding)
         orig_write(text, *a, **k)
 
     try:
-        stream.write = write
+        stream.write = write  # type: ignore[method-assign, assignment]
         yield
     finally:
-        stream.write = orig_write
+        stream.write = orig_write  # type: ignore[method-assign]
 
 
-def print_fail(*args: object, **kargs: Any) -> None:
-    print(format_fail(*args), **kargs)
+def print_fail(message: str, **kargs: Any) -> None:
+    print(format_fail(message), **kargs)
 
 
 def print_buffer(buf: io.StringIO) -> None:
@@ -282,7 +289,7 @@ def check_host_state(compstate: RawCompstate, host: str, revision: str, verbose:
 def require_no_changes(compstate: RawCompstate) -> None:
     if compstate.has_changes:
         print_fail(
-            "Cannot deploy state with local changes.",
+            "Cannot deploy state with local changes. "
             "Commit or remove them and re-run.",
         )
         compstate.show_changes()

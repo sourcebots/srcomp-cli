@@ -5,7 +5,7 @@ with open('README.rst') as f:
 
 setup(
     name='sr.comp.cli',
-    version='1.10.0',
+    version='1.11.0',
     project_urls={
         'Documentation': 'https://srcomp-cli.readthedocs.org/',
         'Code': 'https://github.com/PeterJCLaw/srcomp-cli',
@@ -22,12 +22,15 @@ setup(
     author_email='srobo-devel@googlegroups.com',
     install_requires=[
         'python-dateutil >=2.2, <3',
-        'Fabric >= 2.7, <3',
-        'invoke >= 1.7, <2',
+        'Fabric >= 2.7, <4',
+        'invoke >= 1.7, <3',
         'sr.comp >=1.8, <2',
         'reportlab >=3.1.44, <5',
         'requests >=2.5.1, <3',
-        'ruamel.yaml >=0.15, <1.0',
+        # Work around https://sourceforge.net/p/ruamel-yaml/tickets/534/, where
+        # number-zero (0) keys don't round trip under YAML 1.1, by avoiding
+        # 0.18.x versions containing the bug.
+        'ruamel.yaml >=0.15, !=0.18.7, !=0.18.8, <1.0',
         'mido >=1.1, <2',
         'tabulate >=0.8.9, <0.10',
     ],
